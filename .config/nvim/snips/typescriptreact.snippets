@@ -1,0 +1,21 @@
+priority -50
+
+extends typescript
+extends javascriptreact
+extends html
+
+snippet rfc "react functional component" b
+import React from "react"
+
+interface ${1:`!p snip.rv = snip.basename[0].upper() + snip.basename[1:]`}Props {}
+
+export const $1: React.FC<${1}Props> = ({$2}) => {
+	return(
+		<div>
+			$3
+		</div>
+		)
+}
+
+export default $1
+endsnippet

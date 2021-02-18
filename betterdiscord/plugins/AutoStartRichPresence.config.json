@@ -1,0 +1,15 @@
+{
+    "settings": {
+        "clientID": "806236602845757450",
+        "details": "",
+        "state": "",
+        "largeImageKey": "zxffo",
+        "largeImageText": "no",
+        "enableStartTime": true,
+        "button1Label": "lewisb.cloud",
+        "button1URL": "https://lewisb.cloud",
+        "button2Label": "Github",
+        "button2URL": "https://github.com/lewisblackburn",
+        "experimentalRPCEventInjection": false
+    }
+}

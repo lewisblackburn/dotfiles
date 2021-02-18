@@ -1,0 +1,55 @@
+*myhelp.txt*	For NVIM version 0.2.0	Last change: 2017-11-18
+*myhelp*
+
+Fong's personal cheat sheet for Vim.
+
+===============================================================================
+CONTENTS
+
+	1. This cheatsheet.........................................|myhelp-cheatsheet|
+	1. Mappings................................................|myhelp-mappings|
+
+===============================================================================
+1. This cheatsheet                                           *myhelp-cheatsheet*
+
+The contents of this cheatsheet should be stored at
+`~/.config/nvim/plugged/vim-myhelp/doc/myhelp.txt`
+
+You can create a `tags` file that allows you to then type
+`:h myhelp-cheatsheet` to quickly jump here. The command to do that is
+
+```
+helpt ~/.config/nvim/plugged/vim-myhelp
+```
+
+# vim: filetype=help:ts=2
+===============================================================================
+1. Mappings                                                    *myhelp-mappings*
+
+Comment           - <space>/
+Exit With JK/KJ   - jk || kj <Esc>
+Word to Uppercase - <c-u> <ESC>viwUi
+Next Buffer       - <TAB> :bnext<CR>
+Previous Buffer   - <S-TAB> :bprevious<CR>
+Alt. Save         - <C-s> :w<CR>
+Alt. Quit         - <C-Q> :wq!<CR>
+Alt. Esc          - <C-c> <Esc>
+Tab Completion    - <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+Better Tabbing    - vnoremap < <gv && vnoremap > >gv
+Window Navigation - <C-h> <C-w>h || nnoremap <C-j> <C-w>j || nnoremap <C-k> <C-w>k || nnoremap <C-l> <C-w>l
+Find File         - map <C-f> :Files<CR>
+Find Buffer       - map <leader>b :Buffers<CR>
+Find Word In File - nnoremap <leader>g :Rg<CR>
+Find Line         - nnoremap <leader>l :BLines<CR>
+Find Command      - nnoremap <leader>cm :Command<CR>
+Find Tags         - nnoremap <leader>t :Tags<CR>
+Find Marks        - nnoremap <leader>m :Marks<CR>
+Find Next Letter  - ['f', 'F', 't', 'T']<letter>
+Go back           - ctrl + o
+Toggle Terminal   - let g:FloatermToggle = '<Leader>tt'
+Terminal Next     - let g:FloatermNext = '<Leader>tf'
+Terminal Back     - let g:FloatermPrev = '<Leader>tb'
+Terminal New      - let g:FloatermNew = '<Leader>tn'
+Goyo              - nnoremap <leader>z :Goyo<CR>
+Organise Imports  - nmap <leader>i :CocCommand tsserver.organiseImports
+Refactor          - gD -> cgn -> rename -> ESC -> . 
