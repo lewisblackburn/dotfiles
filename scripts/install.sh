@@ -35,7 +35,7 @@ if [ ! -f package.json ]
 then
   echo '{"dependencies":{}}'> package.json
 fi
-npm install coc-explorer coc-tslint-plugin coc-snippets coc-json coc-cord coc-tsserver coc-eslint coc-git coc-highlight coc-prettier coc-spell-checker coc-sql coc-tabnine coc-tailwindcss coc-vimlsp --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+npm install coc-prisma coc-explorer coc-tslint-plugin coc-snippets coc-json coc-cord coc-tsserver coc-eslint coc-git coc-highlight coc-prettier coc-spell-checker coc-sql coc-tabnine coc-tailwindcss coc-vimlsp --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
 
 # install fonts
 # clone

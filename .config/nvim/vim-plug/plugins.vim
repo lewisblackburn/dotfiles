@@ -31,6 +31,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'tinyheero/vim-myhelp'                                           " Personal vim-cheatsheet
     Plug 'junegunn/goyo.vim'
     Plug 'voldikss/vim-floaterm'
+    Plug 'pantharshit00/vim-prisma'
 call plug#end()
 
 

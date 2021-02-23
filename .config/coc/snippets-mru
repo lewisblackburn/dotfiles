@@ -1,10 +1,11 @@
-rfc
+meta
 div
+rfc
 a
+lorem
 ut
 h1
 img
-lorem
 p
 span
 nav
@@ -18,7 +19,6 @@ blockquote
 link
 codeblock-short
 codeblock-full
-meta
 usnip
 sec
 detail

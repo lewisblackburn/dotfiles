@@ -1,6 +1,6 @@
-tsserver.organizeImports
-explorer
-eslint.showOutputChannel
 prettier.formatFile
+explorer
+tsserver.organizeImports
+eslint.showOutputChannel
 snippets.editSnippets
 workspace.showOutput

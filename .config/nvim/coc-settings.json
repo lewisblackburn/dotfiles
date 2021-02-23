@@ -6,7 +6,8 @@
     "json",
     "javascriptreact",
     "typescript",
-    "graphql"
+    "graphql",
+    "prisma"
   ],
   "snippets.ultisnips.directories":
   [
