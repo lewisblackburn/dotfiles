@@ -62,3 +62,4 @@ brew install fd
 # notes
 echo "Thanks..."
 echo "You might want to install a theme, I use zeit, (omf install zeit, omf theme zeit)"
+echo "Also, change accent colour to graphite!"
