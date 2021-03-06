@@ -17,6 +17,8 @@
 - React Developer Tools
 - Lastpass
 - DuckDuckGoogle
+- Apollo Client Developer Tools
+- Vimium
 
 # After Installation
 - Follow yabai + skhd setup
