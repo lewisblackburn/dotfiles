@@ -23,5 +23,6 @@
     "<cr>": ["expandable?", "expand", "open"],
     "v": "open:vsplit"
   },
+  "explorer.position": "right",
   "snippets.userSnippetsDirectory": "~/.config/nvim/snips",
 }
