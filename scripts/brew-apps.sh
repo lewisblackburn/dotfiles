@@ -10,6 +10,7 @@ PACKAGES=(
     docker
     notion
     spotify
+    visual-studio-code
 )
 echo "Installing Cask Packages..."
 brew cask install ${PACKAGES[@]}

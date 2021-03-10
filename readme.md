@@ -1,5 +1,9 @@
 ![preview](./preview.png)
 
+I use a combination of visual-studio-code + nvim
+- I Install nvim setup from dotfiles
+- I install visual-studio-code plugins/extensions from vs sync
+
 # Apps
 
 - [Raycast](https://www.raycast.com)
