@@ -1,0 +1,15 @@
+{
+	"changeLogs": {
+		"CustomStatusPresets": "1.0.5",
+		"ImageUtilities": "4.3.4",
+		"PluginRepo": "2.1.6"
+	},
+	"choices": {
+		"toastPosition": "right"
+	},
+	"general": {
+		"showToasts": true,
+		"showSupportBadges": true,
+		"useChromium": false
+	}
+}
