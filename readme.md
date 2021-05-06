@@ -19,7 +19,7 @@ I use a combination of visual-studio-code + nvim
 - tampermonkey
   - https://github.com/aligo/better-google
 - React Developer Tools
-- Lastpass
+- Bitwarden
 - DuckDuckGoogle
 - Apollo Client Developer Tools
 - Vimium
