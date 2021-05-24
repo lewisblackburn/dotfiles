@@ -2,7 +2,7 @@
 
 I use a combination of visual-studio-code + nvim
 - I Install nvim setup from dotfiles
-- I install visual-studio-code plugins/extensions from vs sync
+- I install visual-studio-code plugins/extensions from vs sync (nord theme)
 
 # Apps
 
