@@ -8,11 +8,11 @@ return {
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.eslint" },
   { import = "astrocommunity.pack.html-css" },
-  { import = "astrocommunity.pack.html-markdown" },
-  { import = "astrocommunity.pack.html-mdx" },
-  { import = "astrocommunity.pack.html-prettier" },
-  { import = "astrocommunity.pack.html-sql" },
-  { import = "astrocommunity.pack.html-tailwindcss" },
-  { import = "astrocommunity.pack.html-typescript-all-in-one" },
+  { import = "astrocommunity.pack.markdown" },
+  { import = "astrocommunity.pack.mdx" },
+  { import = "astrocommunity.pack.prettier" },
+  { import = "astrocommunity.pack.sql" },
+  { import = "astrocommunity.pack.tailwindcss" },
+  { import = "astrocommunity.pack.typescript-all-in-one" },
   -- import/override with your plugins folder
 }
