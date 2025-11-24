@@ -5,6 +5,8 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
+  { import = "astrocommunity.recipes.ai" },
+  { import = "astrocommunity.completion.copilot-vim" },
   { import = "astrocommunity.colorscheme.kanagawa-nvim" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.eslint" },
@@ -15,6 +17,6 @@ return {
   { import = "astrocommunity.pack.sql" },
   { import = "astrocommunity.pack.tailwindcss" },
   { import = "astrocommunity.pack.typescript-all-in-one" },
-  { import = "astrocommunity.recipes.ai" },
+  { import = "astrocommunity.git.blame-nvim" },
   -- import/override with your plugins folder
 }
