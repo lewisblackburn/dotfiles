@@ -18,5 +18,6 @@ return {
   { import = "astrocommunity.pack.tailwindcss" },
   { import = "astrocommunity.pack.typescript-all-in-one" },
   { import = "astrocommunity.git.blame-nvim" },
+  { import = "astrocommunity.git.diffview-nvim" },
   -- import/override with your plugins folder
 }
