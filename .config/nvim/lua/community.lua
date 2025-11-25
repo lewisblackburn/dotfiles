@@ -9,6 +9,8 @@ return {
   { import = "astrocommunity.completion.supermaven-nvim" },
   { import = "astrocommunity.git.blame-nvim" },
   { import = "astrocommunity.git.diffview-nvim" },
+  { import = "astrocommunity.markdown-and-latex.render-markdown-nvim" },
+  { import = "astrocommunity.markdown-and-latex.markdown-preview-nvim" },
   { import = "astrocommunity.colorscheme.kanagawa-nvim" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.eslint" },
