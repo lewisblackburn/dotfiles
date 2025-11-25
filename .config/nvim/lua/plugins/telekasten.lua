@@ -3,16 +3,16 @@ return {
   dependencies = { "nvim-telescope/telescope.nvim" },
   cmd = "Telekasten",
   keys = {
-    { "<leader>np", "<cmd>Telekasten panel<cr>", desc = "Open panel" },
-    { "<leader>nf", "<cmd>Telekasten find_notes<cr>", desc = "Find notes" },
-    { "<leader>nd", "<cmd>Telekasten goto_today<cr>", desc = "Today's note" },
-    { "<leader>nn", "<cmd>Telekasten new_note<cr>", desc = "New note" },
-    { "<leader>ns", "<cmd>Telekasten search_notes<cr>", desc = "Search notes" },
-    { "<leader>nT", "<cmd>Telekasten goto_thisweek<cr>", desc = "This week's note" },
+    { "<leader>;p", "<cmd>Telekasten panel<cr>", desc = "Open panel" },
+    { "<leader>;f", "<cmd>Telekasten find_notes<cr>", desc = "Find notes" },
+    { "<leader>;d", "<cmd>Telekasten goto_today<cr>", desc = "Today's note" },
+    { "<leader>;n", "<cmd>Telekasten new_note<cr>", desc = "New note" },
+    { "<leader>;s", "<cmd>Telekasten search_notes<cr>", desc = "Search notes" },
+    { "<leader>;T", "<cmd>Telekasten goto_thisweek<cr>", desc = "This week's note" },
     { "gd", "<cmd>Telekasten follow_link<cr>", desc = "Follow link", ft = "markdown" },
     { "<C-Space>", "<cmd>Telekasten toggle_todo<cr>", desc = "Toggle todo", ft = "markdown", mode = { "n", "i" } },
     {
-      "<leader>nt",
+      "<leader>;t",
       function()
         local ticket_id = vim.fn.input "Ticket ID (e.g., PROJ-123): "
         if ticket_id ~= "" then
