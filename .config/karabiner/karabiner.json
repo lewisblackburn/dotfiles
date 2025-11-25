@@ -1,23 +1,31 @@
 {
-  "profiles": [
-    {
-      "name": "Default profile",
-      "selected": true,
-      "simple_modifications": [
+    "profiles": [
         {
-          "from": {
-            "key_code": "right_command"
-          },
-          "to": [
-            {
-              "key_code": "non_us_pound"
-            }
-          ]
+            "complex_modifications": {
+                "rules": [
+                    {
+                        "manipulators": [
+                            {
+                                "description": "Right Command → Right Option + Control",
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_option",
+                                        "modifiers": ["right_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "name": "Default profile",
+            "selected": true,
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
-      ],
-      "virtual_hid_keyboard": {
-        "keyboard_type_v2": "ansi"
-      }
-    }
-  ]
+    ]
 }
