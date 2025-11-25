@@ -3,6 +3,7 @@ return {
   dependencies = { "nvim-telescope/telescope.nvim" },
   cmd = "Telekasten",
   keys = {
+    { "<leader>np", "<cmd>Telekasten panel<cr>", desc = "Open panel" },
     { "<leader>nf", "<cmd>Telekasten find_notes<cr>", desc = "Find notes" },
     { "<leader>nd", "<cmd>Telekasten goto_today<cr>", desc = "Today's note" },
     { "<leader>nn", "<cmd>Telekasten new_note<cr>", desc = "New note" },
@@ -34,6 +35,29 @@ return {
         end
       end,
       desc = "New ticket note",
+    },
+    {
+      "<leader>nm",
+      function()
+        local tomorrow = os.time() + (24 * 60 * 60)
+        local date_string = os.date("%Y-%m-%d", tomorrow)
+
+        local dailies_dir = vim.fn.expand "~/notes/daily"
+        vim.fn.mkdir(dailies_dir, "p")
+        local filepath = dailies_dir .. "/" .. date_string .. ".md"
+        vim.cmd("edit " .. filepath)
+
+        -- If file is new/empty, insert template
+        if vim.fn.getfsize(filepath) <= 0 then
+          local template_path = vim.fn.expand "~/notes/templates/daily.md"
+          if vim.fn.filereadable(template_path) == 1 then
+            vim.cmd("0r " .. template_path)
+            vim.cmd("%s/{{title}}/" .. date_string .. "/g")
+            vim.cmd "normal! gg"
+          end
+        end
+      end,
+      desc = "Tomorrow's note",
     },
   },
   opts = {
