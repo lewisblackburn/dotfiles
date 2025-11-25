@@ -37,7 +37,7 @@ return {
       desc = "New ticket note",
     },
     {
-      "<leader>nm",
+      "<leader>;m",
       function()
         local tomorrow = os.time() + (24 * 60 * 60)
         local date_string = os.date("%Y-%m-%d", tomorrow)
