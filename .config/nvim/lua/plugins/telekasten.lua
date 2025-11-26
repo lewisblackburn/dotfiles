@@ -2,6 +2,18 @@ return {
   "renerocksai/telekasten.nvim",
   dependencies = { "nvim-telescope/telescope.nvim" },
   cmd = "Telekasten",
+  specs = {
+    {
+      "AstroNvim/astrocore",
+      opts = {
+        mappings = {
+          n = {
+            ["<leader>;"] = { name = "Notes" },
+          },
+        },
+      },
+    },
+  },
   keys = {
     { "<leader>;p", "<cmd>Telekasten panel<cr>", desc = "Open panel" },
     { "<leader>;f", "<cmd>Telekasten find_notes<cr>", desc = "Find notes" },
@@ -11,6 +23,8 @@ return {
     { "<leader>;T", "<cmd>Telekasten goto_thisweek<cr>", desc = "This week's note" },
     { "gd", "<cmd>Telekasten follow_link<cr>", desc = "Follow link", ft = "markdown" },
     { "<C-Space>", "<cmd>Telekasten toggle_todo<cr>", desc = "Toggle todo", ft = "markdown", mode = { "n", "i" } },
+    { "<leader>;i", "<cmd>Telekasten insert_img_link<cr>", desc = "Insert image link", ft = "markdown" },
+    { "<leader>;I", "<cmd>Telekasten paste_img_and_link<cr>", desc = "Paste image", ft = "markdown" },
     {
       "<leader>;t",
       function()
@@ -65,6 +79,7 @@ return {
     dailies = vim.fn.expand "~/notes/daily",
     weeklies = vim.fn.expand "~/notes/weekly",
     templates = vim.fn.expand "~/notes/templates",
+    image_subdir = "images",
 
     template_new_daily = vim.fn.expand "~/notes/templates/daily.md",
     template_new_weekly = vim.fn.expand "~/notes/templates/weekly.md",
