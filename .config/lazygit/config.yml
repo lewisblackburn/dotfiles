@@ -3,3 +3,12 @@ git:
     notes:
       - pattern: ".*"
         replace: "update to notes"
+    sportsbook-mfe:
+      - pattern: "^feature\\/(ALU-\\d+)-.*"
+        replace: "feat($1): "
+      - pattern: "^bugfix\\/(ALU-\\d+)-.*"
+        replace: "fix($1): "
+      - pattern: "^fix\\/(ALU-\\d+)-.*"
+        replace: "fix($1): "
+      - pattern: "^feat\\/(ALU-\\d+)-.*"
+        replace: "feat($1): "
