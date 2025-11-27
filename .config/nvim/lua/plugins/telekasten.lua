@@ -135,6 +135,7 @@ return {
     image_subdir = "images",
 
     template_new_daily = vim.fn.expand "~/notes/templates/daily.md",
+    template_new_note = vim.fn.expand "~/notes/templates/note.md",
     template_new_weekly = vim.fn.expand "~/notes/templates/weekly.md",
 
     follow_creates_nonexisting = true,
