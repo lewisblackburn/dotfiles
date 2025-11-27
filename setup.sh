@@ -60,12 +60,6 @@ echo "🔧 Setting up nvm..."
 mkdir -p ~/.nvm
 cat >> ~/.zshrc << 'EOF'
 
-# nvm configuration
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
-EOF
-
 # Install JankyBorders
 echo "📦 Installing JankyBorders..."
 brew tap FelixKratz/formulae
