@@ -1,0 +1,5 @@
+git:
+  commitPrefixes:
+    notes:
+      - pattern: ".*"
+        replace: "update to notes"
