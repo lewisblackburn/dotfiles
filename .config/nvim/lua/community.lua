@@ -18,7 +18,6 @@ return {
   { import = "astrocommunity.completion.supermaven-nvim" },
   { import = "astrocommunity.git.blame-nvim" },
   { import = "astrocommunity.git.diffview-nvim" },
-  { import = "astrocommunity.markdown-and-latex.markdown-preview-nvim" },
   { import = "astrocommunity.colorscheme.kanagawa-nvim" },
   -- import/override with your plugins folder
 }
