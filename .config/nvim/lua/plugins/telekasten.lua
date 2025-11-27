@@ -73,6 +73,59 @@ return {
       end,
       desc = "Tomorrow's note",
     },
+    {
+      "<leader>;w",
+      function()
+        require("telescope.builtin").live_grep {
+          prompt_title = "All TODOs",
+          search_dirs = { vim.fn.expand "~/notes" },
+          default_text = "- \\[ \\] ",
+        }
+      end,
+      desc = "Find all TODOs",
+    },
+    {
+      "<leader>;q",
+      function()
+        local todo = vim.fn.input "TODO: "
+        if todo == "" then return end
+
+        local today = vim.fn.expand("~/notes/daily/" .. os.date "%Y-%m-%d" .. ".md")
+        local file = io.open(today, "r")
+
+        if not file then
+          vim.notify("❌ Create today's note first", vim.log.levels.ERROR)
+          return
+        end
+
+        local lines = {}
+        local tasks_line = nil
+
+        for line in file:lines() do
+          table.insert(lines, line)
+          if not tasks_line and line:match "^## Tasks" then tasks_line = #lines end
+        end
+        file:close()
+
+        if not tasks_line then
+          vim.notify("❌ No Tasks section found", vim.log.levels.ERROR)
+          return
+        end
+
+        -- Insert blank line after header if not present, then TODO
+        if lines[tasks_line + 1] ~= "" then table.insert(lines, tasks_line + 1, "") end
+        table.insert(lines, tasks_line + 2, "- [ ] " .. todo)
+
+        file = io.open(today, "w")
+        for _, line in ipairs(lines) do
+          file:write(line .. "\n")
+        end
+        file:close()
+
+        vim.notify("✅ Added", vim.log.levels.INFO)
+      end,
+      desc = "Quick TODO",
+    },
   },
   opts = {
     home = vim.fn.expand "~/notes",
