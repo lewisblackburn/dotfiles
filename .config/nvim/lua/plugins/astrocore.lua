@@ -78,11 +78,6 @@ return {
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
       },
-
-      t = {
-        -- Terminal mode mappings
-        jk = { "<C-\\><C-n>", desc = "Exit terminal mode" },
-      },
     },
   },
 }
