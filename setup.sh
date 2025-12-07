@@ -47,6 +47,7 @@ brew install --cask aerospace
 brew install --cask iterm2
 brew install --cask karabiner-elements
 brew install --cask raycast
+brew install --cask hiddenbar
 
 # Install CLI tools
 echo "📦 Installing CLI tools..."
