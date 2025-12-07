@@ -53,25 +53,52 @@ return {
     {
       "<leader>;m",
       function()
-        local tomorrow = os.time() + (24 * 60 * 60)
-        local date_string = os.date("%Y-%m-%d", tomorrow)
+        local pickers = require "telescope.pickers"
+        local finders = require "telescope.finders"
+        local actions = require "telescope.actions"
+        local action_state = require "telescope.actions.state"
+        local conf = require("telescope.config").values
 
-        local dailies_dir = vim.fn.expand "~/notes/daily"
-        vim.fn.mkdir(dailies_dir, "p")
-        local filepath = dailies_dir .. "/" .. date_string .. ".md"
-        vim.cmd("edit " .. filepath)
-
-        -- If file is new/empty, insert template
-        if vim.fn.getfsize(filepath) <= 0 then
-          local template_path = vim.fn.expand "~/notes/templates/daily.md"
-          if vim.fn.filereadable(template_path) == 1 then
-            vim.cmd("0r " .. template_path)
-            vim.cmd("%s/{{title}}/" .. date_string .. "/g")
-            vim.cmd "normal! gg"
-          end
+        local dates = {}
+        local today = os.time()
+        for i = 1, 7 do
+          local t = today + (i * 86400)
+          table.insert(dates, { display = os.date("%Y-%m-%d (%A)", t), value = os.date("%Y-%m-%d", t) })
         end
+
+        pickers
+          .new({}, {
+            prompt_title = "Pick Date",
+            finder = finders.new_table {
+              results = dates,
+              entry_maker = function(entry)
+                return { value = entry.value, display = entry.display, ordinal = entry.display }
+              end,
+            },
+            sorter = conf.generic_sorter {},
+            attach_mappings = function(bufnr)
+              actions.select_default:replace(function()
+                local selection = action_state.get_selected_entry()
+                actions.close(bufnr)
+                local dailies_dir = vim.fn.expand "~/notes/daily"
+                vim.fn.mkdir(dailies_dir, "p")
+                local filepath = dailies_dir .. "/" .. selection.value .. ".md"
+                vim.cmd("edit " .. filepath)
+                if vim.fn.getfsize(filepath) <= 0 then
+                  local template_path = vim.fn.expand "~/notes/templates/daily.md"
+                  if vim.fn.filereadable(template_path) == 1 then
+                    vim.cmd("0r " .. template_path)
+                    vim.cmd("%s/{{title}}/" .. selection.value .. "/g")
+                    vim.cmd "normal! gg"
+                  end
+                end
+              end)
+              return true
+            end,
+          })
+          :find()
       end,
-      desc = "Tomorrow's note",
+      desc = "Pick date note",
     },
     {
       "<leader>;w",
