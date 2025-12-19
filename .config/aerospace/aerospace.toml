@@ -172,15 +172,27 @@ automatically-unhide-macos-hidden-apps = false
 8 = 3
 9 = 3
 
-# [[on-window-detected]]
-# if.app-id = 'com.google.Chrome'
-# run = 'move-node-to-workspace 7'
-#
-# [[on-window-detected]]
-# if.app-id = 'com.googlecode.iterm2'
-# run = 'move-node-to-workspace 5'
-#
-#
-# [[on-window-detected]]
-# if.app-id = 'com.microsoft.teams2'
-# run = 'move-node-to-workspace 2'
+[[on-window-detected]]
+if.app-id = 'com.googlecode.iterm2'
+run = 'move-node-to-workspace 1'
+
+# cursor
+[[on-window-detected]]
+if.app-id = 'com.todesktop.230313mzl4w4u92'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
+if.app-id = 'io.capacities.app'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.teams2'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'move-node-to-workspace 9'
