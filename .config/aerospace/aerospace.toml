@@ -157,7 +157,7 @@ automatically-unhide-macos-hidden-apps = false
     alt-shift-l = ['join-with right', 'mode main']
 
     down = 'volume down'
-    up = 'volume up'
+    up = 'volume up'1
     shift-down = ['volume set 0', 'mode main']
 
 
@@ -173,16 +173,16 @@ automatically-unhide-macos-hidden-apps = false
 9 = 3
 
 [[on-window-detected]]
-if.app-id = 'com.googlecode.iterm2'
+if.app-id = 'com.google.Chrome'
 run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'com.googlecode.iterm2'
+run = 'move-node-to-workspace 5'
 
 # cursor
 [[on-window-detected]]
 if.app-id = 'com.todesktop.230313mzl4w4u92'
-run = 'move-node-to-workspace 1'
-
-[[on-window-detected]]
-if.app-id = 'com.google.Chrome'
 run = 'move-node-to-workspace 5'
 
 [[on-window-detected]]
@@ -191,7 +191,7 @@ run = 'move-node-to-workspace 6'
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.teams2'
-run = 'move-node-to-workspace 6'
+run = 'move-node-to-workspace 7'
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
