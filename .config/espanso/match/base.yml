@@ -1,0 +1,5 @@
+matches:
+  - trigger: ";jnpe"
+    replace: "https://www.jackpotjoy.npe00.pgt.ballys.tech/sports#home"
+  - trigger: ";jprod"
+    replace: "https://www.jackpotjoy.com/sports#home"

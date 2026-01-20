@@ -43,11 +43,10 @@ fi
 
 # Install applications via Homebrew
 echo "📦 Installing applications..."
-brew install --cask aerospace
 brew install --cask iterm2
-brew install --cask karabiner-elements
 brew install --cask raycast
 brew install --cask hiddenbar
+brew install espanso
 
 # Install CLI tools
 echo "📦 Installing CLI tools..."
@@ -60,11 +59,6 @@ brew install deno
 echo "🔧 Setting up nvm..."
 mkdir -p ~/.nvm
 cat >> ~/.zshrc << 'EOF'
-
-# Install JankyBorders
-echo "📦 Installing JankyBorders..."
-brew tap FelixKratz/formulae
-brew install borders
 
 # Set zsh as default shell
 if [ "$SHELL" != "$(which zsh)" ]; then
@@ -81,6 +75,4 @@ echo "📝 Next steps:"
 echo "  1. Restart your terminal (or source ~/.zshrc)"
 echo "  2. Install Node.js via nvm: nvm install --lts"
 echo "  3. Configure yadm: yadm clone <your-dotfiles-repo>"
-echo "  4. Configure your applications (Aerospace, Karabiner, etc.)"
-echo "  5. Start JankyBorders: brew services start borders"
-echo ""
+echo "
