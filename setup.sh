@@ -45,7 +45,7 @@ fi
 echo "📦 Installing applications..."
 brew install --cask iterm2
 brew install --cask raycast
-brew install --cask hiddenbar
+brew install --cask ticktick
 brew install espanso
 
 # Install CLI tools

@@ -7,6 +7,35 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+	"lsp": {
+  "vtsls": {
+   "settings": {
+    "typescript": {
+     "updateImportsOnFileMove": {
+      "enabled": "always"
+     }
+    },
+    "javascript": {
+     "updateImportsOnFileMove": {
+      "enabled": "always"
+     }
+    }
+   },
+   "enable_lsp_tasks": true
+  }
+ },
+ "agent": {
+		"always_allow_tool_actions": true,
+  "default_profile": "write",
+		"default_model": {
+			"provider": "anthropic",
+			"model": "claude-sonnet-4-5-latest",
+		},
+		"favorite_models": [],
+		"model_parameters": [],
+	},
+	"tab_size": 4,
+	"icon_theme": "Base Charmed Icons",
 	"session": {
 		"trust_all_worktrees": true,
 	},
@@ -22,6 +51,34 @@
 	"theme": {
 		"mode": "system",
 		"light": "Ayu Light",
-		"dark": "Ayu Dark",
+		"dark": "JetBrains Dark",
+	},
+	"title_bar": {
+		"show_onboarding_banner": false,
+		"show_user_menu": false,
+		"show_sign_in": false,
+	},
+	"tab_bar": {
+		"show": false,
+	},
+	"toolbar": {
+		"quick_actions": false,
+	},
+	"project_panel": {
+		"default_width": 400,
+		"hide_root": true,
+		"auto_fold_dirs": false,
+		"starts_open": false,
+		"scrollbar": {
+			"show": "never",
+		},
+	},
+	"code_actions_on_format": {
+		"source.fixAll.eslint": true,
+	},
+	"language_models": {
+		"anthropic": {
+			"api_url": "https://genaigateway.ballys.tech",
+		},
 	},
 }
