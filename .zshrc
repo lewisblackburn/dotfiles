@@ -109,3 +109,7 @@ export NVM_DIR="$HOME/.nvm"
 eval "$(starship init zsh)"
 
 alias lazygit='lazygit --use-config-file ~/.config/lazygit/config.yml'
+
+export ANTHROPIC_AUTH_TOKEN=sk-IZIukLIGPPcsqLE95wKXfw
+export ANTHROPIC_BASE_URL=https://genaigateway.ballys.tech 
+export PATH="$HOME/.local/bin:$PATH"
