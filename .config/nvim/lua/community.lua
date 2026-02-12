@@ -16,8 +16,6 @@ return {
   { import = "astrocommunity.pack.tailwindcss" },
   -- Java
   { import = "astrocommunity.pack.java" },
-  -- Kotlin
-  { import = "astrocommunity.pack.kotlin" },
   -- GraphQL / API / Backend tools
   { import = "astrocommunity.pack.prisma" },
   { import = "astrocommunity.pack.proto" },
