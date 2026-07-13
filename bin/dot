@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Convenience wrapper for everyday dotfiles chores.
+#
+#   dot push ["msg"]   commit all changes and push
+#   dot pull           pull latest and report
+#   dot status         git status of the repo
+#   dot edit           open the repo in nvim
+#   dot iterm-export   re-export current iTerm2 prefs into the repo
+#   dot install [...]  run install.sh (passes args through)
+set -euo pipefail
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$DOTFILES"
+
+cmd="${1:-status}"; shift || true
+case "$cmd" in
+  push)
+    git add -A
+    git commit -m "${1:-update dotfiles}" || { echo "nothing to commit"; exit 0; }
+    git push
+    ;;
+  pull)   git pull --ff-only ;;
+  status) git status -sb ;;
+  edit)   ${EDITOR:-nvim} "$DOTFILES" ;;
+  iterm-export)
+    defaults export com.googlecode.iterm2 "$DOTFILES/config/iterm2/com.googlecode.iterm2.plist"
+    echo "exported iTerm2 prefs — commit with: dot push \"update iterm2\""
+    ;;
+  install) exec ./install.sh "$@" ;;
+  *) echo "usage: dot {push|pull|status|edit|iterm-export|install}"; exit 1 ;;
+esac
