@@ -15,8 +15,8 @@ cmd="${1:-status}"; shift || true
 case "$cmd" in
   push)
     git add -A
-    git commit -m "${1:-update dotfiles}" || { echo "nothing to commit"; exit 0; }
-    git push
+    git commit -m "${1:-update dotfiles}" || echo "nothing new to commit"
+    git push   # always push, in case earlier commits are unpushed
     ;;
   pull)   git pull --ff-only ;;
   status) git status -sb ;;
