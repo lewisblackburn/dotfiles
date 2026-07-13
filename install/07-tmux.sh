@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# tmux (binary from Brewfile; also used by sidekick.nvim to persist Claude sessions).
+# tmux (binary from Brewfile).
 set -euo pipefail
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/common.sh"
 

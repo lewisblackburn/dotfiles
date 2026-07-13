@@ -3,15 +3,6 @@
 My macOS dev environment — AstroNvim, terminal, shell, and everything around them.
 One command sets up a fresh machine; a `git pull` keeps existing ones current.
 
-## First push (once, from the machine that has this repo)
-
-```bash
-cd ~/dotfiles
-gh repo create lewisblackburn/dotfiles --private --source=. --remote=origin --push
-# or manually:
-# git remote add origin git@github.com:lewisblackburn/dotfiles.git && git push -u origin main
-```
-
 ## New machine
 
 ```bash
@@ -91,7 +82,7 @@ from re-running the installer.
 | `04-node` | nvm + Node 20 + pnpm |
 | `05-java` | verifies Temurin 17 + 21 (jdtls uses both) |
 | `06-neovim` | links AstroNvim config + bootstraps plugins/parsers |
-| `07-tmux` | tmux (also backs sidekick.nvim's Claude sessions) |
+| `07-tmux` | tmux |
 | `08-git` | global gitconfig |
 | `09-cli-tools` | lazygit, gh |
 | `10-terminal` | iTerm2 prefs (import) |
