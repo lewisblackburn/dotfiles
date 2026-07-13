@@ -3,6 +3,15 @@
 My macOS dev environment — AstroNvim, terminal, shell, and everything around them.
 One command sets up a fresh machine; a `git pull` keeps existing ones current.
 
+## First push (once, from the machine that has this repo)
+
+```bash
+cd ~/dotfiles
+gh repo create lewisblackburn/dotfiles --private --source=. --remote=origin --push
+# or manually:
+# git remote add origin git@github.com:lewisblackburn/dotfiles.git && git push -u origin main
+```
+
 ## New machine
 
 ```bash
@@ -32,8 +41,13 @@ Your live config paths are symlinks into this repo:
 | `~/.config/starship.toml` | → | `config/starship/` |
 | `~/.config/lazygit/config.yml` | → | `config/lazygit/` |
 | `~/.config/espanso` | → | `config/espanso` |
+| `~/.config/gh/config.yml` | → | `config/gh/config.yml` |
 
 So **editing a config edits the repo directly** — there's no copy/sync step.
+
+When `install.sh` (or the `link` helper) finds a *real* file where a symlink
+should go, it moves the original to `~/…​.bak.<timestamp>` first. Once you've
+confirmed everything works, those `*.bak` files are safe to delete.
 
 ## Everyday use
 
