@@ -123,6 +123,9 @@ esac
 # bun completions
 [ -s "/Users/lewis.blackburn/.bun/_bun" ] && source "/Users/lewis.blackburn/.bun/_bun"
 
+# dotfiles helper (dot push/pull/status/...)
+export PATH="$HOME/dotfiles/bin:$PATH"
+
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"

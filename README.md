@@ -6,7 +6,7 @@ One command sets up a fresh machine; a `git pull` keeps existing ones current.
 ## New machine
 
 ```bash
-git clone https://github.com/<you>/dotfiles.git ~/dotfiles
+git clone https://github.com/lewisblackburn/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ./install.sh
 ```
