@@ -20,9 +20,12 @@ cd ~/dotfiles
 ./install.sh
 ```
 
-`install.sh` walks through each tool and asks before running it (Enter = yes).
-It installs Homebrew + everything in the `Brewfile`, then **creates all the
-symlinks for you** — you never link anything by hand.
+`install.sh` shows an interactive multi-select menu (powered by
+[`gum`](https://github.com/charmbracelet/gum)) — Space toggles steps, Enter
+runs them (everything preselected). It installs Homebrew + everything in the
+`Brewfile`, then **creates all the symlinks for you** — you never link anything
+by hand. Without `gum` it falls back to plain yes/no prompts, and it offers to
+install `gum` on first run.
 
 ```bash
 ./install.sh --yes      # non-interactive, run everything

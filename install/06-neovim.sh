@@ -12,10 +12,10 @@ has nvim && ok "neovim $(nvim --version | head -1 | awk '{print $2}')" \
 link "$CONFIG_DIR/nvim" "$HOME/.config/nvim"
 
 if ask "Bootstrap plugins now (headless Lazy sync + TSUpdate)? Takes a minute."; then
-  info "syncing plugins..."
-  nvim --headless "+Lazy! sync" +qa 2>/dev/null || warn "Lazy sync reported issues (open nvim to inspect)"
-  info "installing treesitter parsers..."
-  nvim --headless "+TSUpdateSync" +qa 2>/dev/null || warn "TSUpdate reported issues"
+  spin "syncing plugins (lazy.nvim)..." -- nvim --headless "+Lazy! sync" +qa \
+    || warn "Lazy sync reported issues (open nvim to inspect)"
+  spin "installing treesitter parsers..." -- nvim --headless "+TSUpdateSync" +qa \
+    || warn "TSUpdate reported issues"
   ok "neovim bootstrapped"
 else
   info "skipped — plugins will install on first 'nvim' launch"

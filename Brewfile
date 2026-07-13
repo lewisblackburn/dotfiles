@@ -15,6 +15,8 @@ brew "dua-cli"
 brew "ffmpeg"
 # GitHub command-line tool
 brew "gh"
+# A tool for glamorous shell scripts (powers the install.sh UI)
+brew "gum"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
 # Development kit for the Java programming language

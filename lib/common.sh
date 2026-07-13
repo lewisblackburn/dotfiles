@@ -26,11 +26,35 @@ has() { command -v "$1" >/dev/null 2>&1; }
 
 is_macos() { [ "$(uname -s)" = "Darwin" ]; }
 
+# gum makes the UI fancy; everything degrades gracefully without it.
+gum_ok() { has gum; }
+
+# header "Title" ["subtitle"] -> a bordered banner (gum) or a plain heading.
+header() {
+  if gum_ok; then
+    gum style --border rounded --border-foreground 39 --padding "0 2" --margin "1 0" "$@"
+  else
+    printf '\n%s\n' "${_c_blue}==>${_c_reset} ${_c_bold}$1${_c_reset}"
+    [ -n "${2:-}" ] && info "$2"
+  fi
+}
+
+# spin "message" -- cmd args...  -> run cmd under a spinner (gum) or plainly.
+# Use ONLY for non-interactive commands (a spinner hides their prompts/output).
+spin() {
+  local msg="$1"; shift; [ "${1:-}" = "--" ] && shift
+  if gum_ok; then gum spin --spinner dot --title "$msg" -- "$@"; else info "$msg"; "$@"; fi
+}
+
 # ask "Question?" [Y/n default yes]  -> returns 0 for yes.
 # Honors DOTFILES_YES=1 (assume yes, for non-interactive runs).
 ask() {
   local prompt="$1" default="${2:-Y}" reply
   if [ "${DOTFILES_YES:-0}" = "1" ]; then return 0; fi
+  if gum_ok; then
+    if [ "$default" = "Y" ]; then gum confirm --default=true  "$prompt"; else gum confirm --default=false "$prompt"; fi
+    return $?
+  fi
   if [ "$default" = "Y" ]; then prompt="$prompt [Y/n] "; else prompt="$prompt [y/N] "; fi
   read -r -p "$(printf '%s' "${_c_yellow}?${_c_reset} $prompt")" reply || return 1
   reply="${reply:-$default}"
