@@ -9,6 +9,41 @@ return {
     "BufReadPre " .. vault .. "/**.md",
     "BufNewFile " .. vault .. "/**.md",
   },
+  -- <Leader>O group for Obsidian actions (O = Obsidian; <Leader>n/o are taken).
+  specs = {
+    {
+      "AstroNvim/astrocore",
+      opts = {
+        mappings = {
+          n = {
+            ["<Leader>O"] = { desc = "󱓼 Obsidian" },
+            -- daily notes
+            ["<Leader>Ot"] = { "<Cmd>Obsidian today<CR>", desc = "Today's daily note" },
+            ["<Leader>Oy"] = { "<Cmd>Obsidian yesterday<CR>", desc = "Yesterday's daily note" },
+            ["<Leader>Om"] = { "<Cmd>Obsidian tomorrow<CR>", desc = "Tomorrow's daily note" },
+            ["<Leader>Od"] = { "<Cmd>Obsidian dailies<CR>", desc = "Browse daily notes" },
+            -- navigate / find
+            ["<Leader>Oo"] = { "<Cmd>Obsidian quick_switch<CR>", desc = "Quick switch note" },
+            ["<Leader>Os"] = { "<Cmd>Obsidian search<CR>", desc = "Search vault (grep)" },
+            ["<Leader>Ob"] = { "<Cmd>Obsidian backlinks<CR>", desc = "Backlinks to this note" },
+            ["<Leader>Ol"] = { "<Cmd>Obsidian links<CR>", desc = "Links in this note" },
+            ["<Leader>Og"] = { "<Cmd>Obsidian tags<CR>", desc = "Browse tags" },
+            -- create / edit
+            ["<Leader>On"] = { "<Cmd>Obsidian new<CR>", desc = "New note" },
+            ["<Leader>OT"] = { "<Cmd>Obsidian template<CR>", desc = "Insert template" },
+            ["<Leader>Or"] = { "<Cmd>Obsidian rename<CR>", desc = "Rename note (update links)" },
+            ["<Leader>Op"] = { "<Cmd>Obsidian paste_img<CR>", desc = "Paste image to attachments" },
+            ["<Leader>Ow"] = { "<Cmd>Obsidian workspace<CR>", desc = "Switch workspace" },
+          },
+          x = {
+            ["<Leader>O"] = { desc = "󱓼 Obsidian" },
+            ["<Leader>Oe"] = { "<Cmd>Obsidian extract_note<CR>", desc = "Extract selection to new note" },
+            ["<Leader>Ol"] = { "<Cmd>Obsidian link<CR>", desc = "Link selection to a note" },
+          },
+        },
+      },
+    },
+  },
   opts = function(_, opts)
     opts.workspaces = { { name = "vault", path = vault } }
 
