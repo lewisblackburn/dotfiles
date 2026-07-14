@@ -15,6 +15,8 @@ brew "dua-cli"
 brew "ffmpeg"
 # GitHub command-line tool
 brew "gh"
+# Syntax-highlighting pager for git and diff output
+brew "git-delta"
 # A tool for glamorous shell scripts (powers the install.sh UI)
 brew "gum"
 # Open source programming language to build simple/reliable/efficient software
