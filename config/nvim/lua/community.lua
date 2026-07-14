@@ -8,6 +8,8 @@ return {
   -- Themes
   { import = "astrocommunity.colorscheme.gruvbox-baby" },
   { import = "astrocommunity.colorscheme.onedarkpro-nvim" },
+  { import = "astrocommunity.colorscheme.oldworld-nvim" },
+  { import = "astrocommunity.colorscheme.vscode-nvim" },
   -- Web
   { import = "astrocommunity.pack.typescript-all-in-one" },
   { import = "astrocommunity.pack.html-css" },

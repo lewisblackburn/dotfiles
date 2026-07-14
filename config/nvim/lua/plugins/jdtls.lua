@@ -26,17 +26,6 @@ return {
       }
     end
 
-    -- Use a sane 4-space formatter profile instead of the jdtls Eclipse default,
-    -- which column-aligns wrapped parameters under "(" (mangles long record headers).
-    opts.settings = opts.settings or {}
-    opts.settings.java = opts.settings.java or {}
-    opts.settings.java.format = {
-      settings = {
-        url = vim.fn.expand "~/.config/nvim/eclipse-java-formatter.xml",
-        profile = "matchday",
-      },
-    }
-
     return opts
   end,
 }
