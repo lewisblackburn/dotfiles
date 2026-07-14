@@ -61,12 +61,27 @@ return {
       time_format = "%H:%M",
     }
 
-    -- Pasted/linked images go to attachments/.
-    opts.attachments = { img_folder = "attachments" }
+    -- Pasted/linked images go to attachments/ (attachments.img_folder -> attachments.folder).
+    opts.attachments = { folder = "attachments" }
 
     -- Let markview.nvim handle the pretty rendering; disable obsidian's own
     -- conceal UI so the two don't fight.
     opts.ui = { enable = false }
+
+    -- Clear deprecated opts the astrocommunity pack sets so obsidian.nvim
+    -- stops warning. Completion is now the built-in obsidian-ls LSP, so the
+    -- old completion table is dropped entirely.
+    opts.completion = nil
+
+    -- note_frontmatter_func -> frontmatter.func.
+    opts.frontmatter = { func = opts.note_frontmatter_func }
+    opts.note_frontmatter_func = nil
+
+    -- follow_url_func -> vim.ui.open (now the default, so just drop the override).
+    opts.follow_url_func = nil
+
+    -- Opt into the new `Obsidian <cmd>` command style (mappings already use it).
+    opts.legacy_commands = false
 
     return opts
   end,
