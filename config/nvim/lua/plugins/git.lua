@@ -1,21 +1,21 @@
--- Better git diff viewing / navigation via diffview.nvim
+-- Git diff viewing / navigation via diffview.nvim.
+-- Uses <leader>gv (not gd) to avoid AstroNvim's gitsigns <leader>gd (diffthis).
 ---@type LazySpec
 return {
   "sindrets/diffview.nvim",
-  cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFileHistory" },
-  opts = {
-    enhanced_diff_hl = true,
-    view = {
-      -- side-by-side diff for the working tree / commits
-      default = { layout = "diff2_horizontal" },
-      -- 3-way merge layout when resolving conflicts
-      merge_tool = { layout = "diff3_mixed" },
-    },
-  },
+  cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
   keys = {
-    { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview: open diff" },
-    { "<leader>gD", "<cmd>DiffviewClose<cr>", desc = "Diffview: close" },
+    {
+      "<leader>gv",
+      function()
+        if require("diffview.lib").get_current_view() then
+          vim.cmd.DiffviewClose()
+        else
+          vim.cmd.DiffviewOpen()
+        end
+      end,
+      desc = "Diffview: toggle diff",
+    },
     { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diffview: file history (current file)" },
-    { "<leader>gH", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview: repo history" },
   },
 }
