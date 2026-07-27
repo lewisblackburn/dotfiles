@@ -1,12 +1,27 @@
 return {
   "mfussenegger/nvim-jdtls",
   opts = function(_, opts)
-    -- Resolve JDKs via macOS java_home so this works on any machine,
-    -- regardless of whether Java came from Temurin, Oracle, or Homebrew.
+    -- Resolve JDKs at runtime so this works on any machine, regardless of
+    -- whether Java came from Temurin, Oracle, Homebrew or a distro package.
+    -- macOS has java_home; on Linux we glob the usual /usr/lib/jvm layouts.
     local function java_home(version)
-      local home = vim.fn.trim(vim.fn.system { "/usr/libexec/java_home", "-v", version })
-      if vim.v.shell_error ~= 0 or home == "" then return nil end
-      return home
+      if vim.fn.has "mac" == 1 then
+        local home = vim.fn.trim(vim.fn.system { "/usr/libexec/java_home", "-v", version })
+        if vim.v.shell_error == 0 and home ~= "" then return home end
+        return nil
+      end
+
+      for _, pattern in ipairs {
+        "/usr/lib/jvm/java-" .. version .. "-openjdk*",
+        "/usr/lib/jvm/java-" .. version .. "*",
+        "/usr/lib/jvm/temurin-" .. version .. "*",
+        "/usr/lib/jvm/jdk-" .. version .. "*",
+      } do
+        for _, dir in ipairs(vim.fn.glob(pattern, false, true)) do
+          if vim.fn.executable(dir .. "/bin/javac") == 1 then return dir end
+        end
+      end
+      return nil
     end
 
     local jdk21 = java_home "21"

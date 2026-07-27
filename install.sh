@@ -15,21 +15,39 @@ if [ "${1:-}" = "--yes" ] || [ "${1:-}" = "-y" ]; then
 fi
 FILTERS=("$@")
 
-if ! is_macos; then err "these scripts target macOS"; exit 1; fi
-
-header "Dotfiles bootstrap" "$DOTFILES"
-
-# Offer to install gum up front so the rest of the run is fancy (needs brew).
-if has brew && ! has gum && [ "${DOTFILES_YES:-0}" != "1" ]; then
-  if ask "Install 'gum' for a nicer installer UI?"; then brew install gum || true; fi
+if [ -z "$PKG" ]; then
+  err "no supported package manager found (brew/dnf/apt/pacman/zypper)"; exit 1
+fi
+if ! platform_tested; then
+  warn "$OS_ID is untested — modules run best-effort via $PKG"
 fi
 
-# Discover modules + their one-line descriptions (line 2 comment of each file).
-names=(); descs=()
+header "Dotfiles bootstrap" "$DOTFILES" "$OS_ID · $PKG"
+
+# Offer to install gum up front so the rest of the run is fancy. Only when the
+# package manager can already see it — on a fresh Fedora it arrives with the
+# Charm repo in module 01, so don't prompt for a guaranteed failure here.
+if ! has gum && [ "${DOTFILES_YES:-0}" != "1" ] && pkg_available gum; then
+  if ask "Install 'gum' for a nicer installer UI?"; then pkg_install gum || true; fi
+fi
+
+# Discover modules: description = line 2 comment, platforms = "# platforms:" header.
+# Modules that don't apply to this OS are listed as skipped and never run.
+names=(); descs=(); skipped=()
 for module in install/[0-9]*.sh; do
-  names+=("$(basename "$module" .sh)")
-  descs+=("$(sed -n '2s/^# *//p' "$module")")
+  n="$(basename "$module" .sh)"
+  d="$(sed -n '2s/^# *//p' "$module")"
+  p="$(sed -n '1,8s/^# *platforms: *//p' "$module")"
+  if platform_matches "${p:-all}"; then
+    names+=("$n"); descs+=("$d")
+  else
+    skipped+=("$n (${p})")
+  fi
 done
+
+if [ "${#skipped[@]}" -gt 0 ]; then
+  info "not applicable on $OS_ID: ${skipped[*]}"
+fi
 
 # Decide which modules to run.
 selected=""
@@ -64,4 +82,8 @@ for i in "${!names[@]}"; do
 done
 
 printf '\n'
-header "Done" "Restart your terminal (and iTerm2) to pick everything up."
+if is_macos; then
+  header "Done" "Restart your terminal (and iTerm2) to pick everything up."
+else
+  header "Done" "Restart your terminal (or log out/in) to pick everything up."
+fi

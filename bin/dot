@@ -5,7 +5,7 @@
 #   dot pull           pull latest and report
 #   dot status         git status of the repo
 #   dot edit           open the repo in nvim
-#   dot iterm-export   re-export current iTerm2 prefs into the repo
+#   dot iterm-export   re-export current iTerm2 prefs into the repo (macOS only)
 #   dot install [...]  run install.sh (passes args through)
 set -euo pipefail
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -22,6 +22,9 @@ case "$cmd" in
   status) git status -sb ;;
   edit)   ${EDITOR:-nvim} "$DOTFILES" ;;
   iterm-export)
+    if [ "$(uname -s)" != "Darwin" ]; then
+      echo "iterm-export is macOS-only" >&2; exit 1
+    fi
     defaults export com.googlecode.iterm2 "$DOTFILES/config/iterm2/com.googlecode.iterm2.plist"
     echo "exported iTerm2 prefs — commit with: dot push \"update iterm2\""
     ;;

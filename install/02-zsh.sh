@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 # zsh + oh-my-zsh + custom plugins, and link the shell dotfiles.
+# platforms: all
 set -euo pipefail
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/common.sh"
 
 log "zsh + oh-my-zsh"
+
+# zsh itself comes from the package step, but bail early with a clear message
+# rather than half-configuring a machine without it.
+if ! has zsh; then err "zsh missing — run module 01 first"; exit 1; fi
 
 # oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then

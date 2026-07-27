@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Config for CLI tools installed via the Brewfile (lazygit, gh).
+# Config for CLI tools installed by module 01 (lazygit, gh).
+# platforms: all
 set -euo pipefail
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/common.sh"
 

@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # iTerm2 preferences (installed as a cask via the Brewfile).
+# platforms: macos
 # iTerm2 stores prefs in a macOS plist, so we import rather than symlink.
+# No Linux equivalent is tracked — pick a terminal, drop its config under
+# config/<terminal>/ and add a sibling module with "# platforms: linux".
 set -euo pipefail
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/common.sh"
 

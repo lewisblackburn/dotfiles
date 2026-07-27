@@ -106,14 +106,18 @@ source $ZSH/oh-my-zsh.sh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-eval "$(starship init zsh)"
+command -v starship >/dev/null && eval "$(starship init zsh)"
 
 alias lazygit='lazygit --use-config-file ~/.config/lazygit/config.yml'
 
 export PATH="$HOME/.local/bin:$PATH"
 
-# pnpm
-export PNPM_HOME="/Users/lewis.blackburn/Library/pnpm"
+# pnpm (macOS keeps its store under ~/Library, Linux follows XDG)
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  export PNPM_HOME="$HOME/Library/pnpm"
+else
+  export PNPM_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/pnpm"
+fi
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -121,7 +125,7 @@ esac
 # pnpm end
 
 # bun completions
-[ -s "/Users/lewis.blackburn/.bun/_bun" ] && source "/Users/lewis.blackburn/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # dotfiles helper (dot push/pull/status/...)
 export PATH="$HOME/dotfiles/bin:$PATH"
@@ -131,11 +135,21 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 # JDK 17 for matchday/sportsbook project (kept outside the Rancher-managed block)
-export JAVA_HOME=$(/usr/libexec/java_home -v 17)
-export PATH="$JAVA_HOME/bin:$PATH"
+# macOS resolves it via java_home; on Linux glob the usual /usr/lib/jvm layouts.
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  export JAVA_HOME=$(/usr/libexec/java_home -v 17 2>/dev/null)
+else
+  for _jdk in /usr/lib/jvm/java-17-openjdk* /usr/lib/jvm/temurin-17* /usr/lib/jvm/jdk-17*; do
+    if [[ -x "$_jdk/bin/javac" ]]; then export JAVA_HOME="$_jdk"; break; fi
+  done
+  unset _jdk
+fi
+[[ -n "$JAVA_HOME" ]] && export PATH="$JAVA_HOME/bin:$PATH"
 
-# Point Docker-aware tools (e.g. docker-maven-plugin) at the Rancher Desktop daemon socket
-export DOCKER_HOST=unix://$HOME/.rd/docker.sock
+# Point Docker-aware tools (e.g. docker-maven-plugin) at the Rancher Desktop
+# daemon socket — only when Rancher is actually installed (macOS). On Linux the
+# native /var/run/docker.sock default is correct, so leave DOCKER_HOST unset.
+[[ -S "$HOME/.rd/docker.sock" ]] && export DOCKER_HOST="unix://$HOME/.rd/docker.sock"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/lewis.blackburn/.rd/bin:$PATH"
