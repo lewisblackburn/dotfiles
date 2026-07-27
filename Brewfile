@@ -1,5 +1,3 @@
-tap "felixkratz/formulae", "https://github.com/FelixKratz/homebrew-formulae"
-tap "jetbrains/utils", "https://github.com/JetBrains/homebrew-utils"
 tap "nikitabobko/tap"
 # Yet another cross-platform graphical process/system monitor
 brew "bottom"
