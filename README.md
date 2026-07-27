@@ -3,8 +3,9 @@
 My dev environment: AstroNvim, terminal, shell, and everything around them.
 One command sets up a fresh machine; a `git pull` keeps existing ones current.
 
-Supported: **macOS** (Homebrew) and **Fedora** (dnf). The installer detects the
-OS and picks the right package source and modules — see
+Supported: **macOS** and **Fedora**. Homebrew does the heavy lifting on both, so
+the `Brewfile` is the one package list; on Linux, dnf adds a small system layer.
+The installer detects the OS and skips modules that don't apply — see
 [Platforms](#platforms).
 
 ## New machine
@@ -17,17 +18,19 @@ cd ~/dotfiles
 
 `install.sh` shows an interactive multi-select menu (powered by
 [`gum`](https://github.com/charmbracelet/gum)). Space toggles steps, Enter
-runs them (everything preselected). It installs every package for this OS
-(`Brewfile` on macOS, `packages/fedora.txt` on Fedora), then **creates all the
-symlinks for you**, so you never link anything by hand. Without `gum` it falls
-back to plain yes/no prompts, and it offers to install `gum` on first run.
+runs them (everything preselected). It installs Homebrew + everything in the
+`Brewfile`, then **creates all the symlinks for you**, so you never link
+anything by hand. Without `gum` it falls back to plain yes/no prompts, and it
+offers to install `gum` on first run.
 
 ```bash
 ./install.sh --yes      # non-interactive, run everything
 ./install.sh 06         # run just the neovim module (matches by number/name)
 ```
 
-On Fedora, `dnf` steps use `sudo`, so expect a password prompt early on.
+On Fedora, the dnf system layer uses `sudo`, so expect a password prompt early
+on. `gum` arrives with the Brewfile, so the *first* run's menu is plain text and
+later runs are fancy.
 
 ## How it works: symlinks, not copies
 
@@ -77,15 +80,16 @@ from re-running the installer.
 
 ## What's covered
 
-Package lists: `Brewfile` (macOS — formulae, casks, fonts, VS Code extensions)
-and `packages/<distro>.txt` (Linux). `install/`: one module per tool:
+The `Brewfile` is the package list on **both** OSes — Homebrew runs on Linux
+too. `packages/<distro>.txt` covers only the small system layer brew shouldn't
+own. `install/`: one module per tool:
 
 | Module | Sets up | Platforms |
 |--------|---------|-----------|
-| `01-packages` | Homebrew + `brew bundle`, or dnf + `packages/fedora.txt` | all |
+| `01-packages` | `brew bundle`, + dnf system layer & Nerd Fonts on Linux | all |
 | `02-zsh` | oh-my-zsh, plugins, `.zshrc`/`.zprofile`, default shell | all |
 | `03-starship` | prompt config | all |
-| `04-node` | nvm + Node 20 + pnpm (+ npm LSPs on Linux) | all |
+| `04-node` | nvm + Node 20 + pnpm | all |
 | `05-java` | verifies JDK 17 + 21 (jdtls uses both) | all |
 | `06-neovim` | links AstroNvim config + bootstraps plugins/parsers | all |
 | `07-tmux` | tmux | all |
@@ -100,22 +104,33 @@ Each module declares a `# platforms:` header (`all`, `macos`, `linux`, or a
 distro id). Modules that don't apply are listed as skipped and never run, so
 `./install.sh` is safe to run as-is on either OS.
 
-**Fedora specifics**
+**One package list, two OSes.** Homebrew is supported on Linux, so the Brewfile
+is the source of truth for CLI tools everywhere — no second list of distro
+package names to keep in sync, and tools Fedora doesn't ship at all (`gum`,
+`starship`, `deno`, `bottom`, `dua-cli`, `tree-sitter`, and the Kotlin set —
+`kotlin-language-server`, `ktlint`, `ktfmt`, `gradle`) come from brew. 29 of the
+35 formulae have Linux bottles; the rest are JVM or script formulae that install
+from an upstream archive, so nothing compiles from source.
 
-- Packages come from `packages/fedora.txt`: plain list, `#` comments, and a `?`
-  prefix for *optional* (if the repos don't have it you get a warning, not a
-  failed run). Required packages install in one batch, retried individually if
-  that batch fails.
-- Not in the Fedora repos, so `01-packages` falls back to official installers:
-  `gum` (Charm repo), `starship` (`~/.local/bin`), `deno` (opt-in), Nerd Fonts
-  (downloaded into `~/.local/share/fonts`).
-- **Not available on Linux at all** — these are macOS-only tools with no
-  automatic substitute: iTerm2, AeroSpace, Karabiner-Elements, Rancher Desktop,
-  Temurin casks (distro OpenJDK is used instead), and the Kotlin extras
-  (`kotlin-language-server`, `ktlint`, `ktfmt`, and often `gradle`), which have
-  no RPM and need manual installs. `espanso` has a Linux build but isn't
-  packaged for Fedora, so the module links your config and prints the download
-  link. Module `11-extras` names the closest equivalents (i3/sway, keyd).
+On Linux `01-packages` filters the Brewfile: casks are dropped (macOS-only),
+`vscode` entries are dropped unless `code` is on `PATH`, and `BREW_SKIP_LINUX`
+in that module drops `docker`, `docker-compose`, `openjdk`, `openjdk@17`, `zsh`
+and `python@3.14` — those need to come from the system so systemd, `chsh`,
+jdtls' `/usr/lib/jvm` lookup and nvim's python provider all work.
+
+`packages/fedora.txt` is therefore short: brew's build prerequisites, the login
+shell, system python + `python3-neovim`, the two JDKs, `fontconfig`, and
+optional `podman`. Format is a plain list with `#` comments and a `?` prefix for
+*optional* (unavailable ones warn instead of failing the run); required packages
+install as one batch, retried individually if the batch fails.
+
+**Still macOS-only**, with no automatic substitute: iTerm2, AeroSpace,
+Karabiner-Elements, Rancher Desktop, and the Temurin casks (distro OpenJDK is
+used instead). Nerd Fonts are casks too, so on Linux `01-packages` downloads
+Fira Code + Hack from the nerd-fonts release into `~/.local/share/fonts`.
+`espanso` has a Linux build but isn't packaged for Fedora, so `11-extras` links
+your config and prints the download link. That module also names the closest
+equivalents for the rest (i3/sway, keyd, podman).
 
 **Adding another distro** (Debian, Arch, ...): drop in `packages/<id>.txt` using
 the `ID` from `/etc/os-release`. `lib/common.sh` already wraps apt/pacman/zypper,

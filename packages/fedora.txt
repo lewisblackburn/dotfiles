@@ -1,67 +1,41 @@
-# Fedora package list — the Linux equivalent of the Brewfile.
+# Fedora system layer only — everything else comes from the Brewfile, which
+# Homebrew installs on Linux just like on macOS.
 #
 #   one package per line, '#' starts a comment
 #   '?' prefix = optional: if the repos don't have it, warn and move on
 #
-# Anything that isn't packaged for Fedora at all (gum, starship, deno, pnpm,
-# kotlin tooling, nerd fonts) is handled by install/01-packages.sh, which falls
-# back to each tool's official installer.
+# Keep this list short. A package belongs here only if brew shouldn't own it:
+# Homebrew's own build prerequisites, or something that must sit in a standard
+# system path (login shell, nvim's python provider, JDKs, container runtime).
 
-# ---- shell + core ---------------------------------------------------------
-zsh
-git
-curl
-wget
-tmux
-tree
-unzip
-ripgrep
-
-# ---- build tools (treesitter parsers compile locally) ---------------------
+# ---- Homebrew build prerequisites ---------------------------------------
 gcc
 gcc-c++
 make
-cmake
+procps-ng
+curl
+file
+git
+unzip
 
-# ---- editor ---------------------------------------------------------------
-neovim
+# ---- login shell (chsh needs a shell from a system path) ----------------
+zsh
+
+# ---- system python + neovim's python3 provider -------------------------
 python3
 python3-pip
 python3-neovim
 
-# ---- languages -----------------------------------------------------------
-nodejs
-npm
-golang
+# ---- JDKs: 05-java and jdtls.lua resolve these from /usr/lib/jvm --------
 java-17-openjdk-devel
 java-21-openjdk-devel
-?maven
-?gradle
-?kotlin
 
-# ---- cli tools ----------------------------------------------------------
-?gh
-?git-delta
-?lazygit
-?bottom
-?dua-cli
-?yadm
-?tree-sitter-cli
-?fzf
-?jq
+# ---- fonts: fontconfig registers the Nerd Fonts 01-packages downloads ---
+fontconfig
 
-# ---- services / containers ---------------------------------------------
-?redis
-?moby-engine
-?docker-compose
-?docker-buildx
-?kubernetes-client
-
-# ---- media --------------------------------------------------------------
-# ffmpeg proper needs RPM Fusion; ffmpeg-free is in the main Fedora repos.
-?ffmpeg-free
-
-# ---- fonts --------------------------------------------------------------
-# Nerd Font patched variants aren't in the Fedora repos — 01-packages.sh
-# downloads them from the nerd-fonts release into ~/.local/share/fonts.
-?fira-code-fonts
+# ---- containers ---------------------------------------------------------
+# Fedora retired moby-engine; podman is the drop-in replacement and provides
+# a docker-compatible CLI via podman-docker. For genuine Docker CE instead,
+# add Docker's own repo: https://docs.docker.com/engine/install/fedora/
+?podman
+?podman-docker

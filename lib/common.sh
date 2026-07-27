@@ -28,8 +28,12 @@ has() { command -v "$1" >/dev/null 2>&1; }
 # OS_FAMILY  darwin | linux
 # OS_ID      macos, or the Linux /etc/os-release ID (fedora, ubuntu, arch, ...)
 # OS_LIKE    /etc/os-release ID_LIKE (e.g. "rhel centos fedora"), empty on macOS
-# PKG        detected package manager: brew | dnf | apt | pacman | zypper | ""
+# PKG        the *system* package manager: brew (macOS) | dnf | apt | pacman | zypper
 # SUDO       "sudo" when needed and available, else empty (already root)
+#
+# On Linux, Homebrew is a second, supplementary source (see brew_bin/has_brew):
+# dnf owns the system layer, brew owns the user-space CLI tools. PKG must stay
+# the native manager there even once brew is installed.
 case "$(uname -s)" in
   Darwin) OS_FAMILY="darwin"; OS_ID="macos"; OS_LIKE="" ;;
   Linux)
@@ -43,14 +47,38 @@ esac
 export OS_FAMILY OS_ID OS_LIKE
 
 PKG=""
-if has brew; then PKG="brew"
+if [ "$OS_FAMILY" = "darwin" ]; then
+  PKG="brew"                        # bootstrapped by module 01 if not yet present
 elif has dnf; then PKG="dnf"
 elif has apt-get; then PKG="apt"
 elif has pacman; then PKG="pacman"
 elif has zypper; then PKG="zypper"
-elif [ "$OS_FAMILY" = "darwin" ]; then PKG="brew"  # not installed yet; module 01 bootstraps it
+elif has brew; then PKG="brew"      # brew-only Linux box, unusual but workable
 fi
 export PKG
+
+# brew_bin -> path to brew, checking the standard prefixes as well as PATH, so
+# this works in a shell that hasn't run `brew shellenv` yet.
+brew_bin() {
+  local b
+  if has brew; then command -v brew; return 0; fi
+  for b in /home/linuxbrew/.linuxbrew/bin/brew "$HOME/.linuxbrew/bin/brew" \
+           /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    [ -x "$b" ] && { printf '%s\n' "$b"; return 0; }
+  done
+  return 1
+}
+has_brew() { brew_bin >/dev/null 2>&1; }
+
+# Load brew into this shell's environment (PATH, MANPATH, ...) if it exists.
+brew_shellenv() {
+  local b; b="$(brew_bin)" || return 1
+  eval "$("$b" shellenv)"
+}
+
+# Each module runs as its own bash process, so do this at source time: once
+# module 01 has installed brew, every later module sees brew's bin on PATH.
+has brew || brew_shellenv 2>/dev/null || true
 
 SUDO=""
 if [ "$(id -u)" != "0" ] && has sudo; then SUDO="sudo"; fi

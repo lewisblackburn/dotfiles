@@ -36,8 +36,10 @@ else
   info "no Linux counterparts configured for: aerospace (tiling WM), karabiner (key remap)"
   info "  tiling:    i3 / sway (Wayland) / hyprland    — dnf install i3 | sway"
   info "  key remap: keyd or input-remapper            — dnf install keyd"
-  if has systemctl && has docker && ! systemctl is-active --quiet docker; then
-    warn "docker installed but not running — sudo systemctl enable --now docker"
-    info "and add yourself to the docker group: sudo usermod -aG docker \$USER (re-login)"
+  if has podman; then
+    ok "podman present (podman-docker gives you a 'docker' CLI shim)"
+  else
+    info "  containers: podman (dnf install podman podman-docker), or Docker CE"
+    info "              from Docker's own repo: docs.docker.com/engine/install/fedora"
   fi
 fi
