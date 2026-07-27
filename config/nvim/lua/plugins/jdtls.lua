@@ -11,7 +11,9 @@ return {
         return nil
       end
 
+      local brew = vim.env.HOMEBREW_PREFIX or "/home/linuxbrew/.linuxbrew"
       for _, pattern in ipairs {
+        brew .. "/opt/openjdk@" .. version,
         "/usr/lib/jvm/java-" .. version .. "-openjdk*",
         "/usr/lib/jvm/java-" .. version .. "*",
         "/usr/lib/jvm/temurin-" .. version .. "*",

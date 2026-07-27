@@ -15,8 +15,12 @@ jdk_home() {
     /usr/libexec/java_home -v "$v" 2>/dev/null && return 0
     return 1
   fi
-  # Linux layouts: Fedora/RHEL openjdk, Temurin tarballs, Debian/Arch names.
-  for d in /usr/lib/jvm/java-"$v"-openjdk* /usr/lib/jvm/java-"$v"* \
+  # brew's own openjdk (bottled on Linux), then distro layouts: Fedora/RHEL
+  # openjdk, Temurin tarballs, Debian/Arch names.
+  local prefix=""
+  has_brew && prefix="$(brew --prefix 2>/dev/null || true)"
+  for d in ${prefix:+"$prefix/opt/openjdk@$v"} \
+           /usr/lib/jvm/java-"$v"-openjdk* /usr/lib/jvm/java-"$v"* \
            /usr/lib/jvm/temurin-"$v"* /usr/lib/jvm/jdk-"$v"* \
            /usr/lib/jvm/*"-$v"-*; do
     if [ -x "$d/bin/javac" ]; then printf '%s\n' "$d"; return 0; fi
@@ -24,12 +28,12 @@ jdk_home() {
   return 1
 }
 
-# Per-OS hint for a missing JDK.
+# Per-OS hint for a missing JDK. On Linux brew is the reliable route: it's
+# bottled for both arches, and distro package names vary between releases.
 jdk_hint() {
   local v="$1"
-  if is_macos;    then echo "brew install --cask temurin@$v"
-  elif is_fedora; then echo "sudo dnf install java-$v-openjdk-devel"
-  else                 echo "install JDK $v with your package manager"
+  if is_macos; then echo "brew install --cask temurin@$v"
+  else              echo "brew install openjdk@$v"
   fi
 }
 

@@ -159,6 +159,12 @@ pkg_install() {
   esac
 }
 
+# brewfile_entries <type> -> the names from `<type> "name"` lines in the Brewfile
+# (type is brew | cask | vscode | npm | tap).
+brewfile_entries() {
+  sed -n "s/^$1 \"\([^\"]*\)\".*/\1/p" "$DOTFILES/Brewfile"
+}
+
 # pkg_manifest -> path of the package list for this machine, most specific first:
 #   packages/<os-id>.txt  ->  packages/<os-family>.txt
 pkg_manifest() {
@@ -189,9 +195,15 @@ pkg_install_manifest() {
   if [ "${#required[@]}" -gt 0 ]; then
     if ! pkg_install "${required[@]}" >/dev/null 2>&1; then
       warn "batch install failed — retrying individually"
+      local log_out
       for pkg in "${required[@]}"; do
         pkg_installed "$pkg" && continue
-        pkg_install "$pkg" >/dev/null 2>&1 || failed+=("$pkg")
+        log_out="$(pkg_install "$pkg" 2>&1)" && continue
+        failed+=("$pkg")
+        # Show the manager's own reason — a wrong name and a broken mirror are
+        # very different problems, and swallowing the output hides which it is.
+        printf '%s\n' "$log_out" | grep -iE 'no match|not found|nothing provides|conflict|error' \
+          | head -2 | sed "s/^/      $pkg: /"
       done
     fi
     [ "${#failed[@]}" -eq 0 ] && ok "required packages installed" \

@@ -33,25 +33,31 @@ ensure_brew() {
 }
 
 # Write a platform-appropriate Brewfile to $1.
-# macOS uses it verbatim; Linux drops casks (macOS-only), VS Code extensions
-# when there's no `code` on PATH, and anything in BREW_SKIP_LINUX.
+#
+# Both OSes drop the `npm` entries: brew bundle installs those before the node
+# formula, so on a machine without node yet they fail outright or land in an
+# unwritable global prefix. Module 04 installs them once nvm's node is active.
+# Linux additionally drops casks (macOS-only), VS Code extensions when there's
+# no `code` on PATH, and anything in BREW_SKIP_LINUX.
 brewfile_for_platform() {
-  local out="$1"
-  if is_macos; then cp "$DOTFILES/Brewfile" "$out"; return 0; fi
-
-  local line name skip
+  local out="$1" line name skip
   : > "$out"
   while IFS= read -r line; do
     case "$line" in
-      'cask '*)   continue ;;
-      'vscode '*) has code || continue ;;
+      'npm '*) continue ;;
     esac
-    if [[ "$line" =~ ^brew[[:space:]]+\"([^\"]+)\" ]]; then
-      name="${BASH_REMATCH[1]}"
-      for skip in "${BREW_SKIP_LINUX[@]}"; do
-        [ "$skip" = "$name" ] && { name=""; break; }
-      done
-      [ -z "$name" ] && continue
+    if is_linux; then
+      case "$line" in
+        'cask '*)   continue ;;
+        'vscode '*) has code || continue ;;
+      esac
+      if [[ "$line" =~ ^brew[[:space:]]+\"([^\"]+)\" ]]; then
+        name="${BASH_REMATCH[1]}"
+        for skip in "${BREW_SKIP_LINUX[@]}"; do
+          [ "$skip" = "$name" ] && { name=""; break; }
+        done
+        [ -z "$name" ] && continue
+      fi
     fi
     printf '%s\n' "$line" >> "$out"
   done < "$DOTFILES/Brewfile"
@@ -62,8 +68,9 @@ apply_brewfile() {
   trap 'rm -f "$bf"' RETURN
   brewfile_for_platform "$bf"
 
-  local n; n="$(grep -c '^\(brew\|cask\|vscode\|npm\) ' "$bf" || true)"
+  local n; n="$(grep -c '^\(brew\|cask\|vscode\) ' "$bf" || true)"
   log "brew bundle — $n entries (safe to re-run)"
+  info "npm entries are handled by module 04, once node is set up"
   is_linux && info "skipping casks and: ${BREW_SKIP_LINUX[*]}"
 
   # brew bundle continues past individual failures and exits non-zero at the

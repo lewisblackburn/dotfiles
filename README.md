@@ -119,10 +119,20 @@ and `python@3.14` — those need to come from the system so systemd, `chsh`,
 jdtls' `/usr/lib/jvm` lookup and nvim's python provider all work.
 
 `packages/fedora.txt` is therefore short: brew's build prerequisites, the login
-shell, system python + `python3-neovim`, the two JDKs, `fontconfig`, and
-optional `podman`. Format is a plain list with `#` comments and a `?` prefix for
-*optional* (unavailable ones warn instead of failing the run); required packages
-install as one batch, retried individually if the batch fails.
+shell, system python + `python3-neovim`, `fontconfig`, and optional `podman`.
+Format is a plain list with `#` comments and a `?` prefix for *optional*
+(unavailable ones warn instead of failing the run); required packages install as
+one batch, retried individually — and a failure prints the package manager's own
+reason, since a wrong name and a broken mirror need different fixes.
+
+No JDK is installed on Linux by default (Fedora's `java-*-openjdk-devel` names
+move between releases). `brew install openjdk@17` is bottled and works; module
+`05-java`, `jdtls.lua` and `.zshrc` all check brew's prefix as well as
+`/usr/lib/jvm`, so it gets picked up with no further config.
+
+The Brewfile's `npm` entries are installed by module `04-node`, not by `brew
+bundle` — brew processes npm packages *before* the node formula, so on a fresh
+machine they'd fail with no node present, or write to a root-owned global prefix.
 
 **Still macOS-only**, with no automatic substitute: iTerm2, AeroSpace,
 Karabiner-Elements, Rancher Desktop, and the Temurin casks (distro OpenJDK is

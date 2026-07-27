@@ -26,16 +26,15 @@ python3
 python3-pip
 python3-neovim
 
-# ---- JDKs: 05-java and jdtls.lua resolve these from /usr/lib/jvm --------
-java-17-openjdk-devel
-java-21-openjdk-devel
-
 # ---- fonts: fontconfig registers the Nerd Fonts 01-packages downloads ---
 fontconfig
 
 # ---- containers ---------------------------------------------------------
-# Fedora retired moby-engine; podman is the drop-in replacement and provides
-# a docker-compatible CLI via podman-docker. For genuine Docker CE instead,
-# add Docker's own repo: https://docs.docker.com/engine/install/fedora/
+# Fedora retired moby-engine; podman is the drop-in replacement. Add
+# podman-docker yourself for a `docker` CLI shim, or use Docker CE from
+# Docker's own repo: https://docs.docker.com/engine/install/fedora/
 ?podman
-?podman-docker
+
+# No JDKs here: Fedora's java-*-openjdk-devel names vary by release and aren't
+# needed for the core setup. If you want Java, `brew install openjdk@17` works
+# on Linux (bottled) and 05-java / jdtls will find it — see install/05-java.sh.

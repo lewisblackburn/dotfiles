@@ -139,7 +139,12 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 if [[ "$(uname -s)" == "Darwin" ]]; then
   export JAVA_HOME=$(/usr/libexec/java_home -v 17 2>/dev/null)
 else
-  for _jdk in /usr/lib/jvm/java-17-openjdk* /usr/lib/jvm/temurin-17* /usr/lib/jvm/jdk-17*; do
+  # (N) is the nullglob qualifier: without it zsh aborts the line with
+  # "no matches found" instead of skipping a pattern that matches nothing.
+  for _jdk in ${HOMEBREW_PREFIX:-/home/linuxbrew/.linuxbrew}/opt/openjdk@17(N) \
+              /usr/lib/jvm/java-17-openjdk*(N) \
+              /usr/lib/jvm/temurin-17*(N) \
+              /usr/lib/jvm/jdk-17*(N); do
     if [[ -x "$_jdk/bin/javac" ]]; then export JAVA_HOME="$_jdk"; break; fi
   done
   unset _jdk

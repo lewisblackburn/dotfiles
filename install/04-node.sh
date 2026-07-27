@@ -28,3 +28,23 @@ fi
 
 # pnpm via corepack (bundled with node)
 if has corepack; then corepack enable >/dev/null 2>&1 && ok "corepack/pnpm enabled" || true; fi
+
+# Global npm packages, read from the Brewfile's `npm` lines so there's still one
+# package list. They run here rather than under `brew bundle` because brew
+# installs npm packages before the node formula — on a fresh machine that either
+# fails outright or writes to a root-owned prefix. nvm's node avoids both.
+log "npm globals (from Brewfile)"
+npm_pkgs=()
+while IFS= read -r p; do [ -n "$p" ] && npm_pkgs+=("$p"); done < <(brewfile_entries npm)
+
+for pkg in ${npm_pkgs[@]+"${npm_pkgs[@]}"}; do
+  # corepack ships with node and is enabled above, not installed from the registry
+  [ "$pkg" = "corepack" ] && continue
+  if npm ls -g --depth=0 "$pkg" >/dev/null 2>&1; then
+    ok "$pkg present"
+  else
+    spin "installing $pkg..." -- npm install -g "$pkg" \
+      && ok "$pkg installed" \
+      || warn "$pkg failed (private registry? needs 'npm login')"
+  fi
+done
