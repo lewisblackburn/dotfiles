@@ -134,21 +134,13 @@ export PATH="$HOME/dotfiles/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# JDK 17 for matchday/sportsbook project (kept outside the Rancher-managed block)
-# macOS resolves it via java_home; on Linux glob the usual /usr/lib/jvm layouts.
+# JDK 17 for matchday/sportsbook project
 if [[ "$(uname -s)" == "Darwin" ]]; then
   export JAVA_HOME=$(/usr/libexec/java_home -v 17 2>/dev/null)
 else
-  # (N) is the nullglob qualifier: without it zsh aborts the line with
-  # "no matches found" instead of skipping a pattern that matches nothing.
-  for _jdk in ${HOMEBREW_PREFIX:-/home/linuxbrew/.linuxbrew}/opt/openjdk@17(N) \
-              /usr/lib/jvm/java-17-openjdk*(N) \
-              /usr/lib/jvm/temurin-17*(N) \
-              /usr/lib/jvm/jdk-17*(N); do
-    if [[ -x "$_jdk/bin/javac" ]]; then export JAVA_HOME="$_jdk"; break; fi
-  done
-  unset _jdk
+  export JAVA_HOME="$(brew --prefix openjdk@17)"
 fi
+
 [[ -n "$JAVA_HOME" ]] && export PATH="$JAVA_HOME/bin:$PATH"
 
 # Point Docker-aware tools (e.g. docker-maven-plugin) at the Rancher Desktop
