@@ -27,8 +27,7 @@ return {
   -- AI
   { import = "astrocommunity.completion.supermaven-nvim" },
   { import = "astrocommunity.ai.sidekick-nvim" },
-  -- Note-taking (Obsidian vault + inline markdown rendering)
-  { import = "astrocommunity.note-taking.obsidian-nvim" },
+  -- Inline markdown rendering
   { import = "astrocommunity.markdown-and-latex.markview-nvim" },
   -- Misc
   { import = "astrocommunity.code-runner.sniprun" },

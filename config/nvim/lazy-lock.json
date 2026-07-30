@@ -46,7 +46,6 @@
   "nvim-ts-autotag": { "branch": "main", "commit": "88c1453db4ba7dd24131086fe51fdf74e587d275" },
   "nvim-vtsls": { "branch": "main", "commit": "0b5f73c9e50ce95842ea07bb3f05c7d66d87d14a" },
   "nvim-window-picker": { "branch": "main", "commit": "6382540b2ae5de6c793d4aa2e3fe6dbb518505ec" },
-  "obsidian.nvim": { "branch": "main", "commit": "bf1616d46e72477ad978051363fdb5c839c1cce5" },
   "oldworld.nvim": { "branch": "main", "commit": "db072a0bd2c90035fc3a57a73014cb54d3902f1f" },
   "onedarkpro.nvim": { "branch": "main", "commit": "f5fddfd5122fe00421e199151ae4fe8571a02898" },
   "oxocarbon.nvim": { "branch": "main", "commit": "cf49e389c22dab56224e43ae16422ddcd5b61b28" },
