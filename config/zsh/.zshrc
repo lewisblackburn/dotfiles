@@ -134,11 +134,10 @@ export PATH="$HOME/dotfiles/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# JDK 17 for matchday/sportsbook project
 if [[ "$(uname -s)" == "Darwin" ]]; then
-  export JAVA_HOME=$(/usr/libexec/java_home -v 17 2>/dev/null)
+  export JAVA_HOME=$(/usr/libexec/java_home -v 21 2>/dev/null)
 else
-  export JAVA_HOME="$(brew --prefix openjdk@17)"
+  export JAVA_HOME="$(brew --prefix openjdk@21)"
 fi
 
 [[ -n "$JAVA_HOME" ]] && export PATH="$JAVA_HOME/bin:$PATH"

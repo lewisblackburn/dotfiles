@@ -33,13 +33,13 @@ return {
     -- overriding the pack's bare "java" (which may resolve to an older JDK).
     if jdk21 then opts.cmd[1] = jdk21 .. "/bin/java" end
 
-    -- Compile/target projects against Java 17.
-    if jdk17 then
+    -- Compile/target projects against Java 21.
+    if jdk21 then
       opts.settings = opts.settings or {}
       opts.settings.java = opts.settings.java or {}
       opts.settings.java.configuration = opts.settings.java.configuration or {}
       opts.settings.java.configuration.runtimes = {
-        { name = "JavaSE-17", path = jdk17, default = true },
+        { name = "JavaSE-21", path = jdk21, default = true },
       }
     end
 
