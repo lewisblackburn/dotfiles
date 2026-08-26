@@ -3,6 +3,7 @@
 #
 #   dot push ["msg"]   commit all changes and push
 #   dot pull           pull latest and report
+#   dot reset [-y]     discard local commits/changes and match origin (backs up first)
 #   dot status         git status of the repo
 #   dot edit           open the repo in nvim
 #   dot iterm-export   re-export current iTerm2 prefs into the repo (macOS only)
@@ -19,6 +20,50 @@ case "$cmd" in
     git push   # always push, in case earlier commits are unpushed
     ;;
   pull)   git pull --ff-only ;;
+  reset)
+    branch="$(git symbolic-ref --short HEAD)"
+    upstream="origin/$branch"
+    git fetch origin
+
+    if ! git rev-parse --verify --quiet "$upstream" >/dev/null; then
+      echo "no upstream $upstream to reset to" >&2; exit 1
+    fi
+
+    ahead="$(git rev-list --count "$upstream..HEAD")"
+    dirty="$(git status --porcelain)"
+
+    if [ "$ahead" = "0" ] && [ -z "$dirty" ]; then
+      echo "already clean and in sync with $upstream — nothing to reset"
+      exit 0
+    fi
+
+    echo "this will discard:"
+    if [ "$ahead" != "0" ]; then
+      git log --oneline "$upstream..HEAD" | sed 's/^/  commit /'
+    fi
+    if [ -n "$dirty" ]; then
+      echo "$dirty" | sed 's/^/  change /'
+    fi
+
+    if [ "${1:-}" != "-y" ]; then
+      read -r -p "reset $branch to $upstream? [y/N] " reply
+      case "$reply" in [yY]*) ;; *) echo "aborted"; exit 1 ;; esac
+    fi
+
+    stamp="$(date +%Y%m%d-%H%M%S)"
+    if [ -n "$dirty" ]; then
+      git stash push -u -m "dot reset $stamp" >/dev/null
+      echo "uncommitted work stashed: git stash pop"
+    fi
+    if [ "$ahead" != "0" ]; then
+      backup="backup/$branch-$stamp"
+      git branch "$backup" HEAD
+      echo "local commits kept on: $backup"
+    fi
+
+    git reset --hard "$upstream"
+    echo "$branch now matches $upstream"
+    ;;
   status) git status -sb ;;
   edit)   ${EDITOR:-nvim} "$DOTFILES" ;;
   iterm-export)
@@ -29,5 +74,5 @@ case "$cmd" in
     echo "exported iTerm2 prefs — commit with: dot push \"update iterm2\""
     ;;
   install) exec ./install.sh "$@" ;;
-  *) echo "usage: dot {push|pull|status|edit|iterm-export|install}"; exit 1 ;;
+  *) echo "usage: dot {push|pull|reset|status|edit|iterm-export|install}"; exit 1 ;;
 esac
