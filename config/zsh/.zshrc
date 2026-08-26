@@ -151,3 +151,6 @@ fi
 export PATH="/Users/lewis.blackburn/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
+
+# Secrets / machine-local env (Jira PAT etc) — untracked, see .gitignore
+[ -f "$HOME/dotfiles/config/zsh/.env" ] && source "$HOME/dotfiles/config/zsh/.env"

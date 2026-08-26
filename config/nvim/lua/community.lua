@@ -20,6 +20,7 @@ return {
   -- Java
   { import = "astrocommunity.pack.java" },
   -- GraphQL / API / Backend tools
+  { import = "astrocommunity.pack.graphql" },
   { import = "astrocommunity.pack.prisma" },
   { import = "astrocommunity.pack.proto" },
   -- Kubernetes / Helm
