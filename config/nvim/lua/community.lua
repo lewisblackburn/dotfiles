@@ -20,7 +20,7 @@ return {
   -- Java
   { import = "astrocommunity.pack.java" },
   -- GraphQL / API / Backend tools
-  { import = "astrocommunity.pack.graphql" },
+  -- NOTE: no astrocommunity graphql pack exists — see lua/plugins/graphql.lua
   { import = "astrocommunity.pack.prisma" },
   { import = "astrocommunity.pack.proto" },
   -- Kubernetes / Helm
