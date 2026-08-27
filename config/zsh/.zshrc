@@ -134,13 +134,10 @@ export PATH="$HOME/dotfiles/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-if [[ "$(uname -s)" == "Darwin" ]]; then
-  export JAVA_HOME=$(/usr/libexec/java_home -v 21 2>/dev/null)
-else
-  export JAVA_HOME="$(brew --prefix openjdk@21)"
-fi
-
-[[ -n "$JAVA_HOME" ]] && export PATH="$JAVA_HOME/bin:$PATH"
+# Java (and any other runtimes) come from mise: it exports JAVA_HOME and puts
+# the active version on PATH. The global pin lives in ~/.config/mise/config.toml;
+# pin a single project with `mise use java@temurin-21`, which writes .mise.toml.
+command -v mise >/dev/null && eval "$(mise activate zsh)"
 
 # Point Docker-aware tools (e.g. docker-maven-plugin) at the Rancher Desktop
 # daemon socket — only when Rancher is actually installed (macOS). On Linux the
