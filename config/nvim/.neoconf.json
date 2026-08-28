@@ -15,6 +15,12 @@
   "lspconfig": {
     "lua_ls": {
       "Lua.format.enable": false
+    },
+    "jdtls": {
+      "java.import.gradle.enabled": true,
+      "java.import.maven.enabled": true,
+      "java.format.enabled": true,
+      "java.saveActions.organizeImports": true
     }
   }
 }

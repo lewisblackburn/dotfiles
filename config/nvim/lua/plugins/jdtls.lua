@@ -1,11 +1,13 @@
 -- JDK resolution for jdtls.
 --
 -- mise owns Java on every platform (config/mise/config.toml pins temurin-17 and
--- temurin-21), so ask mise first. The /usr/libexec/java_home and /usr/lib/jvm
--- lookups stay as a fallback for a machine where mise isn't set up yet.
+-- temurin-21), so ask mise first. The system lookups and finally `exepath java`
+-- are fallbacks for a machine where mise isn't set up — `exepath` alone always
+-- resolves to whatever version is *active*, which is 17 under the global pin,
+-- so it can't be the primary source when jdtls itself needs 21.
 --
--- Both versions matter: jdtls itself runs on 21, and projects are compiled
--- against 17 — registering only one leaves the other unavailable to the LSP.
+-- Both versions matter: jdtls runs on 21, and projects are compiled against 17.
+-- Registering only one leaves the other unavailable to the language server.
 return {
   "mfussenegger/nvim-jdtls",
   opts = function(_, opts)
@@ -25,8 +27,8 @@ return {
         if vim.v.shell_error == 0 and home ~= "" then return home end
       end
 
-      -- 3. Homebrew's openjdk (the real JDK lives under /libexec) and the
-      --    usual Linux distro layouts.
+      -- 3. Homebrew's openjdk (the real JDK lives under /libexec) and the usual
+      --    Linux distro layouts.
       local brew = vim.env.HOMEBREW_PREFIX or "/home/linuxbrew/.linuxbrew"
       for _, pattern in ipairs {
         brew .. "/opt/openjdk@" .. version .. "/libexec",
@@ -45,11 +47,17 @@ return {
 
     local jdk21, jdk17 = java_home "21", java_home "17"
 
-    -- Run jdtls itself on Java 21.
-    if jdk21 then opts.cmd[1] = jdk21 .. "/bin/java" end
+    -- Run jdtls itself on 21 where we found it, otherwise whatever `java` is on
+    -- PATH — jdtls failing to start at all is worse than running on 17.
+    if jdk21 then
+      opts.cmd[1] = jdk21 .. "/bin/java"
+    else
+      local java = vim.fn.exepath "java"
+      if java ~= "" then opts.cmd[1] = java end
+    end
 
-    -- Register every JDK we found as an execution environment, so a project's
-    -- own target release is honoured instead of silently compiled against 21.
+    -- Register every JDK found as an execution environment, so a project's own
+    -- target release is honoured instead of silently compiled against 21.
     local runtimes = {}
     if jdk21 then table.insert(runtimes, { name = "JavaSE-21", path = jdk21, default = true }) end
     if jdk17 then table.insert(runtimes, { name = "JavaSE-17", path = jdk17, default = jdk21 == nil }) end

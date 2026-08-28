@@ -137,11 +137,6 @@ export PATH="$DOTFILES_DIR/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# Java (and any other runtimes) come from mise: it exports JAVA_HOME and puts
-# the active version on PATH. The global pin lives in ~/.config/mise/config.toml;
-# pin a single project with `mise use java@temurin-21`, which writes .mise.toml.
-command -v mise >/dev/null && eval "$(mise activate zsh)"
-
 # Point Docker-aware tools (e.g. docker-maven-plugin) at the Rancher Desktop
 # daemon socket — only when Rancher is actually installed (macOS). On Linux the
 # native /var/run/docker.sock default is correct, so leave DOCKER_HOST unset.
@@ -162,3 +157,13 @@ command -v fzf >/dev/null && source <(fzf --zsh) 2>/dev/null
 
 # Secrets / machine-local env (Jira PAT etc) — untracked, see .gitignore
 [ -f "$DOTFILES_DIR/config/zsh/.env" ] && source "$DOTFILES_DIR/config/zsh/.env"
+
+# Java (and every other runtime) comes from mise: it exports JAVA_HOME and puts
+# the active versions on PATH. The global pins live in config/mise/config.toml
+# (linked to ~/.config/mise/); pin one project with `mise use java@temurin-21`,
+# which writes a local .mise.toml.
+#
+# Activated LAST on purpose. Everything above that prepends to PATH — bun,
+# ~/.rd/bin, ~/.local/bin — would otherwise sit in front of mise's shims and
+# shadow the pinned versions with whatever brew happens to have installed.
+command -v mise >/dev/null && eval "$(mise activate zsh)"
