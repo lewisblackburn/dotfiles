@@ -1,4 +1,4 @@
-# Shared helpers for the Windows scripts — the PowerShell counterpart of
+# Shared helpers for the Windows scripts - the PowerShell counterpart of
 # lib/common.sh. Dot-sourced, never run directly.
 
 function Write-Header {
@@ -41,7 +41,7 @@ function Test-Administrator {
 }
 
 # True when the named WSL distribution is already installed.
-# `wsl --list` emits UTF-16 with NUL bytes, which breaks naive matching — strip
+# `wsl --list` emits UTF-16 with NUL bytes, which breaks naive matching - strip
 # them before comparing or every check comes back false.
 function Test-WslDistro {
     param([Parameter(Mandatory)] [string] $Name)

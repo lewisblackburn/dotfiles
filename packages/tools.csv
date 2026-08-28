@@ -74,7 +74,6 @@ ktlint,cli,brew:ktlint,brew:ktlint,,
 # ---- services / infra -------------------------------------------------------
 kubernetes-cli,cli,brew:kubernetes-cli,brew:kubernetes-cli,,
 redis,cli,brew:redis,brew:redis,,
-vscode-langservers-extracted,cli,brew:vscode-langservers-extracted,brew:vscode-langservers-extracted,,
 containers,gui,cask:docker-desktop,dnf:podman,,ships the docker CLI and compose plugin — the brew formulae collide with it
 
 # ---- gui apps (macOS only unless noted) -------------------------------------

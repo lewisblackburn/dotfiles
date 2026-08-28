@@ -9,7 +9,7 @@
 
     The host half is not optional decoration. WSL has no terminal of its own, so
     the Nerd Fonts and Windows Terminal settings that make the starship prompt
-    and nvim's devicons render must be installed on Windows itself — without
+    and nvim's devicons render must be installed on Windows itself - without
     them the prompt is a row of broken boxes no matter what the guest has.
 
 .PARAMETER Distro
@@ -47,7 +47,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 . (Join-Path $here 'install\windows\Common.ps1')
 
-Write-Header 'Dotfiles bootstrap (Windows)' "WSL2 · $Distro"
+Write-Header 'Dotfiles bootstrap (Windows)' "WSL2 - $Distro"
 if ($DryRun) { Write-Warn 'dry run - nothing will be changed' }
 
 # ---- 1. WSL2 + the distro -------------------------------------------------

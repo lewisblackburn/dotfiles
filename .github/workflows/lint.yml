@@ -77,5 +77,11 @@ jobs:
           Install-Module PSScriptAnalyzer -Force -Scope CurrentUser -ErrorAction Stop
           $results = Invoke-ScriptAnalyzer -Path . -Recurse -Severity Error, Warning `
             -ExcludeRule PSAvoidUsingWriteHost, PSUseShouldProcessForStateChangingFunctions
-          if ($results) { $results | Format-Table -AutoSize; exit 1 }
+          if ($results) {
+            # Format-List, not Format-Table: -AutoSize truncates the message,
+            # which is the only part that tells you what to actually change.
+            $results | Format-List RuleName, Severity, ScriptName, Line, Message
+            Write-Host "::error::PSScriptAnalyzer found $($results.Count) issue(s)"
+            exit 1
+          }
           Write-Host 'PSScriptAnalyzer clean'

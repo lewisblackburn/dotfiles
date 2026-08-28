@@ -165,6 +165,20 @@ action_doctor() {
     else err "mise missing: ${rt_missing[*]}"; fails=$((fails + 1)); fi
     [ -n "${JAVA_HOME:-}" ] && ok "JAVA_HOME=$JAVA_HOME" \
                             || warn "JAVA_HOME unset (start a new shell — .zshrc activates mise)"
+
+    # A non-interactive login shell is the case that breaks quietly: `mise
+    # activate` only rewrites PATH at an interactive prompt, so without the
+    # shims on PATH a GUI-launched nvim can't find node, and every Node-based
+    # Mason LSP fails with nothing obvious in the log.
+    if has zsh; then
+      if zsh -lc 'command -v node' >/dev/null 2>&1; then
+        ok "runtimes resolve in a non-interactive login shell (mise shims)"
+      else
+        err "node is missing from a non-interactive login shell — GUI nvim's LSPs will fail"
+        info "  config/zsh/.zprofile should put ~/.local/share/mise/shims on PATH"
+        fails=$((fails + 1))
+      fi
+    fi
   else
     err "mise not installed — no runtimes are managed"; fails=$((fails + 1))
   fi

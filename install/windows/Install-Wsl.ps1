@@ -27,13 +27,13 @@ $wslPresent = $null -ne (Get-Command wsl.exe -ErrorAction SilentlyContinue)
 if (-not $wslPresent) {
     Write-Info 'WSL is not installed'
     if (-not (Test-Administrator)) {
-        Write-Err 'installing WSL needs an elevated shell — re-run this from "Run as administrator"'
+        Write-Err 'installing WSL needs an elevated shell - re-run this from "Run as administrator"'
         exit 1
     }
     Invoke-Step -DryRun:$DryRun -Description 'wsl --install --no-distribution' -Action {
         wsl.exe --install --no-distribution
     }
-    Write-Warn 'a reboot is usually required before WSL works — reboot, then re-run this script'
+    Write-Warn 'a reboot is usually required before WSL works - reboot, then re-run this script'
 } else {
     Write-Ok 'WSL present'
     Invoke-Step -DryRun:$DryRun -Description 'wsl --update' -Action {

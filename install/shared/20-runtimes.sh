@@ -75,30 +75,51 @@ fi
 
 # ---- leftovers from before mise owned runtimes -----------------------------
 # `brew bundle` never uninstalls, so formulae dropped from the registry stay
-# behind. Interactive shells are fine — mise's precmd hook puts its shims first
-# — but a non-interactive shell (scripts, CI, `zsh -lc`) never runs that hook
-# and falls through to brew's copy, which is a different version.
+# behind. Interactive shells are fine (mise activates last in .zshrc, so its
+# shims win) but a non-interactive shell falls through to brew's copy, which is
+# a different version.
+#
+# Split into two lists, because they need different answers: a formula nothing
+# depends on is just cruft, while one that something else pins can't be removed
+# without taking that tool with it. `brew uninstall` would refuse the second
+# kind anyway — better to say so than to suggest a command that fails.
 log "Runtime leftovers"
-stale=()
+removable=(); pinned=()
 if has_brew; then
-  for f in node pnpm go deno rust python@3.12 python@3.13 python@3.14 openjdk openjdk@17 openjdk@21; do
-    brew list --versions "$f" >/dev/null 2>&1 && stale+=("$f")
+  for f in node pnpm go deno rust python@3.12 python@3.13 python@3.14; do
+    brew list --versions "$f" >/dev/null 2>&1 || continue
+    deps="$(brew uses --installed --recursive "$f" 2>/dev/null | tr '\n' ' ')"
+    if [ -n "${deps// /}" ]; then pinned+=("$f (needed by ${deps% })"); else removable+=("$f"); fi
+  done
+  # The JDKs are the usual pinned case: maven, gradle, kotlin and ktlint all
+  # declare a brew openjdk dependency. They're keg-only, so they never shadow
+  # mise on PATH — leaving them costs nothing but disk.
+  for f in openjdk openjdk@17 openjdk@21; do
+    brew list --versions "$f" >/dev/null 2>&1 || continue
+    deps="$(brew uses --installed --recursive "$f" 2>/dev/null | tr '\n' ' ')"
+    if [ -n "${deps// /}" ]; then pinned+=("$f (needed by ${deps% })"); else removable+=("$f"); fi
+  done
+  # Temurin casks predate mise owning Java. jdtls asks mise first, so these only
+  # still matter to /usr/libexec/java_home.
+  for c in temurin temurin@17 temurin@21; do
+    brew list --cask "$c" >/dev/null 2>&1 && removable+=("cask $c")
   done
 fi
-if is_macos && [ -d "/Library/Java/JavaVirtualMachines" ]; then
-  for c in temurin@17 temurin@21; do
-    brew list --cask "$c" >/dev/null 2>&1 && stale+=("cask $c")
-  done
-fi
-[ -d "$HOME/.nvm" ] && stale+=("nvm at $HOME/.nvm")
+[ -d "$HOME/.nvm" ] && removable+=("nvm at $HOME/.nvm")
 
-if [ "${#stale[@]}" -eq 0 ]; then
-  ok "no duplicate runtimes installed outside mise"
+if [ "${#removable[@]}" -eq 0 ] && [ "${#pinned[@]}" -eq 0 ]; then
+  ok "nothing installed outside mise duplicates a managed runtime"
 else
-  warn "these shadow mise in non-interactive shells: ${stale[*]}"
-  info "remove them once you're happy mise has everything:"
-  info "  brew uninstall <formula>   /   brew uninstall --cask <cask>   /   rm -rf ~/.nvm"
-  info "left alone on purpose — uninstalling something you still depend on is worse"
+  if [ "${#removable[@]}" -gt 0 ]; then
+    warn "superseded by mise and safe to remove: ${removable[*]}"
+    info "  brew uninstall <formula>   /   brew uninstall --cask <cask>   /   rm -rf ~/.nvm"
+    info "  then: brew autoremove"
+    info "left in place on purpose — removing something you still depend on is worse"
+  fi
+  if [ "${#pinned[@]}" -gt 0 ]; then
+    for p in "${pinned[@]}"; do info "kept (another formula depends on it): $p"; done
+    info "these are keg-only, so they don't shadow mise on PATH"
+  fi
 fi
 
 info "shells pick this up via 'mise activate zsh' in .zshrc — restart your shell"

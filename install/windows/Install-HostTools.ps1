@@ -4,7 +4,7 @@
     Windows Terminal.
 
 .DESCRIPTION
-    WSL has no terminal of its own — it renders inside a Windows terminal, using
+    WSL has no terminal of its own - it renders inside a Windows terminal, using
     Windows fonts. So the starship prompt's glyphs and nvim's devicons depend on
     fonts installed here, on the host, not in the guest. This is the step that
     is easy to forget and produces "why is my prompt full of boxes".
@@ -72,7 +72,7 @@ $settings = Join-Path $env:LOCALAPPDATA `
     'Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json'
 
 if (-not (Test-Path $settings)) {
-    Write-Warn 'Windows Terminal settings.json not found — install Windows Terminal, launch it once, then re-run'
+    Write-Warn 'Windows Terminal settings.json not found - install Windows Terminal, launch it once, then re-run'
     return
 }
 

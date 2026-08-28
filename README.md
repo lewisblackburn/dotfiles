@@ -209,10 +209,21 @@ node = "20"
 Pin a single project with `mise use java@temurin-21`, which writes a local
 `.mise.toml` that overrides the global config.
 
-Nothing else installs a runtime: no `nvm`, no `openjdk` formula, no Temurin
-casks. `config/nvim/lua/plugins/jdtls.lua` asks `mise where java@temurin-21`
-first, falling back to `/usr/libexec/java_home` and `/usr/lib/jvm` only on a
-machine where mise isn't set up.
+Nothing else installs a runtime: no `nvm`, no `node`/`go`/`deno`/`python`
+formulae, no Temurin casks. `config/nvim/lua/plugins/jdtls.lua` asks
+`mise where java@temurin-21` first, falling back to `/usr/libexec/java_home`,
+`/usr/lib/jvm` and finally `exepath java` only where mise isn't set up.
+
+`.zprofile` puts mise's **shims** on `PATH` and `.zshrc` runs `mise activate`
+last. Both are needed: activate only rewrites `PATH` at an interactive prompt,
+so the shims are what let a GUI-launched nvim find `node` for its Node-based
+Mason servers. `--doctor` checks that a non-interactive login shell resolves
+them, because that failure is otherwise silent.
+
+Brew's `openjdk` formulae stay installed: `maven`, `gradle`, `kotlin`, `ktlint`,
+`ktfmt` and `kotlin-language-server` declare them as dependencies. They're
+keg-only, so they never shadow mise on `PATH` — `20-runtimes` reports what's
+genuinely removable separately from what another formula pins.
 
 The one exception is Python: `packages/fedora.txt` installs the *system*
 `python3` and `python3-neovim`, because nvim's Python provider has to be the

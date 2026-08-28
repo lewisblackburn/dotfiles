@@ -3,7 +3,7 @@
 # Copy or link to $PROFILE:
 #   New-Item -ItemType SymbolicLink -Path $PROFILE -Target <repo>\install\windows\profile.ps1
 #
-# Deliberately thin. The real environment lives in WSL — this only makes getting
+# Deliberately thin. The real environment lives in WSL - this only makes getting
 # there quick, since Windows is a host for the guest rather than a dev machine
 # in its own right.
 

@@ -4,7 +4,7 @@
 
 .DESCRIPTION
     Everything after this point is the same Linux path a native Fedora machine
-    takes — install/linux plus install/shared. The only difference is --no-gui:
+    takes - install/linux plus install/shared. The only difference is --no-gui:
     a WSL guest has no desktop, so GUI apps and fonts belong on the host (see
     Install-HostTools.ps1) rather than in the guest.
 #>
@@ -50,7 +50,7 @@ if ($Yes) { $flags = "$flags --yes" }
 
 # git has to exist before the repo can be cloned; everything else the installer
 # handles itself.
-$script = @"
+$guestScript = @"
 set -e
 command -v git >/dev/null || sudo dnf install -y git
 if [ -d "\$HOME/dotfiles/.git" ]; then
@@ -63,5 +63,5 @@ cd "\$HOME/dotfiles"
 "@
 
 Write-Info "running the installer inside $Distro (this takes a while)"
-wsl.exe -d $Distro -- bash -lc $script
+wsl.exe -d $Distro -- bash -lc $guestScript
 Write-Ok 'guest install finished'
