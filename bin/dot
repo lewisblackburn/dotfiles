@@ -8,6 +8,10 @@
 #   dot edit           open the repo in nvim
 #   dot iterm-export   re-export current iTerm2 prefs into the repo (macOS only)
 #   dot install [...]  run install.sh (passes args through)
+#   dot upgrade [...]  update packages, runtimes, plugins  (install.sh --upgrade)
+#   dot outdated       report what an upgrade would change (install.sh --outdated)
+#   dot doctor         verify this machine matches the repo (install.sh --doctor)
+#   dot coverage       tools available on one platform but not the other
 set -euo pipefail
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$DOTFILES"
@@ -73,6 +77,10 @@ case "$cmd" in
     defaults export com.googlecode.iterm2 "$DOTFILES/config/iterm2/com.googlecode.iterm2.plist"
     echo "exported iTerm2 prefs — commit with: dot push \"update iterm2\""
     ;;
-  install) exec ./install.sh "$@" ;;
-  *) echo "usage: dot {push|pull|reset|status|edit|iterm-export|install}"; exit 1 ;;
+  install)  exec ./install.sh "$@" ;;
+  upgrade)  exec ./install.sh --upgrade "$@" ;;
+  outdated) exec ./install.sh --outdated "$@" ;;
+  doctor)   exec ./install.sh --doctor "$@" ;;
+  coverage) exec ./install.sh --coverage ;;
+  *) echo "usage: dot {push|pull|reset|status|edit|iterm-export|install|upgrade|outdated|doctor|coverage}"; exit 1 ;;
 esac

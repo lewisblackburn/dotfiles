@@ -1,0 +1,28 @@
+# SSH client config, linked to ~/.ssh/config.
+#
+# Machine-specific hosts (work jump boxes, anything with a real hostname worth
+# keeping private) go in ~/.ssh/config.local, which this includes and .gitignore
+# keeps out of the repo. Include must come first — ssh takes the *first* value
+# it sees for any option, so anything below would otherwise win.
+Include ~/.ssh/config.local
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+
+Host *
+    # Keep connections alive through a NAT/VPN idle timeout instead of dropping
+    # a long-running session.
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+
+    # Reuse one TCP connection for repeated sessions to the same host: makes
+    # repeated `git push` and rsync noticeably faster.
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h-%p
+    ControlPersist 10m
+
+    AddKeysToAgent yes
+    HashKnownHosts yes

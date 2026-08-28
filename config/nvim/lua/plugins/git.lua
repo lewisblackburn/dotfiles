@@ -1,13 +1,27 @@
 -- Git diff viewing / navigation via diffview.nvim.
--- AstroNvim's gitsigns sets its own buffer-local <leader>gd (diffthis), which
--- shadows this global mapping in git buffers — see the on_attach override in
--- gitsigns.lua that replaces it.
+--
+-- Deliberately NOT on <Leader>gd: AstroNvim binds that buffer-locally to
+-- gitsigns' diffthis, so a global mapping there is shadowed inside every git
+-- buffer. <Leader>gv is free, which means no on_attach override is needed.
 ---@type LazySpec
 return {
   "sindrets/diffview.nvim",
   cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
   keys = {
-    { "<leader>gd", function() require("utils.diffview").toggle() end, desc = "Diffview: toggle diff" },
-    { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diffview: file history (current file)" },
+    {
+      "<Leader>gv",
+      function()
+        -- diffview is lazy-loaded on `cmd`; requiring the module pulls it in
+        -- via lazy's loader, so this is safe on the very first press.
+        local ok, lib = pcall(require, "diffview.lib")
+        if ok and lib.get_current_view() then
+          vim.cmd.DiffviewClose()
+        else
+          vim.cmd.DiffviewOpen()
+        end
+      end,
+      desc = "Diffview: toggle diff",
+    },
+    { "<Leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diffview: file history (current file)" },
   },
 }

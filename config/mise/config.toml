@@ -1,0 +1,26 @@
+# Global runtime pins, symlinked to ~/.config/mise/config.toml.
+#
+# mise is the single owner of language runtimes on every platform: it exports
+# JAVA_HOME and puts the active versions on PATH (see the `mise activate` line
+# in config/zsh/.zshrc). Nothing here is installed by brew or dnf.
+#
+# Override per project with `mise use java@temurin-21`, which writes a local
+# .mise.toml — the global pins below are only the fallback.
+
+[tools]
+# Both JDKs are needed: jdtls itself runs on 21, and compiles projects against
+# 17 (see config/nvim/lua/plugins/jdtls.lua). The first entry wins on PATH.
+java   = ["temurin-17", "temurin-21"]
+node   = "20"
+pnpm   = "latest"
+bun    = "latest"
+go     = "latest"
+deno   = "latest"
+rust   = "latest"
+# Neovim's python3 provider deliberately uses the *system* python
+# (packages/fedora.txt installs python3-neovim); this is for project work.
+python = "3.12"
+
+[settings]
+# Don't silently run a version the config didn't ask for.
+not_found_auto_install = false

@@ -1,84 +1,39 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
--- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
--- Configuration documentation can be found with `:h astrocore`
--- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
---       as this provides autocomplete and documentation while editing
+-- AstroCore is the central place for vim options, mappings and autocommands.
+-- Keep custom mappings here rather than in individual plugin specs: one file to
+-- read, and no risk of two specs binding the same key.
+-- Configuration documentation: `:h astrocore`
 
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
   ---@type AstroCoreOpts
   opts = {
-    -- Configure core features of AstroNvim
-    features = {
-      large_buf = { size = 1024 * 256, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = true, -- enable autopairs at start
-      cmp = true, -- enable completion at start
-      diagnostics = { virtual_text = true, virtual_lines = false }, -- diagnostic settings on startup
-      highlighturl = true, -- highlight URLs at start
-      notifications = true, -- enable notifications at start
-    },
-    -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
-    diagnostics = {
-      virtual_text = true,
-      underline = true,
-    },
-    -- passed to `vim.filetype.add`
-    filetypes = {
-      -- see `:h vim.filetype.add` for usage
-      extension = {
-        foo = "fooscript",
-      },
-      filename = {
-        [".foorc"] = "fooscript",
-      },
-      pattern = {
-        [".*/etc/foo/.*"] = "fooscript",
-      },
-    },
-    -- vim options can be configured here
     options = {
-      opt = { -- vim.opt.<key>
-        relativenumber = true, -- sets vim.opt.relativenumber
-        number = true, -- sets vim.opt.number
-        spell = false, -- sets vim.opt.spell
-        signcolumn = "yes", -- sets vim.opt.signcolumn to yes
-        wrap = false, -- sets vim.opt.wrap
-      },
-      g = { -- vim.g.<key>
-        -- configure global vim variables (vim.g)
-        -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
-        -- This can be found in the `lua/lazy_setup.lua` file
+      opt = {
+        number = true,
+        relativenumber = true,
+        signcolumn = "yes", -- always reserve the column so text doesn't jump
+        wrap = false,
+        spell = false,
       },
     },
-    -- Mappings can be configured through AstroCore as well.
-    -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
     mappings = {
-      -- first key is the mode
       n = {
-        -- second key is the lefthand side of the map
+        -- Split resizing. AstroNvim's default is <C-Up/Down/Left/Right>, which
+        -- macOS grabs for Mission Control before the terminal ever sees it.
+        -- (iTerm2's left Option is set to Esc+, so Alt+hjkl arrives intact.)
+        ["<A-h>"] = { function() require("smart-splits").resize_left() end, desc = "Resize split left" },
+        ["<A-j>"] = { function() require("smart-splits").resize_down() end, desc = "Resize split down" },
+        ["<A-k>"] = { function() require("smart-splits").resize_up() end, desc = "Resize split up" },
+        ["<A-l>"] = { function() require("smart-splits").resize_right() end, desc = "Resize split right" },
 
-        -- navigate buffer tabs
-        ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+        -- Java run configurations (lua/utils/java.lua), hung off the existing
+        -- <Leader>d debugger group.
+        ["<Leader>dj"] = { function() require("utils.java").run() end, desc = "Java: run (pick class + profile)" },
+        ["<Leader>dJ"] = { function() require("utils.java").rerun() end, desc = "Java: re-run last" },
 
-        -- mappings seen under group name "Buffer"
-        ["<Leader>bd"] = {
-          function()
-            require("astroui.status.heirline").buffer_picker(
-              function(bufnr) require("astrocore.buffer").close(bufnr) end
-            )
-          end,
-          desc = "Close buffer from tabline",
-        },
-
-        -- tables with just a `desc` key will be registered with which-key if it's installed
-        -- this is useful for naming menus
-        -- ["<Leader>b"] = { desc = "Buffers" },
-
-        -- setting a mapping to false will disable it
-        -- ["<C-S>"] = false,
+        -- Bring the DAP console back after the program exits (lua/utils/dap.lua).
+        ["<Leader>dl"] = { function() require("utils.dap").show_console() end, desc = "Show Console Output" },
       },
     },
   },

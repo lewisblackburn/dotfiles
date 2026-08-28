@@ -1,0 +1,26 @@
+# Generic Linux fallback, used when there's no packages/<distro>.txt for this
+# machine. Names are the ones Debian/Ubuntu, Arch and openSUSE agree on often
+# enough to be worth trying; lib/common.sh's pkg_install wraps apt/pacman/zypper.
+#
+# This path is untested — it exists so a new distro degrades to "best effort"
+# instead of hard-failing. If you actually use one, copy this to
+# packages/<id>.txt with the right names and add install/linux/distros/<id>.sh.
+#
+# '?' prefix = optional: unavailable packages warn instead of failing the run.
+
+# ---- Homebrew build prerequisites ---------------------------------------
+gcc
+make
+curl
+file
+git
+unzip
+
+# ---- system python + neovim's provider ----------------------------------
+python3
+?python3-pip
+?python3-neovim
+?python-neovim
+
+# ---- fonts ---------------------------------------------------------------
+fontconfig

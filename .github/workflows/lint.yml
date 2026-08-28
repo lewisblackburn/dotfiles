@@ -1,0 +1,81 @@
+name: lint
+
+# The installer is shell scripts that provision real machines, and the failure
+# mode of a typo is a half-configured box. Static checks are the only automated
+# safety net that doesn't need a throwaway VM.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  shellcheck:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install shellcheck
+        run: sudo apt-get update -qq && sudo apt-get install -y shellcheck
+      - name: Lint shell scripts
+        run: |
+          # bin/dot has no .sh suffix, so find it by shebang rather than name.
+          mapfile -t files < <(
+            { find . -name '*.sh' -not -path './.git/*'
+              grep -rl '^#!/usr/bin/env bash' bin/ 2>/dev/null || true
+            } | sort -u
+          )
+          printf 'linting %d files\n' "${#files[@]}"
+          # -x so shellcheck follows `source lib/common.sh` and sees the helpers
+          # the modules rely on, instead of reporting every one as undefined.
+          shellcheck -x -S warning "${files[@]}"
+
+  bash-syntax:
+    name: bash -n
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          fail=0
+          while IFS= read -r f; do
+            bash -n "$f" || { echo "syntax error: $f"; fail=1; }
+          done < <(find . -name '*.sh' -not -path './.git/*'; echo bin/dot)
+          exit $fail
+
+  registry:
+    name: tools.csv
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate the registry parses and every row is well formed
+        run: |
+          bash -c '
+            source lib/common.sh
+            source lib/registry.sh
+            rows=$(registry_rows | grep -c .)
+            [ "$rows" -gt 0 ] || { echo "no rows parsed from tools.csv"; exit 1; }
+            echo "parsed $rows rows"
+            # Every row needs an id, a known category, and no stray commas in
+            # the notes column (which would shift every field after it).
+            registry_rows | awk -F, "
+              NF != 6 { print \"row \" NR \": expected 6 fields, got \" NF \": \" \$0; bad=1 }
+              \$1 == \"\" { print \"row \" NR \": empty id\"; bad=1 }
+              \$2 !~ /^(cli|runtime|npm|gui|font|vscode)$/ { print \"row \" NR \": unknown category \" \$2; bad=1 }
+              END { exit bad }
+            "
+            echo "registry valid"
+          '
+
+  powershell:
+    name: PSScriptAnalyzer
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Analyse the Windows scripts
+        shell: pwsh
+        run: |
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser -ErrorAction Stop
+          $results = Invoke-ScriptAnalyzer -Path . -Recurse -Severity Error, Warning `
+            -ExcludeRule PSAvoidUsingWriteHost, PSUseShouldProcessForStateChangingFunctions
+          if ($results) { $results | Format-Table -AutoSize; exit 1 }
+          Write-Host 'PSScriptAnalyzer clean'

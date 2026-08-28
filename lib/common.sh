@@ -21,8 +21,35 @@ ok()   { printf '%s\n' "    ${_c_green}✓${_c_reset} $*"; }
 warn() { printf '%s\n' "    ${_c_yellow}!${_c_reset} $*"; }
 err()  { printf '%s\n' "    ${_c_red}✗${_c_reset} $*" >&2; }
 
+# ---- dry run / verbosity --------------------------------------------------
+# DRY_RUN=1  -> mutating helpers print what they would do and change nothing.
+# VERBOSE=1  -> spin() shows the command's own output instead of a spinner.
+# Both are exported by install.sh from its flags, so every module inherits them.
+: "${DRY_RUN:=0}"
+: "${VERBOSE:=0}"
+export DRY_RUN VERBOSE
+
+dry() { [ "$DRY_RUN" = "1" ]; }
+
+# run <cmd> [args...] -> execute, or under --dry-run just print it.
+# Use for anything that changes the machine. Read-only probes can call the
+# command directly; wrapping those would make --dry-run useless.
+run() {
+  if dry; then printf '%s\n' "    ${_c_yellow}would${_c_reset} $*"; return 0; fi
+  "$@"
+}
+
+# run_sh "shell snippet" -> same, for pipelines and redirections.
+run_sh() {
+  if dry; then printf '%s\n' "    ${_c_yellow}would${_c_reset} $1"; return 0; fi
+  bash -c "$1"
+}
+
 # ---- small utilities ------------------------------------------------------
 has() { command -v "$1" >/dev/null 2>&1; }
+
+# tildify <path> -> shorten $HOME to ~ for display.
+tildify() { case "$1" in "$HOME"/*) printf '~%s\n' "${1#"$HOME"}" ;; *) printf '%s\n' "$1" ;; esac; }
 
 # ---- platform detection ---------------------------------------------------
 # OS_FAMILY  darwin | linux
@@ -79,6 +106,23 @@ brew_shellenv() {
 # Each module runs as its own bash process, so do this at source time: once
 # module 01 has installed brew, every later module sees brew's bin on PATH.
 has brew || brew_shellenv 2>/dev/null || true
+
+# ensure_brew -> install Homebrew if missing, then load it into this shell.
+# Identical on macOS and Linux (the installer picks its own prefix), so both
+# platforms' 01-homebrew.sh modules are thin wrappers around this.
+ensure_brew() {
+  if has_brew; then
+    brew_shellenv
+    ok "Homebrew present ($(brew --version | head -1))"
+    return 0
+  fi
+  if dry; then info "would install Homebrew from brew.sh"; return 0; fi
+  info "installing Homebrew..."
+  NONINTERACTIVE=1 /bin/bash -c \
+    "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  brew_shellenv || { err "Homebrew installed but not found on PATH"; return 1; }
+  ok "Homebrew installed"
+}
 
 SUDO=""
 if [ "$(id -u)" != "0" ] && has sudo; then SUDO="sudo"; fi
@@ -149,6 +193,7 @@ pkg_sync() {
 # pkg_install <name>...  -> install one or more packages non-interactively
 pkg_install() {
   [ "$#" -eq 0 ] && return 0
+  if dry; then info "would install via $PKG: $*"; return 0; fi
   case "$PKG" in
     brew)   brew install "$@" ;;
     dnf)    $SUDO dnf install -y "$@" ;;
@@ -157,12 +202,6 @@ pkg_install() {
     zypper) $SUDO zypper --non-interactive install "$@" ;;
     *)      err "no supported package manager found"; return 1 ;;
   esac
-}
-
-# brewfile_entries <type> -> the names from `<type> "name"` lines in the Brewfile
-# (type is brew | cask | vscode | npm | tap).
-brewfile_entries() {
-  sed -n "s/^$1 \"\([^\"]*\)\".*/\1/p" "$DOTFILES/Brewfile"
 }
 
 # pkg_manifest -> path of the package list for this machine, most specific first:
@@ -237,7 +276,12 @@ header() {
 # Use ONLY for non-interactive commands (a spinner hides their prompts/output).
 spin() {
   local msg="$1"; shift; [ "${1:-}" = "--" ] && shift
-  if gum_ok; then gum spin --spinner dot --title "$msg" -- "$@"; else info "$msg"; "$@"; fi
+  if dry; then printf '%s\n' "    ${_c_yellow}would${_c_reset} $*"; return 0; fi
+  if gum_ok && [ "$VERBOSE" != "1" ]; then
+    gum spin --spinner dot --title "$msg" -- "$@"
+  else
+    info "$msg"; "$@"
+  fi
 }
 
 # ask "Question?" [Y/n default yes]  -> returns 0 for yes.
@@ -261,12 +305,18 @@ ask() {
 link() {
   local src="$1" dst="$2"
   if [ ! -e "$src" ]; then err "missing source: $src"; return 1; fi
+  if dry; then
+    if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then ok "linked $dst"
+    else info "would link $dst -> $src"; fi
+    return 0
+  fi
   mkdir -p "$(dirname "$dst")"
   if [ -L "$dst" ]; then
     if [ "$(readlink "$dst")" = "$src" ]; then ok "linked $dst"; return 0; fi
     rm -f "$dst"
   elif [ -e "$dst" ]; then
-    local backup="$dst.bak.$(date +%Y%m%d%H%M%S)"
+    local backup
+    backup="$dst.bak.$(date +%Y%m%d%H%M%S)"
     mv "$dst" "$backup"; warn "backed up existing $dst -> $backup"
   fi
   ln -s "$src" "$dst"; ok "linked $dst -> $src"

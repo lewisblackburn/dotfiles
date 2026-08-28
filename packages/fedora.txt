@@ -1,12 +1,13 @@
-# Fedora system layer only — everything else comes from the Brewfile, which
-# Homebrew installs on Linux just like on macOS.
+# Fedora bootstrap layer only — everything else comes from packages/tools.csv,
+# which Homebrew installs on Linux just like on macOS.
 #
 #   one package per line, '#' starts a comment
 #   '?' prefix = optional: if the repos don't have it, warn and move on
 #
-# Keep this list short. A package belongs here only if brew shouldn't own it:
-# Homebrew's own build prerequisites, or something that must sit in a standard
-# system path (login shell, nvim's python provider, JDKs, container runtime).
+# Keep this list short. A package belongs here only if it has to exist *before*
+# brew can work, or must sit in a standard system path. Ongoing tools that dnf
+# should own (zsh, podman) live in the registry's `fedora` column as `dnf:` rows
+# instead, so they show up in --coverage alongside their macOS counterparts.
 
 # ---- Homebrew build prerequisites ---------------------------------------
 gcc
@@ -18,23 +19,12 @@ file
 git
 unzip
 
-# ---- login shell (chsh needs a shell from a system path) ----------------
-zsh
-
 # ---- system python + neovim's python3 provider -------------------------
+# Deliberately NOT mise's python: nvim's provider has to be the interpreter the
+# python3-neovim package installs into.
 python3
 python3-pip
 python3-neovim
 
-# ---- fonts: fontconfig registers the Nerd Fonts 01-packages downloads ---
+# ---- fonts: fontconfig registers the Nerd Fonts 70-fonts downloads ------
 fontconfig
-
-# ---- containers ---------------------------------------------------------
-# Fedora retired moby-engine; podman is the drop-in replacement. Add
-# podman-docker yourself for a `docker` CLI shim, or use Docker CE from
-# Docker's own repo: https://docs.docker.com/engine/install/fedora/
-?podman
-
-# No JDKs here: Fedora's java-*-openjdk-devel names vary by release and aren't
-# needed for the core setup. If you want Java, `brew install openjdk@17` works
-# on Linux (bottled) and 05-java / jdtls will find it — see install/05-java.sh.

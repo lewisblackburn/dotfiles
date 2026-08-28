@@ -1,5 +1,64 @@
 [user]
 	name = Lewis Blackburn
 	email = lewis.blackburn@ballys.com
+
 [push]
 	autoSetupRemote = true
+
+[core]
+	# git-delta is installed by the registry; without this it's just a binary
+	# sitting on PATH that nothing uses.
+	pager = delta
+	excludesfile = ~/.config/git/ignore
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	line-numbers = true
+	side-by-side = false
+	hyperlinks = true
+
+[merge]
+	conflictstyle = zdiff3
+
+[diff]
+	colorMoved = default
+	algorithm = histogram
+
+[init]
+	defaultBranch = main
+
+[pull]
+	ff = only
+
+[fetch]
+	prune = true
+
+[rebase]
+	autosquash = true
+	autostash = true
+
+[rerere]
+	# Remember how a conflict was resolved and replay it next time.
+	enabled = true
+
+[column]
+	ui = auto
+
+[branch]
+	sort = -committerdate
+
+[alias]
+	s = status -sb
+	co = checkout
+	sw = switch
+	br = branch
+	last = log -1 HEAD --stat
+	unstage = restore --staged
+	amend = commit --amend --no-edit
+	# One-line graph of everything, the shape most useful when reviewing.
+	lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+	# What's on this branch that isn't on main yet.
+	unmerged = log --oneline main..HEAD

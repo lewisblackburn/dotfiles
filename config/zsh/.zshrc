@@ -103,9 +103,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# node used to come from nvm here. mise owns it now (see the activate line
+# below) — running both put two different node versions on PATH.
 command -v starship >/dev/null && eval "$(starship init zsh)"
 
 alias lazygit='lazygit --use-config-file ~/.config/lazygit/config.yml'
@@ -127,8 +126,12 @@ esac
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# dotfiles helper (dot push/pull/status/...)
-export PATH="$HOME/dotfiles/bin:$PATH"
+# dotfiles helper (dot push/pull/status/...). Derived from where ~/.zshrc
+# actually points, so a repo cloned somewhere other than ~/dotfiles still works.
+DOTFILES_DIR="${${(%):-%N}:A:h:h:h}"
+[[ -d "$DOTFILES_DIR/bin" ]] || DOTFILES_DIR="$HOME/dotfiles"
+export DOTFILES_DIR
+export PATH="$DOTFILES_DIR/bin:$PATH"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -144,10 +147,18 @@ command -v mise >/dev/null && eval "$(mise activate zsh)"
 # native /var/run/docker.sock default is correct, so leave DOCKER_HOST unset.
 [[ -S "$HOME/.rd/docker.sock" ]] && export DOCKER_HOST="unix://$HOME/.rd/docker.sock"
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/lewis.blackburn/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+# Rancher Desktop's own installer writes an absolute path here; $HOME keeps it
+# working on a second machine or a different user.
+[[ -d "$HOME/.rd/bin" ]] && export PATH="$HOME/.rd/bin:$PATH"
 export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
 
+# zoxide: smarter `cd`. Supersedes the oh-my-zsh `z` plugin, which is still in
+# the plugins list above for its completions — zoxide's `z` wins because this
+# runs after oh-my-zsh has loaded.
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+
+# fzf: ctrl-r history search and ctrl-t file search.
+command -v fzf >/dev/null && source <(fzf --zsh) 2>/dev/null
+
 # Secrets / machine-local env (Jira PAT etc) — untracked, see .gitignore
-[ -f "$HOME/dotfiles/config/zsh/.env" ] && source "$HOME/dotfiles/config/zsh/.env"
+[ -f "$DOTFILES_DIR/config/zsh/.env" ] && source "$DOTFILES_DIR/config/zsh/.env"

@@ -1,0 +1,38 @@
+# Global gitignore — linked to ~/.config/git/ignore (core.excludesfile).
+#
+# Only for things that are never worth committing in *any* repo: OS cruft,
+# editor state, local tool caches. Project-specific ignores belong in that
+# project's own .gitignore.
+
+# ---- macOS ----------------------------------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# ---- Linux ----------------------------------------------------------------
+*~
+.directory
+.Trash-*
+
+# ---- editors --------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+Session.vim
+.netrwhist
+tags
+
+# ---- tooling caches -------------------------------------------------------
+.direnv/
+.mise.local.toml
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# ---- local env / secrets --------------------------------------------------
+.env.local
+*.pem

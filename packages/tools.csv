@@ -1,0 +1,105 @@
+# The single tool registry. One row per tool, shared by every platform.
+#
+#   id,category,macos,fedora,windows_host,notes
+#
+# Each platform cell is "source:name"; an empty cell means the tool is not
+# available (or not wanted) there. Sources:
+#
+#   brew:     Homebrew formula          (macOS and Linux both — brew runs on Fedora)
+#   cask:     Homebrew cask             (macOS only)
+#   dnf:      Fedora system package     (only where brew shouldn't own it)
+#   mise:     runtime managed by mise   (see config/mise/config.toml)
+#   npm:      global npm package        (installed after mise's node is active)
+#   nerdfont: Nerd Font release archive (downloaded and unzipped)
+#   vscode:   VS Code extension         (skipped when `code` is not on PATH)
+#
+# `windows_host` is deliberately sparse: Windows is provisioned as WSL2, so the
+# tools live inside the Fedora guest. Only things that must sit on the Windows
+# *host* to work at all (fonts and the terminal) get a value here.
+#
+# `./install.sh --coverage` reports rows available on macOS but not Fedora (or
+# vice versa) so parity gaps stay visible instead of silently drifting.
+#
+# Keep notes comma-free — this is parsed with IFS=','.
+
+id,category,macos,fedora,windows_host,notes
+
+# ---- runtimes: mise owns all of these, identically on every platform --------
+java-17,runtime,mise:java@temurin-17,mise:java@temurin-17,,jdtls compile target
+java-21,runtime,mise:java@temurin-21,mise:java@temurin-21,,jdtls itself runs on this
+node,runtime,mise:node@20,mise:node@20,,
+pnpm,runtime,mise:pnpm@latest,mise:pnpm@latest,,
+bun,runtime,mise:bun@latest,mise:bun@latest,,sourced by .zshrc for completions
+go,runtime,mise:go@latest,mise:go@latest,,
+deno,runtime,mise:deno@latest,mise:deno@latest,,needed by the typescript-all-in-one nvim pack
+python,runtime,mise:python@3.12,mise:python@3.12,,nvim's provider is system python — see packages/fedora.txt
+rust,runtime,mise:rust@latest,mise:rust@latest,,sniprun compiles a Rust binary on install
+
+# ---- core cli ---------------------------------------------------------------
+mise,cli,brew:mise,brew:mise,,owns every runtime — must install before 20-runtimes
+neovim,cli,brew:neovim,brew:neovim,,
+git-delta,cli,brew:git-delta,brew:git-delta,,configured as git's pager in config/git/.gitconfig
+lazygit,cli,brew:lazygit,brew:lazygit,,
+gh,cli,brew:gh,brew:gh,,
+tmux,cli,brew:tmux,brew:tmux,,
+starship,cli,brew:starship,brew:starship,,
+gum,cli,brew:gum,brew:gum,,powers the installer UI
+ripgrep,cli,brew:ripgrep,brew:ripgrep,,required by the nvim snacks picker
+fd,cli,brew:fd,brew:fd,,
+fzf,cli,brew:fzf,brew:fzf,,
+bat,cli,brew:bat,brew:bat,,
+eza,cli,brew:eza,brew:eza,,
+zoxide,cli,brew:zoxide,brew:zoxide,,supersedes the oh-my-zsh z plugin
+jq,cli,brew:jq,brew:jq,,
+yq,cli,brew:yq,brew:yq,,
+difftastic,cli,brew:difftastic,brew:difftastic,,
+tree,cli,brew:tree,brew:tree,,
+wget,cli,brew:wget,brew:wget,,
+bottom,cli,brew:bottom,brew:bottom,,nvim binds <Leader>tt to btm
+dua-cli,cli,brew:dua-cli,brew:dua-cli,,
+ffmpeg,cli,brew:ffmpeg,brew:ffmpeg,,
+tree-sitter,cli,brew:tree-sitter,brew:tree-sitter,,parser compilation for nvim-treesitter
+yadm,cli,brew:yadm,brew:yadm,,
+zsh,cli,brew:zsh,dnf:zsh,,chsh needs a shell from a system path on Linux
+zsh-completions,cli,brew:zsh-completions,brew:zsh-completions,,
+
+# ---- jvm / kotlin toolchain -------------------------------------------------
+gradle,cli,brew:gradle,brew:gradle,,
+maven,cli,brew:maven,brew:maven,,
+kotlin,cli,brew:kotlin,brew:kotlin,,
+kotlin-language-server,cli,brew:kotlin-language-server,brew:kotlin-language-server,,
+ktfmt,cli,brew:ktfmt,brew:ktfmt,,
+ktlint,cli,brew:ktlint,brew:ktlint,,
+
+# ---- services / infra -------------------------------------------------------
+kubernetes-cli,cli,brew:kubernetes-cli,brew:kubernetes-cli,,
+redis,cli,brew:redis,brew:redis,,
+vscode-langservers-extracted,cli,brew:vscode-langservers-extracted,brew:vscode-langservers-extracted,,
+containers,gui,cask:docker-desktop,dnf:podman,,ships the docker CLI and compose plugin — the brew formulae collide with it
+
+# ---- gui apps (macOS only unless noted) -------------------------------------
+iterm2,gui,cask:iterm2,,,no tracked Linux terminal config yet
+aerospace,gui,cask:nikitabobko/tap/aerospace,,,i3 or sway is the Linux analogue
+karabiner-elements,gui,cask:karabiner-elements,,,keyd is the Linux analogue
+android-platform-tools,gui,cask:android-platform-tools,,,
+espanso,gui,cask:espanso,,,no Fedora package — see install/linux/71-desktop.sh
+
+# ---- fonts ------------------------------------------------------------------
+fira-code-nerd,font,cask:font-fira-code-nerd-font,nerdfont:FiraCode,nerdfont:FiraCode,WSL renders in the host terminal
+hack-nerd,font,cask:font-hack-nerd-font,nerdfont:Hack,nerdfont:Hack,WSL renders in the host terminal
+
+# ---- global npm packages ----------------------------------------------------
+eslint,npm,npm:eslint,npm:eslint,,
+ts-node,npm,npm:ts-node,npm:ts-node,,
+atlassian-jira-mcp,npm,npm:@atlassian-dc-mcp/jira,npm:@atlassian-dc-mcp/jira,,
+
+# ---- vs code extensions -----------------------------------------------------
+vsc-tsl-problem-matcher,vscode,vscode:amodio.tsl-problem-matcher,vscode:amodio.tsl-problem-matcher,,
+vsc-apollo,vscode,vscode:apollographql.vscode-apollo,vscode:apollographql.vscode-apollo,,
+vsc-file-icons,vscode,vscode:atommaterial.a-file-icon-vscode,vscode:atommaterial.a-file-icon-vscode,,
+vsc-eslint,vscode,vscode:dbaeumer.vscode-eslint,vscode:dbaeumer.vscode-eslint,,
+vsc-editorconfig,vscode,vscode:editorconfig.editorconfig,vscode:editorconfig.editorconfig,,
+vsc-ejs,vscode,vscode:qassimfarid.ejs-language-support,vscode:qassimfarid.ejs-language-support,,
+vsc-spell-checker,vscode,vscode:streetsidesoftware.code-spell-checker,vscode:streetsidesoftware.code-spell-checker,,
+vsc-vim,vscode,vscode:vscodevim.vim,vscode:vscodevim.vim,,
+vsc-material-theme,vscode,vscode:zhuangtongfa.material-theme,vscode:zhuangtongfa.material-theme,,
