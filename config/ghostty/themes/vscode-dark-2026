@@ -1,0 +1,30 @@
+# Derived from Microsoft VS Code's current Dark 2026 theme:
+# extensions/theme-defaults/themes/2026-dark.json
+#
+# VS Code does not define terminal.ansi* colours in that theme. The palette
+# below maps its official syntax/UI colours to Ghostty's required ANSI slots.
+
+background = #121314
+foreground = #bbbebf
+cursor-color = #bbbebf
+cursor-text = #121314
+selection-background = #276782
+selection-foreground = #ededed
+
+# Official Dark 2026 syntax/UI colours.
+palette = 0=#191a1b
+palette = 1=#ff7b72
+palette = 2=#7ee787
+palette = 3=#ffa657
+palette = 4=#79c0ff
+palette = 5=#d2a8ff
+palette = 6=#4ec9b0
+palette = 7=#bbbebf
+palette = 8=#555555
+palette = 9=#ffa198
+palette = 10=#7ee787
+palette = 11=#e5ba7d
+palette = 12=#a5d6ff
+palette = 13=#b267e6
+palette = 14=#48a0c7
+palette = 15=#ededed

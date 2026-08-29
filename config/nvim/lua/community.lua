@@ -9,7 +9,6 @@ return {
   { import = "astrocommunity.colorscheme.gruvbox-baby" },
   { import = "astrocommunity.colorscheme.onedarkpro-nvim" },
   { import = "astrocommunity.colorscheme.oldworld-nvim" },
-  { import = "astrocommunity.colorscheme.vscode-nvim" },
   { import = "astrocommunity.git.diffview-nvim" },
   -- Web
   { import = "astrocommunity.pack.typescript-all-in-one" },
