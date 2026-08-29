@@ -23,7 +23,14 @@ gh/config.yml|HOME/.config/gh/config.yml
 tmux/tmux.conf|HOME/.config/tmux/tmux.conf
 espanso|HOME/.config/espanso
 ssh/config|HOME/.ssh/config
+ghostty/themes|HOME/.config/ghostty/themes
 LINKS
+
+  if is_macos; then
+    printf '%s\n' 'ghostty/config|HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty'
+  else
+    printf '%s\n' 'ghostty/config|HOME/.config/ghostty/config'
+  fi
 }
 
 # links_each <callback>

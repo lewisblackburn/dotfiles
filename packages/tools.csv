@@ -77,7 +77,8 @@ redis,cli,brew:redis,brew:redis,,
 containers,gui,cask:docker-desktop,dnf:podman,,ships the docker CLI and compose plugin — the brew formulae collide with it
 
 # ---- gui apps (macOS only unless noted) -------------------------------------
-iterm2,gui,cask:iterm2,,,no tracked Linux terminal config yet
+iterm2,gui,cask:iterm2,,,macOS terminal alternative
+ghostty,gui,cask:ghostty,dnf:ghostty,,Fedora package comes from the scottames/ghostty COPR
 aerospace,gui,cask:nikitabobko/tap/aerospace,,,i3 or sway is the Linux analogue
 karabiner-elements,gui,cask:karabiner-elements,,,keyd is the Linux analogue
 android-platform-tools,gui,cask:android-platform-tools,,,

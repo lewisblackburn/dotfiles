@@ -6,6 +6,7 @@
 ---@type LazySpec
 return {
   "sindrets/diffview.nvim",
+  optional = true,
   cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
   keys = {
     {
