@@ -42,6 +42,7 @@ git-delta,cli,brew:git-delta,brew:git-delta,,configured as git's pager in config
 lazygit,cli,brew:lazygit,brew:lazygit,,
 gh,cli,brew:gh,brew:gh,,
 tmux,cli,brew:tmux,brew:tmux,,
+tinty,cli,brew:tinted-theming/tinted/tinty,brew:tinted-theming/tinted/tinty,,shared Base24 theme manager; direct Neovim and Ghostty ports stay authoritative
 starship,cli,brew:starship,brew:starship,,
 gum,cli,brew:gum,brew:gum,,powers the installer UI
 ripgrep,cli,brew:ripgrep,brew:ripgrep,,required by the nvim snacks picker

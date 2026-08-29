@@ -21,6 +21,7 @@ starship/starship.toml|HOME/.config/starship.toml
 lazygit/config.yml|HOME/.config/lazygit/config.yml
 gh/config.yml|HOME/.config/gh/config.yml
 tmux/tmux.conf|HOME/.config/tmux/tmux.conf
+tinted-theming/tinty/config.toml|HOME/.config/tinted-theming/tinty/config.toml
 espanso|HOME/.config/espanso
 ssh/config|HOME/.ssh/config
 ghostty/themes|HOME/.config/ghostty/themes

@@ -90,6 +90,21 @@ without `--recurse-submodules`, run this once before opening Neovim or Ghostty:
 git submodule update --init --recursive
 ```
 
+### Shared palette with Tinty
+
+`tinty` is installed from the package registry and its configuration is tracked
+in `config/tinted-theming/`. `dot install` links the VS Code Dark 2026 Base24
+scheme, syncs Tinted templates, and applies it to tmux. Re-run just that step
+with:
+
+```bash
+dot install --only 61-tinty-theme
+```
+
+Neovim and Ghostty deliberately use the direct theme port from the submodule:
+they match VS Code more closely than a generic Base24 template can. Tinty is
+the shared palette layer for compatible tools, not a replacement for them.
+
 ## How it works: symlinks, not copies
 
 Your live config paths are symlinks into this repo, so **editing a config edits

@@ -1,0 +1,14 @@
+# The portable Base24 version of VS Code Dark 2026.
+#
+# Neovim and Ghostty intentionally keep their direct ports: they reproduce
+# VS Code's richer semantic and UI colours more faithfully than Base24 can.
+# Tinty supplies the same palette to tools that support its templates.
+default-scheme = "base24-vscode-dark-2026"
+
+[[items]]
+name = "tinted-tmux"
+path = "https://github.com/tinted-theming/tinted-tmux"
+themes-dir = "colors"
+supported-systems = ["base16", "base24"]
+allow-dirty-update = true
+hook = "tmux source-file \"$TINTY_THEME_FILE_PATH\" 2>/dev/null || true"
