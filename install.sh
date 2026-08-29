@@ -230,7 +230,7 @@ action_upgrade() {
     if [ -n "$(git -C "$DOTFILES" status --porcelain)" ]; then
       warn "working tree is dirty — skipping git pull"
     else
-      run git -C "$DOTFILES" pull --ff-only && ok "repo up to date" \
+      run git -C "$DOTFILES" pull --ff-only && run git -C "$DOTFILES" submodule update --init --recursive && ok "repo up to date" \
         || warn "git pull failed (diverged? try: dot reset)"
     fi
   fi

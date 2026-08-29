@@ -1,0 +1,3 @@
+[submodule "themes/vscode-dark-2026"]
+	path = themes/vscode-dark-2026
+	url = https://github.com/lewisblackburn/vscode-dark-2026.git

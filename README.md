@@ -12,7 +12,7 @@ can — and `./install.sh --coverage` tells you where they can't.
 **macOS / Fedora**
 
 ```bash
-git clone https://github.com/lewisblackburn/dotfiles.git ~/dotfiles
+git clone --recurse-submodules https://github.com/lewisblackburn/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ./install.sh
 ```
@@ -80,6 +80,15 @@ lockfile is what pins every other machine to the same plugin versions.
 
 Config *content* updates come from `git pull` (`dot pull`), not from the
 installer. Symlinks make a pull instantly live.
+
+This repository includes the public
+[`vscode-dark-2026`](https://github.com/lewisblackburn/vscode-dark-2026) theme
+as a pinned Git submodule. `dot pull` updates it automatically. If you cloned
+without `--recurse-submodules`, run this once before opening Neovim or Ghostty:
+
+```bash
+git submodule update --init --recursive
+```
 
 ## How it works: symlinks, not copies
 

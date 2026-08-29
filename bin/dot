@@ -23,7 +23,10 @@ case "$cmd" in
     git commit -m "${1:-update dotfiles}" || echo "nothing new to commit"
     git push   # always push, in case earlier commits are unpushed
     ;;
-  pull)   git pull --ff-only ;;
+  pull)
+    git pull --ff-only
+    git submodule update --init --recursive
+    ;;
   reset)
     branch="$(git symbolic-ref --short HEAD)"
     upstream="origin/$branch"
