@@ -24,7 +24,6 @@ return {
         },
         ignore_filetypes = { -- disable format on save for specified filetypes
           "java",
-          "graphql",
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers

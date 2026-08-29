@@ -15,6 +15,7 @@ return {
   { import = "astrocommunity.pack.html-css" },
   { import = "astrocommunity.pack.eslint" },
   { import = "astrocommunity.pack.prettier" },
+  { import = "astrocommunity.pack.biome" },
   { import = "astrocommunity.pack.mdx" },
   { import = "astrocommunity.pack.tailwindcss" },
   -- Java
