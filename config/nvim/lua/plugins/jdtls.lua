@@ -67,6 +67,7 @@ return {
       opts.settings.java = opts.settings.java or {}
       opts.settings.java.configuration = opts.settings.java.configuration or {}
       opts.settings.java.configuration.runtimes = runtimes
+      opts.settings.java.configuration.updateBuildConfiguration = "automatic"
     else
       vim.notify(
         "jdtls: no JDK found. Install them with:  ./install.sh --only 20-runtimes",
