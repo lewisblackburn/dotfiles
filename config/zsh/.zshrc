@@ -167,3 +167,7 @@ command -v fzf >/dev/null && source <(fzf --zsh) 2>/dev/null
 # ~/.rd/bin, ~/.local/bin — would otherwise sit in front of mise's shims and
 # shadow the pinned versions with whatever brew happens to have installed.
 command -v mise >/dev/null && eval "$(mise activate zsh)"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/lewis.blackburn/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
