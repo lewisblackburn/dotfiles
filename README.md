@@ -98,6 +98,10 @@ dot install --only 61-tinty-theme
 - SSH keys are generated locally. Put machine-specific hosts in
   `~/.ssh/config.local`.
 - `config/zsh/.env` is ignored by Git and intended for secrets.
+- Git identity is per-machine: `~/.config/git/local.gitconfig` holds
+  `user.email` (and anything else employer-specific). It is untracked and
+  optional — create it on a new machine, or commits will have no author
+  email.
 - iTerm2 preferences are imported/exported rather than symlinked:
   `dot iterm-export`.
 

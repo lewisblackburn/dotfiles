@@ -1,6 +1,6 @@
 [user]
 	name = Lewis Blackburn
-	email = lewis.blackburn@ballys.com
+	# email lives in ~/.config/git/local.gitconfig — see the include below
 
 [push]
 	autoSetupRemote = true
@@ -62,3 +62,8 @@
 	lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
 	# What's on this branch that isn't on main yet.
 	unmerged = log --oneline main..HEAD
+
+[include]
+	# Machine-local identity and employer-specific config. Untracked and
+	# optional — git ignores this silently when the file doesn't exist.
+	path = ~/.config/git/local.gitconfig
