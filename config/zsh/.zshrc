@@ -158,6 +158,14 @@ command -v fzf >/dev/null && source <(fzf --zsh) 2>/dev/null
 # Secrets / machine-local env (Jira PAT etc) — untracked, see .gitignore
 [ -f "$DOTFILES_DIR/config/zsh/.env" ] && source "$DOTFILES_DIR/config/zsh/.env"
 
+# Rancher Desktop's docker/nerdctl shims. Kept above mise on purpose: the
+# installer appends this block to the end of the file, which would put it in
+# front of mise's shims. If Rancher Desktop re-adds a copy below, delete that
+# one rather than this.
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="$HOME/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
 # Java (and every other runtime) comes from mise: it exports JAVA_HOME and puts
 # the active versions on PATH. The global pins live in config/mise/config.toml
 # (linked to ~/.config/mise/); pin one project with `mise use java@temurin-21`,
@@ -167,7 +175,3 @@ command -v fzf >/dev/null && source <(fzf --zsh) 2>/dev/null
 # ~/.rd/bin, ~/.local/bin — would otherwise sit in front of mise's shims and
 # shadow the pinned versions with whatever brew happens to have installed.
 command -v mise >/dev/null && eval "$(mise activate zsh)"
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/lewis.blackburn/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
