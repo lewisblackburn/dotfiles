@@ -71,6 +71,26 @@ platform gaps.
 the links, `dot doctor` checks them, and `./install.sh --unlink` removes only
 links owned by this repository. Existing files are backed up first.
 
+## VS Code
+
+Settings and keybindings live in `config/vscode/` and are linked into the
+native macOS/Linux or Linux Flatpak user directory. `jk` leaves Vim insert
+mode. Java uses mise's stable `temurin-21` path instead of a versioned JDK.
+Generated Kubernetes tool paths and extension account identifiers stay local.
+
+`config/vscode/extensions.txt` records the extension setup. Restore it with:
+
+```sh
+dot install --only 40-links
+dot install --only 72-vscode
+```
+
+Edit settings in VS Code, then save changes with a conventional commit:
+
+```sh
+dot push "chore(vscode): update editor configuration"
+```
+
 ## Theme
 
 [VS Code Dark 2026](https://github.com/lewisblackburn/vscode-dark-2026) is a
