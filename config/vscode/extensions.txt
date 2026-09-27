@@ -13,6 +13,7 @@ esbenp.prettier-vscode
 formulahendry.auto-close-tag
 github.vscode-github-actions
 golang.go
+guichina.code-telescope
 hverlin.mise-vscode
 icrawl.discord-vscode
 james-yu.latex-workshop

@@ -1,4 +1,15 @@
 {
+    "vim.leader": "<space>",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["<leader>", "f", "f"],
+            "commands": ["code-telescope.fuzzy.file"]
+        },
+        {
+            "before": ["<leader>", "f", "g"],
+            "commands": ["code-telescope.fuzzy.wsText"]
+        }
+    ],
     "mise.binPath": "~/dotfiles/bin/vscode-mise",
     "mise.configureExtensionsAutomatically": true,
     "mise.configureExtensionsIncludeGlobalTools": false,
