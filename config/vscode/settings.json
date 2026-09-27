@@ -1,14 +1,9 @@
 {
     "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
     "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
-    "java.configuration.runtimes": [
-        {
-            "name": "JavaSE-21",
-            "path": "${env:HOME}/.local/share/mise/installs/java/temurin-21",
-            "default": true
-        }
-    ],
-    "java.import.gradle.java.home": "${env:HOME}/.local/share/mise/installs/java/temurin-21",
+    "mise.binPath": "~/dotfiles/bin/vscode-mise",
+    "mise.configureExtensionsAutomatically": true,
+    "mise.configureExtensionsIncludeGlobalTools": false,
     "vim.insertModeKeyBindingsNonRecursive": [
         {
             "before": [

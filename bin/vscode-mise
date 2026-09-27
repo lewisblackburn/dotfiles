@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Let Flatpak VS Code use the same mise installations as the host.
+set -euo pipefail
+if [ -n "${FLATPAK_ID:-}" ]; then
+  export MISE_DATA_DIR="$HOME/.local/share/mise"
+  export MISE_CONFIG_DIR="$HOME/.config/mise"
+  export MISE_CACHE_DIR="$HOME/.cache/mise"
+fi
+if command -v mise >/dev/null 2>&1; then
+  exec mise "$@"
+fi
+for mise_bin in "$HOME/.local/bin/mise" /opt/homebrew/bin/mise \
+                /usr/local/bin/mise /home/linuxbrew/.linuxbrew/bin/mise; do
+  if [ -x "$mise_bin" ]; then
+    exec "$mise_bin" "$@"
+  fi
+done
+printf '%s\n' 'mise is not installed; run dot install --only 20-runtimes' >&2
+exit 127

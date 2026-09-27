@@ -75,8 +75,10 @@ links owned by this repository. Existing files are backed up first.
 
 Settings and keybindings live in `config/vscode/` and are linked into the
 native macOS/Linux or Linux Flatpak user directory. `jk` leaves Vim insert
-mode. Java uses mise's stable `temurin-21` path instead of a versioned JDK.
-Generated Kubernetes tool paths and extension account identifiers stay local.
+mode. The mise extension configures language tools from each project's
+`mise.toml`, so Java paths are not maintained in shared settings.
+`bin/vscode-mise` lets Flatpak use the host's mise installations and also
+works with native VS Code. YAML and Kubernetes extensions are omitted.
 
 `config/vscode/extensions.txt` records the extension setup. Restore it with:
 

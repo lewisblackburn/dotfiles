@@ -13,6 +13,7 @@ esbenp.prettier-vscode
 formulahendry.auto-close-tag
 github.vscode-github-actions
 golang.go
+hverlin.mise-vscode
 icrawl.discord-vscode
 james-yu.latex-workshop
 kumar-harsh.graphql-for-vscode
@@ -22,7 +23,6 @@ mohammadbaqer.better-folding
 ms-azuretools.vscode-containers
 ms-dotnettools.csharp
 ms-dotnettools.vscode-dotnet-runtime
-ms-kubernetes-tools.vscode-kubernetes-tools
 ms-playwright.playwright
 ms-vscode.cmake-tools
 ms-vscode.cpp-devtools
@@ -37,7 +37,6 @@ prisma.prisma
 qwtel.sqlite-viewer
 redhat.java
 redhat.vscode-xml
-redhat.vscode-yaml
 rust-lang.rust-analyzer
 rvest.vs-code-prettier-eslint
 steoates.autoimport
