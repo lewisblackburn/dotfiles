@@ -6,7 +6,7 @@
             "commands": ["code-telescope.fuzzy.file"]
         },
         {
-            "before": ["<leader>", "f", "g"],
+            "before": ["<leader>", "f", "w"],
             "commands": ["code-telescope.fuzzy.wsText"]
         }
     ],
