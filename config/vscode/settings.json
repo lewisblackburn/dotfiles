@@ -1,6 +1,4 @@
 {
-    "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
-    "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
     "mise.binPath": "~/dotfiles/bin/vscode-mise",
     "mise.configureExtensionsAutomatically": true,
     "mise.configureExtensionsIncludeGlobalTools": false,
@@ -15,5 +13,19 @@
             ]
         }
     ],
-    "workbench.colorTheme": "Dark 2026"
+    "workbench.colorTheme": "Dark 2026",
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+        },
+        "zsh": {
+            "path": "zsh"
+        },
+        "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+        },
+    },
+    "redhat.telemetry.enabled": true,
 }
