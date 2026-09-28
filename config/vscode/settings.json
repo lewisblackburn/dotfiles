@@ -1,5 +1,6 @@
 {
     "vim.leader": "<space>",
+    "vim.useSystemClipboard": true,
     "vim.normalModeKeyBindingsNonRecursive": [
         {
             "before": ["<leader>", "f", "f"],
@@ -39,4 +40,9 @@
         },
     },
     "redhat.telemetry.enabled": true,
+    "intellij.region": "europe",
+    "intellij.dataSharing": "none",
+    "claudeCode.preferredLocation": "panel",
+    "editor.fontSize": 14,
+    "editor.formatOnSave": true,
 }
