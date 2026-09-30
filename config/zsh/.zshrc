@@ -163,7 +163,7 @@ command -v fzf >/dev/null && source <(fzf --zsh) 2>/dev/null
 # front of mise's shims. If Rancher Desktop re-adds a copy below, delete that
 # one rather than this.
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="$HOME/.rd/bin:$PATH"
+export PATH="/Users/lewis.blackburn/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 # Java (and every other runtime) comes from mise: it exports JAVA_HOME and puts
