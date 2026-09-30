@@ -45,4 +45,7 @@
     "claudeCode.preferredLocation": "panel",
     "editor.fontSize": 14,
     "editor.formatOnSave": true,
+    "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
+    "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
+    "claudeCode.hideOnboarding": true,
 }
