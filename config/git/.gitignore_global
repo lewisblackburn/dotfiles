@@ -36,3 +36,5 @@ __pycache__/
 # ---- local env / secrets --------------------------------------------------
 .env.local
 *.pem
+
+**/.claude/settings.local.json
