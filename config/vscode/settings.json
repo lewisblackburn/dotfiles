@@ -10,7 +10,7 @@
     // Layout
     "window.titleBarStyle": "native",
     "window.customTitleBarVisibility": "never",
-    "workbench.activityBar.location": "hidden",
+    "workbench.activityBar.location": "top",
     "workbench.sideBar.location": "right",
     "workbench.statusBar.visible": false,
     "workbench.editor.showTabs": "single",
@@ -45,5 +45,10 @@
     "claudeCode.hideOnboarding": true,
     "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
     "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
-    "redhat.telemetry.enabled": true
+    "redhat.telemetry.enabled": true,
+    "chat.titleBar.signIn.enabled": false,
+    "workbench.browser.showInTitleBar": false,
+    "workbench.layoutControl.enabled": false,
+    "workbench.navigationControl.enabled": false,
+    "chat.titleBar.openInAgentsWindow.enabled": false
 }

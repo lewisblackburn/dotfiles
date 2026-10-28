@@ -1,5 +1,13 @@
 [
     {
+        "key": "cmd+p",
+        "command": "workbench.action.quickOpenWithModes"
+    },
+    {
+        "key": "cmd+p",
+        "command": "-workbench.action.quickOpen"
+    },
+    {
         "key": "ctrl+f ctrl+w",
         "command": "workbench.action.experimental.quickTextSearch"
     },
