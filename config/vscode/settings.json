@@ -1,4 +1,20 @@
 {
+    "workbench.activityBar.location": "hidden",
+    "workbench.editor.showTabs": "single",
+    "workbench.statusBar.visible": false,
+    "workbench.startupEditor": "none",
+    "workbench.tips.enabled": false,
+    "editor.minimap.enabled": false,
+    "workbench.sideBar.location": "right",
+    "workbench.iconTheme": "material-icon-theme",
+    "material-icon-theme.hidesExplorerArrows": true,
+    "workbench.tree.enableStickyScroll": false,
+    "workbench.tree.renderIndentGuides": "none",
+    "workbench.tree.indent": 8,
+    "explorer.compactFolders": false,
+    "window.zoomLevel": 2,
+    "window.customTitleBarVisibility": "never",
+    "window.titleBarStyle": "native",
     "vim.leader": "<space>",
     "vim.useSystemClipboard": true,
     "vim.normalModeKeyBindingsNonRecursive": [
@@ -40,16 +56,11 @@
         },
     },
     "redhat.telemetry.enabled": true,
-    "intellij.region": "europe",
-    "intellij.dataSharing": "none",
     "claudeCode.preferredLocation": "panel",
-    "editor.fontSize": 14,
     "editor.renderWhitespace": "trailing",
     "files.trimTrailingWhitespace": true,
     "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
     "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
     "claudeCode.hideOnboarding": true,
-    "[xml]": {
-        "editor.defaultFormatter": "redhat.vscode-xml"
-    },
+    "editor.fontSize": 14,
 }
