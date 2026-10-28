@@ -1,66 +1,48 @@
 {
+    // Appearance
+    "workbench.colorTheme": "Dark 2026",
+    "workbench.iconTheme": "material-icon-theme",
+    "material-icon-theme.hidesExplorerArrows": true,
+    "window.zoomLevel": 2,
+    "editor.fontSize": 14,
+
+    // Layout
+    "window.titleBarStyle": "native",
+    "window.customTitleBarVisibility": "never",
     "workbench.activityBar.location": "hidden",
-    "workbench.editor.showTabs": "single",
+    "workbench.sideBar.location": "right",
     "workbench.statusBar.visible": false,
+    "workbench.editor.showTabs": "single",
     "workbench.startupEditor": "none",
     "workbench.tips.enabled": false,
     "editor.minimap.enabled": false,
-    "workbench.sideBar.location": "right",
-    "workbench.iconTheme": "material-icon-theme",
-    "material-icon-theme.hidesExplorerArrows": true,
-    "workbench.tree.enableStickyScroll": false,
-    "workbench.tree.renderIndentGuides": "none",
-    "workbench.tree.indent": 8,
+
+    // Explorer
     "explorer.compactFolders": false,
-    "window.zoomLevel": 2,
-    "window.customTitleBarVisibility": "never",
-    "window.titleBarStyle": "native",
+    "workbench.tree.indent": 8,
+    "workbench.tree.renderIndentGuides": "none",
+    "workbench.tree.enableStickyScroll": false,
+
+    // Editing
+    "editor.renderWhitespace": "trailing",
+    "files.trimTrailingWhitespace": true,
+
+    // Vim
     "vim.leader": "<space>",
     "vim.useSystemClipboard": true,
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": ["<leader>", "f", "f"],
-            "commands": ["code-telescope.fuzzy.file"]
-        },
-        {
-            "before": ["<leader>", "f", "w"],
-            "commands": ["code-telescope.fuzzy.wsText"]
-        }
+    "vim.insertModeKeyBindingsNonRecursive": [
+        { "before": ["j", "k"], "after": ["<Esc>"] }
     ],
+
+    // Mise
     "mise.binPath": "~/dotfiles/bin/vscode-mise",
     "mise.configureExtensionsAutomatically": true,
     "mise.configureExtensionsIncludeGlobalTools": false,
-    "vim.insertModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "j",
-                "k"
-            ],
-            "after": [
-                "<Esc>"
-            ]
-        }
-    ],
-    "workbench.colorTheme": "Dark 2026",
-    "terminal.integrated.profiles.linux": {
-        "bash": {
-            "path": "bash",
-            "icon": "terminal-bash"
-        },
-        "zsh": {
-            "path": "zsh"
-        },
-        "tmux": {
-            "path": "tmux",
-            "icon": "terminal-tmux"
-        },
-    },
-    "redhat.telemetry.enabled": true,
+
+    // Extensions
     "claudeCode.preferredLocation": "panel",
-    "editor.renderWhitespace": "trailing",
-    "files.trimTrailingWhitespace": true,
+    "claudeCode.hideOnboarding": true,
     "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
     "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
-    "claudeCode.hideOnboarding": true,
-    "editor.fontSize": 14,
+    "redhat.telemetry.enabled": true
 }
