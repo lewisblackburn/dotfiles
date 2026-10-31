@@ -1,0 +1,11 @@
+// Global debug configurations, available in every project. See https://zed.dev/docs/debugger
+// Attaches to an app started with the "Spring Boot: run" task.
+[
+  {
+    "label": "Attach to Spring Boot",
+    "adapter": "Java",
+    "request": "attach",
+    "hostName": "localhost",
+    "port": 5005
+  }
+]

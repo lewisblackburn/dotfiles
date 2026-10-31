@@ -1,0 +1,12 @@
+// Global tasks, available in every project. See https://zed.dev/docs/tasks
+[
+  {
+    // Prompts for a profile (enter = staging; comma-separate for several)
+    // and optional env vars (e.g. FORCE_SNAPSHOT=true DEBUG=1; enter = none).
+    // Debug port 5005 is always open: attach any time with `debugger: start` (f4) → "Attach to Spring Boot".
+    "label": "Spring Boot: run",
+    "command": "printf 'Profile [staging]: '; read p; printf 'Env vars [none]: '; read e; env $e ./mvnw spring-boot:run -Dspring-boot.run.profiles=${p:-staging} -Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005'",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true
+  }
+]

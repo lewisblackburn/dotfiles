@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# All macOS packages: formulae, casks and VS Code extensions from the registry.
+# All macOS packages: formulae and casks from the registry.
 #
 # The package list is packages/tools.csv, shared with Linux — this module just
 # renders the macOS column into a Brewfile and runs `brew bundle` on it.

@@ -60,7 +60,7 @@ jobs:
             registry_rows | awk -F, "
               NF != 6 { print \"row \" NR \": expected 6 fields, got \" NF \": \" \$0; bad=1 }
               \$1 == \"\" { print \"row \" NR \": empty id\"; bad=1 }
-              \$2 !~ /^(cli|runtime|npm|gui|font|vscode)$/ { print \"row \" NR \": unknown category \" \$2; bad=1 }
+              \$2 !~ /^(cli|runtime|npm|gui|font)$/ { print \"row \" NR \": unknown category \" \$2; bad=1 }
               END { exit bad }
             "
             echo "registry valid"

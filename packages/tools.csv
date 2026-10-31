@@ -11,7 +11,6 @@
 #   mise:     runtime managed by mise   (see config/mise/config.toml)
 #   npm:      global npm package        (installed after mise's node is active)
 #   nerdfont: Nerd Font release archive (downloaded and unzipped)
-#   vscode:   VS Code extension         (skipped when `code` is not on PATH)
 #
 # `windows_host` is deliberately sparse: Windows is provisioned as WSL2, so the
 # tools live inside the Fedora guest. Only things that must sit on the Windows
@@ -79,6 +78,7 @@ containers,gui,cask:docker-desktop,dnf:podman,,ships the docker CLI and compose 
 
 # ---- gui apps (macOS only unless noted) -------------------------------------
 iterm2,gui,cask:iterm2,,,macOS terminal alternative
+zed,gui,cask:zed,,,Fedora: curl -f https://zed.dev/install.sh | sh
 ghostty,gui,cask:ghostty,dnf:ghostty,,Fedora package comes from the scottames/ghostty COPR
 aerospace,gui,cask:nikitabobko/tap/aerospace,,,i3 or sway is the Linux analogue
 karabiner-elements,gui,cask:karabiner-elements,,,keyd is the Linux analogue
@@ -87,6 +87,7 @@ espanso,gui,cask:espanso,,,no Fedora package — see install/linux/71-desktop.sh
 
 # ---- fonts ------------------------------------------------------------------
 fira-code-nerd,font,cask:font-fira-code-nerd-font,nerdfont:FiraCode,nerdfont:FiraCode,WSL renders in the host terminal
+jetbrains-mono-nerd,font,cask:font-jetbrains-mono-nerd-font,nerdfont:JetBrainsMono,nerdfont:JetBrainsMono,Zed editor and terminal font
 hack-nerd,font,cask:font-hack-nerd-font,nerdfont:Hack,nerdfont:Hack,WSL renders in the host terminal
 
 # ---- global npm packages ----------------------------------------------------
@@ -94,13 +95,3 @@ eslint,npm,npm:eslint,npm:eslint,,
 ts-node,npm,npm:ts-node,npm:ts-node,,
 atlassian-jira-mcp,npm,npm:@atlassian-dc-mcp/jira,npm:@atlassian-dc-mcp/jira,,
 
-# ---- vs code extensions -----------------------------------------------------
-vsc-tsl-problem-matcher,vscode,vscode:amodio.tsl-problem-matcher,vscode:amodio.tsl-problem-matcher,,
-vsc-apollo,vscode,vscode:apollographql.vscode-apollo,vscode:apollographql.vscode-apollo,,
-vsc-file-icons,vscode,vscode:atommaterial.a-file-icon-vscode,vscode:atommaterial.a-file-icon-vscode,,
-vsc-eslint,vscode,vscode:dbaeumer.vscode-eslint,vscode:dbaeumer.vscode-eslint,,
-vsc-editorconfig,vscode,vscode:editorconfig.editorconfig,vscode:editorconfig.editorconfig,,
-vsc-ejs,vscode,vscode:qassimfarid.ejs-language-support,vscode:qassimfarid.ejs-language-support,,
-vsc-spell-checker,vscode,vscode:streetsidesoftware.code-spell-checker,vscode:streetsidesoftware.code-spell-checker,,
-vsc-vim,vscode,vscode:vscodevim.vim,vscode:vscodevim.vim,,
-vsc-material-theme,vscode,vscode:zhuangtongfa.material-theme,vscode:zhuangtongfa.material-theme,,

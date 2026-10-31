@@ -71,26 +71,30 @@ platform gaps.
 the links, `dot doctor` checks them, and `./install.sh --unlink` removes only
 links owned by this repository. Existing files are backed up first.
 
-## VS Code
+## Zed
 
-Settings and keybindings live in `config/vscode/` and are linked into the
-native macOS/Linux or Linux Flatpak user directory. `jk` leaves Vim insert
-mode. The mise extension configures language tools from each project's
-`mise.toml`, so Java paths are not maintained in shared settings.
-`bin/vscode-mise` lets Flatpak use the host's mise installations and also
-works with native VS Code. YAML and Kubernetes extensions are omitted.
+Settings, keymap, tasks and debug configurations live in `config/zed/` and are
+linked into `~/.config/zed/`. Zed installs its extensions (Java and others) by
+itself on first use. `jk` leaves Vim insert mode and double-shift opens the file
+finder.
 
-`config/vscode/extensions.txt` records the extension setup. Restore it with:
+- **Java:** jdtls downloads its own JDK (`jdk_auto_download`), since it needs
+  Java 25+ while projects build with mise's 17 or 21.
+- **Spring Boot: run** (`task: spawn`) asks for a profile (default `staging`)
+  and optional env vars such as `FORCE_SNAPSHOT=true`, then runs
+  `./mvnw spring-boot:run` with debug port 5005 open.
+- **Attach to Spring Boot** (`debugger: start`, `f4`) attaches to that app.
+
+Restore the links with:
 
 ```sh
 dot install --only 40-links
-dot install --only 72-vscode
 ```
 
-Edit settings in VS Code, then save changes with a conventional commit:
+Edit settings in Zed, then save changes with a conventional commit:
 
 ```sh
-dot push "chore(vscode): update editor configuration"
+dot push "chore(zed): update editor configuration"
 ```
 
 ## Theme

@@ -1,0 +1,149 @@
+{
+  // General
+  "proxy": "",
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+    "anthropic_retention": false
+  },
+  "session": {
+    "trust_all_worktrees": true
+  },
+
+  // Theme and fonts
+  "theme": "Zedokai",
+  "icon_theme": "Material Icon Theme",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_features": { "calt": true },
+  "buffer_line_height": "comfortable",
+  "agent_ui_font_family": "JetBrainsMono Nerd Font",
+  "mermaid_font_family": "JetBrainsMono Nerd Font",
+  // Roomier rows in pickers, lists and panels
+  "unstable.ui_density": "comfortable",
+
+  // Editor display
+  "cursor_blink": false,
+  "relative_line_numbers": "enabled",
+  "indent_guides": {
+    "enabled": true
+  },
+  "show_wrap_guides": true,
+  "wrap_guides": [120],
+  "minimap": { "show": "never" },
+  "sticky_scroll": { "enabled": true },
+
+  // Code feedback
+  "inlay_hints": { "enabled": true },
+  "diagnostics": { "inline": { "enabled": true } },
+  "git": { "inline_blame": { "enabled": true, "delay_ms": 600 } },
+
+  // Editing
+  "base_keymap": "JetBrains",
+  "vim_mode": true,
+  "vim": {
+    "toggle_relative_line_numbers": false,
+    "use_system_clipboard": "always",
+    "use_smartcase_find": true,
+    "highlight_on_yank_duration": 300
+  },
+  "which_key": {
+    "enabled": false
+  },
+  "tab_size": 4,
+  "autosave": "on_focus_change",
+  // Avoid Prettier reformatting whole Java files against the team's style
+  "format_on_save": "off",
+
+  // Window
+  "fullscreen_mode": "native",
+  "window_decorations": "client",
+  "bottom_dock_layout": "contained",
+  "title_bar": {
+    "show_menus": false,
+    "show_user_picture": false,
+    "show_user_menu": false,
+    "show_sign_in": false,
+    "show_onboarding_banner": true,
+    "show_project_items": true,
+    "show_worktree_name": true,
+    "show_branch_name": true,
+    "show_branch_status_icon": true
+  },
+  "toolbar": {
+    "code_actions": false,
+    "agent_review": true,
+    "selections_menu": true,
+    "quick_actions": false,
+    "breadcrumbs": true
+  },
+  "status_bar": {
+    "show_active_file": false,
+    "pending_keystrokes_indicator": true,
+    "line_endings_button": false,
+    "cursor_position_button": false,
+    "active_language_button": true
+  },
+
+  // Tabs
+  "tab_bar": {
+    "show_tab_bar_buttons": true,
+    "show": true
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": false,
+    "show_diagnostics": "errors"
+  },
+
+  // Panels
+  "search": {
+    "button": true
+  },
+  "outline_panel": {
+    "button": false
+  },
+  "collaboration_panel": {
+    "button": false
+  },
+  "project_panel": {
+    "dock": "right",
+    "button": true,
+    "auto_fold_dirs": false,
+    "indent_size": 10,
+    "default_width": 320,
+    "indent_guides": {
+      "show": "never"
+    }
+  },
+
+  // Terminal
+  "terminal": {
+    "font_family": "JetBrainsMono Nerd Font"
+  },
+
+  // AI
+  "edit_predictions": {
+    "provider": "zed"
+  },
+  "agent": {
+    "terminal_init_command": "claude"
+  },
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry",
+      "default_config_options": {
+        "mode": "auto"
+      }
+    }
+  },
+
+  // Language servers
+  "lsp": {
+    "jdtls": {
+      "settings": {
+        // JDTLS needs Java 25+; let the extension fetch its own JDK
+        "jdk_auto_download": true
+      }
+    }
+  }
+}

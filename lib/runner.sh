@@ -118,7 +118,7 @@ runner_select() {
 runner_run() {
   local modules="$1" selected="$2" name path desc rc=0
   # The module list is fed in on fd 3, not stdin. Modules run real commands
-  # (`brew bundle`, `code --install-extension`) that read stdin themselves; with
+  # (`brew bundle`, `mise install`) that read stdin themselves; with
   # the list on stdin the first such command drains it and every later module is
   # silently skipped. Modules still get the terminal on fd 0 so their prompts work.
   while IFS='|' read -r name path desc <&3; do

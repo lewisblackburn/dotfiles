@@ -8,7 +8,7 @@
 #
 # Two knobs, both set by install.sh from its flags:
 #   PROFILE          full | cli | minimal      (default: full)
-#   REGISTRY_NO_GUI  1 to drop gui/font/vscode (implied by --no-gui)
+#   REGISTRY_NO_GUI  1 to drop gui/font (implied by --no-gui)
 
 REGISTRY_CSV="$DOTFILES/packages/tools.csv"
 
@@ -27,7 +27,7 @@ registry_rows() {
 
 # The categories enabled by the current profile, one per line.
 # full     everything
-# cli      no GUI apps, fonts or VS Code extensions — the WSL/headless case
+# cli      no GUI apps or fonts — the WSL/headless case
 # minimal  cli + runtimes only: enough to work, nothing else
 registry_categories() {
   local profile="${PROFILE:-full}"
@@ -36,7 +36,7 @@ registry_categories() {
     cli)     printf '%s\n' cli runtime npm ;;
     full)
       if [ "${REGISTRY_NO_GUI:-0}" = "1" ]; then printf '%s\n' cli runtime npm
-      else printf '%s\n' cli runtime npm gui font vscode; fi ;;
+      else printf '%s\n' cli runtime npm gui font; fi ;;
     *) err "unknown profile '$profile' (want: full | cli | minimal)"; return 1 ;;
   esac
 }
@@ -74,7 +74,7 @@ registry_taps() {
 }
 
 # registry_brewfile <outfile>
-# Renders a Brewfile for this platform and profile. Only brew/cask/vscode go in
+# Renders a Brewfile for this platform and profile. Only brew/cask go in
 # it: mise runtimes and npm globals are installed by install/shared/20-runtimes.sh
 # (brew bundle would run npm entries before node exists), and nerdfont/dnf rows
 # belong to their own modules.
@@ -84,10 +84,6 @@ registry_brewfile() {
   registry_taps | sed 's/^/tap "/; s/$/"/' >> "$out"
   registry_entries brew | sed 's/^/brew "/; s/$/"/' >> "$out"
   registry_entries cask | sed 's/^/cask "/; s/$/"/' >> "$out"
-  # VS Code extensions only make sense when VS Code is actually installed.
-  if has code; then
-    registry_entries vscode | sed 's/^/vscode "/; s/$/"/' >> "$out"
-  fi
   grep -c . "$out" || true
 }
 
@@ -118,7 +114,6 @@ brew_apply_registry() {
 
   log "brew bundle — $n entries (safe to re-run)"
   info "runtimes come from mise and npm globals from 20-runtimes — not brew"
-  has code || info "no 'code' on PATH — VS Code extensions skipped"
 
   if dry; then sed 's/^/      /' "$bf"; return 0; fi
 

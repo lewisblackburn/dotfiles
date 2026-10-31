@@ -25,18 +25,11 @@ tinted-theming/tinty/config.toml|HOME/.config/tinted-theming/tinty/config.toml
 espanso|HOME/.config/espanso
 ssh/config|HOME/.ssh/config
 ghostty/themes|HOME/.config/ghostty/themes
+zed/settings.json|HOME/.config/zed/settings.json
+zed/keymap.json|HOME/.config/zed/keymap.json
+zed/tasks.json|HOME/.config/zed/tasks.json
+zed/debug.json|HOME/.config/zed/debug.json
 LINKS
-
-  if is_macos; then
-    printf '%s\n' 'vscode/settings.json|HOME/Library/Application Support/Code/User/settings.json'
-    printf '%s\n' 'vscode/keybindings.json|HOME/Library/Application Support/Code/User/keybindings.json'
-  elif [ -d "$HOME/.var/app/com.visualstudio.code" ]; then
-    printf '%s\n' 'vscode/settings.json|HOME/.var/app/com.visualstudio.code/config/Code/User/settings.json'
-    printf '%s\n' 'vscode/keybindings.json|HOME/.var/app/com.visualstudio.code/config/Code/User/keybindings.json'
-  else
-    printf '%s\n' 'vscode/settings.json|HOME/.config/Code/User/settings.json'
-    printf '%s\n' 'vscode/keybindings.json|HOME/.config/Code/User/keybindings.json'
-  fi
 
   if is_macos; then
     printf '%s\n' 'ghostty/config|HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty'

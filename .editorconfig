@@ -1,6 +1,5 @@
 # Shared editor settings. AstroNvim picks these up via the editorconfig support
-# built into Neovim; VS Code needs the EditorConfig extension (it's in the
-# registry's vscode rows).
+# built into Neovim; Zed reads .editorconfig natively.
 root = true
 
 [*]

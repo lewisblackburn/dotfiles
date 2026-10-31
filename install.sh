@@ -25,7 +25,7 @@ Selection
   --only a,b        run only these modules (name or number, substring match)
   --skip a,b        run everything except these
   --profile P       full (default) | cli | minimal — which tool categories
-  --no-gui          skip GUI apps, fonts and VS Code extensions (WSL/headless)
+  --no-gui          skip GUI apps and fonts (WSL/headless)
   --distro ID       force a Linux distro profile instead of auto-detecting
 
 Actions (each exits without running an install)
