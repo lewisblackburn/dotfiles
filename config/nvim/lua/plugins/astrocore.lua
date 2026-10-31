@@ -21,7 +21,7 @@ return {
       n = {
         -- Split resizing. AstroNvim's default is <C-Up/Down/Left/Right>, which
         -- macOS grabs for Mission Control before the terminal ever sees it.
-        -- (iTerm2's left Option is set to Esc+, so Alt+hjkl arrives intact.)
+        -- (Ghostty sends left Option as Alt, so Alt+hjkl arrives intact.)
         ["<A-h>"] = { function() require("smart-splits").resize_left() end, desc = "Resize split left" },
         ["<A-j>"] = { function() require("smart-splits").resize_down() end, desc = "Resize split down" },
         ["<A-k>"] = { function() require("smart-splits").resize_up() end, desc = "Resize split up" },

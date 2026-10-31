@@ -21,7 +21,7 @@ else
 fi
 
 # Checked through brew rather than /Applications: several of these casks put
-# their bundle somewhere other than the name suggests (iterm2 -> iTerm.app), so
+# their bundle somewhere other than the name suggests (docker-desktop -> Docker.app), so
 # a path check reports false negatives.
 app_note() {
   if brew list --cask "$1" >/dev/null 2>&1; then ok "$1 — $2"
@@ -30,7 +30,6 @@ app_note() {
 app_note "nikitabobko/tap/aerospace" "grant Accessibility permission on first launch"
 app_note "karabiner-elements"        "grant Input Monitoring permission on first launch"
 app_note "docker-desktop"            "start once to create the docker socket"
-app_note "iterm2"                    "set the font to a Nerd Font for prompt glyphs"
 
 info "System Settings -> Privacy & Security -> Accessibility / Input Monitoring"
 exit 0

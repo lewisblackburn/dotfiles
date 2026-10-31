@@ -6,7 +6,6 @@
 #   dot reset [-y]     discard local commits/changes and match origin (backs up first)
 #   dot status         git status of the repo
 #   dot edit           open the repo in nvim
-#   dot iterm-export   re-export current iTerm2 prefs into the repo (macOS only)
 #   dot install [...]  run install.sh (passes args through)
 #   dot upgrade [...]  update packages, runtimes, plugins  (install.sh --upgrade)
 #   dot outdated       report what an upgrade would change (install.sh --outdated)
@@ -73,17 +72,10 @@ case "$cmd" in
     ;;
   status) git status -sb ;;
   edit)   ${EDITOR:-nvim} "$DOTFILES" ;;
-  iterm-export)
-    if [ "$(uname -s)" != "Darwin" ]; then
-      echo "iterm-export is macOS-only" >&2; exit 1
-    fi
-    defaults export com.googlecode.iterm2 "$DOTFILES/config/iterm2/com.googlecode.iterm2.plist"
-    echo "exported iTerm2 prefs — commit with: dot push \"update iterm2\""
-    ;;
   install)  exec ./install.sh "$@" ;;
   upgrade)  exec ./install.sh --upgrade "$@" ;;
   outdated) exec ./install.sh --outdated "$@" ;;
   doctor)   exec ./install.sh --doctor "$@" ;;
   coverage) exec ./install.sh --coverage ;;
-  *) echo "usage: dot {push|pull|reset|status|edit|iterm-export|install|upgrade|outdated|doctor|coverage}"; exit 1 ;;
+  *) echo "usage: dot {push|pull|reset|status|edit|install|upgrade|outdated|doctor|coverage}"; exit 1 ;;
 esac

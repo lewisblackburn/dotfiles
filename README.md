@@ -128,8 +128,6 @@ dot install --only 61-tinty-theme
   `user.email` (and anything else employer-specific). It is untracked and
   optional — create it on a new machine, or commits will have no author
   email.
-- iTerm2 preferences are imported/exported rather than symlinked:
-  `dot iterm-export`.
 
 Static checks run in GitHub Actions: shellcheck, Bash syntax checks, CSV
 validation, and PSScriptAnalyzer.

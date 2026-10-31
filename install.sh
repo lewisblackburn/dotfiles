@@ -282,7 +282,7 @@ action_install() {
   runner_run "$modules" "$selected" || true
 
   printf '\n'
-  if is_macos; then header "Done" "Restart your terminal (and iTerm2) to pick everything up."
+  if is_macos; then header "Done" "Restart your terminal to pick everything up."
   else header "Done" "Restart your terminal (or log out/in) to pick everything up."; fi
   dry || info "verify with:  ./install.sh --doctor"
 }
