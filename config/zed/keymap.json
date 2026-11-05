@@ -6,13 +6,14 @@
 // To see the default key bindings run `zed: open default keymap`
 // from the command palette.
 [
-	// Remove the default shortcuts so `space f f` / `space f w` are the only
-	// way to open the file finder and project search.
+	// Remove the default shortcuts so the `space f` chords are the only way
+	// to open the file finder, project search and find/replace.
 	{
 		"context": "Workspace",
 		"bindings": {
 			"cmd-p": null,
 			"cmd-shift-f": null,
+			"cmd-shift-h": null,
 		},
 	},
 	{
@@ -22,7 +23,7 @@
 		},
 	},
 
-	// `space f f` / `space f w` everywhere that isn't a text input.
+	// `space f f` / `space f w` / `space f r` everywhere that isn't a text input.
 	// (Not bound at Workspace level, otherwise typing a space in the
 	// terminal or insert mode would wait for the rest of the chord.)
 	{
@@ -30,6 +31,7 @@
 		"bindings": {
 			"space f f": "file_finder::Toggle",
 			"space f w": "pane::DeploySearch",
+			"space f r": ["pane::DeploySearch", { "replace_enabled": true }],
 		},
 	},
 	{
@@ -37,6 +39,7 @@
 		"bindings": {
 			"space f f": "file_finder::Toggle",
 			"space f w": "pane::DeploySearch",
+			"space f r": ["pane::DeploySearch", { "replace_enabled": true }],
 		},
 	},
 
