@@ -9,7 +9,14 @@
 	{
 		"context": "Workspace",
 		"bindings": {
-			"shift shift": "file_finder::Toggle",
+			"cmd-p": "file_finder::Toggle",
+		},
+	},
+	{
+		"context": "Editor && (vim_mode == normal || vim_mode == visual) && !menu",
+		"bindings": {
+			"space f f": "file_finder::Toggle",
+			"space f w": "pane::DeploySearch",
 		},
 	},
 	{
