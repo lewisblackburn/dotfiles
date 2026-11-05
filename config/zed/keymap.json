@@ -6,12 +6,25 @@
 // To see the default key bindings run `zed: open default keymap`
 // from the command palette.
 [
+	// Remove the default shortcuts so `space f f` / `space f w` are the only
+	// way to open the file finder and project search.
 	{
 		"context": "Workspace",
 		"bindings": {
-			"cmd-p": "file_finder::Toggle",
+			"cmd-p": null,
+			"cmd-shift-f": null,
 		},
 	},
+	{
+		"context": "VimControl && !menu",
+		"bindings": {
+			"g /": null,
+		},
+	},
+
+	// `space f f` / `space f w` everywhere that isn't a text input.
+	// (Not bound at Workspace level, otherwise typing a space in the
+	// terminal or insert mode would wait for the rest of the chord.)
 	{
 		"context": "Editor && (vim_mode == normal || vim_mode == visual) && !menu",
 		"bindings": {
@@ -19,6 +32,14 @@
 			"space f w": "pane::DeploySearch",
 		},
 	},
+	{
+		"context": "(ProjectPanel && not_editing) || (OutlinePanel && not_editing) || (GitPanel && ChangesList) || EmptyPane || SharedScreen || MarkdownPreview",
+		"bindings": {
+			"space f f": "file_finder::Toggle",
+			"space f w": "pane::DeploySearch",
+		},
+	},
+
 	{
 		"context": "Editor && vim_mode == insert",
 		"bindings": {
