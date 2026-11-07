@@ -1,17 +1,16 @@
+// Zed settings. See https://zed.dev/docs/configuring-zed
 {
-  // General
-  "proxy": "",
+  // ---- Privacy and session --------------------------------------------------
   "telemetry": {
     "diagnostics": false,
     "metrics": false,
     "anthropic_retention": false
   },
-  "session": {
-    "trust_all_worktrees": true
-  },
+  "session": { "trust_all_worktrees": true },
+  "proxy": "",
 
-  // Theme and fonts
-  "theme": "Zedokai",
+  // ---- Appearance -----------------------------------------------------------
+  "theme": "One Light",
   "icon_theme": "Material Icon Theme",
   "buffer_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_features": { "calt": true },
@@ -21,23 +20,19 @@
   // Roomier rows in pickers, lists and panels
   "unstable.ui_density": "comfortable",
 
-  // Editor display
+  // ---- Editor display -------------------------------------------------------
   "cursor_blink": false,
   "relative_line_numbers": "enabled",
-  "indent_guides": {
-    "enabled": true
-  },
+  "indent_guides": { "enabled": true },
   "show_wrap_guides": true,
   "wrap_guides": [120],
   "minimap": { "show": "never" },
   "sticky_scroll": { "enabled": true },
-
-  // Code feedback
   "inlay_hints": { "enabled": true },
   "diagnostics": { "inline": { "enabled": true } },
   "git": { "inline_blame": { "enabled": true, "delay_ms": 600 } },
 
-  // Editing
+  // ---- Editing --------------------------------------------------------------
   "base_keymap": "JetBrains",
   "vim_mode": true,
   "vim": {
@@ -46,15 +41,13 @@
     "use_smartcase_find": true,
     "highlight_on_yank_duration": 300
   },
-  "which_key": {
-    "enabled": false
-  },
+  "which_key": { "enabled": false },
   "tab_size": 4,
   "autosave": "on_focus_change",
   // Avoid Prettier reformatting whole Java files against the team's style
   "format_on_save": "off",
 
-  // Window
+  // ---- Window ---------------------------------------------------------------
   "fullscreen_mode": "native",
   "window_decorations": "client",
   "bottom_dock_layout": "contained",
@@ -70,79 +63,68 @@
     "show_branch_status_icon": true
   },
   "toolbar": {
+    "breadcrumbs": true,
     "code_actions": false,
-    "agent_review": true,
-    "selections_menu": true,
     "quick_actions": false,
-    "breadcrumbs": true
+    "selections_menu": true,
+    "agent_review": true
   },
   "status_bar": {
     "show_active_file": false,
-    "pending_keystrokes_indicator": true,
-    "line_endings_button": false,
+    "active_language_button": true,
     "cursor_position_button": false,
-    "active_language_button": true
+    "line_endings_button": false,
+    "pending_keystrokes_indicator": true
   },
 
-  // Tabs
-  "tab_bar": {
-    "show_tab_bar_buttons": true,
-    "show": true
-  },
+  // ---- Tabs -----------------------------------------------------------------
+  "tab_bar": { "show": true, "show_tab_bar_buttons": true },
   "tabs": {
     "file_icons": true,
     "git_status": false,
     "show_diagnostics": "errors"
   },
 
-  // Panels
-  "search": {
-    "button": true
-  },
-  "outline_panel": {
-    "button": false
-  },
-  "collaboration_panel": {
-    "button": false
-  },
+  // ---- Panels ---------------------------------------------------------------
   "project_panel": {
     "dock": "right",
     "button": true,
-    "auto_fold_dirs": false,
-    "indent_size": 10,
     "default_width": 320,
-    "indent_guides": {
-      "show": "never"
-    }
+    "indent_size": 10,
+    "auto_fold_dirs": false,
+    "indent_guides": { "show": "never" }
   },
+  "search": { "button": true },
+  "outline_panel": { "button": false },
+  "collaboration_panel": { "button": false },
 
-  // Terminal
-  "terminal": {
-    "font_family": "JetBrainsMono Nerd Font"
-  },
+  // ---- Terminal -------------------------------------------------------------
+  "terminal": { "font_family": "JetBrainsMono Nerd Font" },
 
-  // AI
-  "edit_predictions": {
-    "provider": "zed"
-  },
-  "agent": {
-    "terminal_init_command": "claude"
-  },
+  // ---- AI -------------------------------------------------------------------
+  "edit_predictions": { "provider": "zed" },
+  "agent": { "terminal_init_command": "claude" },
   "agent_servers": {
     "claude-acp": {
       "type": "registry",
-      "default_config_options": {
-        "mode": "auto"
-      }
+      "default_config_options": { "mode": "auto" }
     }
   },
 
-  // Language servers
+  // ---- Language servers -----------------------------------------------------
   "lsp": {
     "jdtls": {
       "settings": {
         // JDTLS needs Java 25+; let the extension fetch its own JDK
         "jdk_auto_download": true
+      },
+      "initialization_options": {
+        "settings": {
+          "java": {
+            // Reload pom.xml / build.gradle changes without asking
+            "configuration": { "updateBuildConfiguration": "automatic" }
+          }
+        }
       }
     }
   }
