@@ -11,6 +11,8 @@
 #   mise:     runtime managed by mise   (see config/mise/config.toml)
 #   npm:      global npm package        (installed after mise's node is active)
 #   nerdfont: Nerd Font release archive (downloaded and unzipped)
+#   flatpak:  Flathub app id            (Linux GUI apps with no brew or dnf package)
+#   installer: vendor install script    (named case in install/linux/11-gui-apps.sh)
 #
 # `windows_host` is deliberately sparse: Windows is provisioned as WSL2, so the
 # tools live inside the Fedora guest. Only things that must sit on the Windows
@@ -77,9 +79,9 @@ redis,cli,brew:redis,brew:redis,,
 containers,gui,cask:docker-desktop,dnf:podman,,ships the docker CLI and compose plugin — the brew formulae collide with it
 
 # ---- gui apps (macOS only unless noted) -------------------------------------
-zed,gui,cask:zed,,,Fedora: curl -f https://zed.dev/install.sh | sh
+zed,gui,cask:zed,installer:zed,,Fedora uses the official install script into ~/.local/bin
 ghostty,gui,cask:ghostty,dnf:ghostty,,Fedora package comes from the scottames/ghostty COPR
-zen,gui,cask:zen,,,Fedora: flatpak install flathub app.zen_browser.zen
+zen,gui,cask:zen,flatpak:app.zen_browser.zen,,Fedora installs the Flathub app
 aerospace,gui,cask:nikitabobko/tap/aerospace,,,i3 or sway is the Linux analogue
 karabiner-elements,gui,cask:karabiner-elements,,,keyd is the Linux analogue
 android-platform-tools,gui,cask:android-platform-tools,,,

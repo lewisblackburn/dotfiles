@@ -143,6 +143,14 @@ action_doctor() {
     [ -n "$p" ] || continue
     pkg_installed "$p" || missing+=("$p")
   done 3< <(registry_entries dnf)
+  while IFS= read -r p <&3; do
+    [ -n "$p" ] || continue
+    flatpak info "$p" >/dev/null 2>&1 || missing+=("$p")
+  done 3< <(registry_entries flatpak)
+  while IFS= read -r p <&3; do
+    [ -n "$p" ] || continue
+    has "$p" || [ -x "$HOME/.local/bin/$p" ] || missing+=("$p")
+  done 3< <(registry_entries installer)
   if [ "${#missing[@]}" -eq 0 ]; then ok "all registry packages installed"
   else err "not installed: ${missing[*]}"; fails=$((fails + 1)); fi
 
