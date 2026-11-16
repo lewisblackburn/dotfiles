@@ -1,8 +1,35 @@
-# dotfiles
+<div align="center">
 
-Ghostty, tmux, zsh, Starship and LazyVim in Gruvbox, set up with Nix. Keys are in [keymaps.md](keymaps.md).
+# 🌿 dotfiles
 
-## New Mac
+**Ghostty · tmux · zsh · Starship · LazyVim**, all in Gruvbox Dark
+
+macOS & Fedora · built with [Nix](https://nixos.org) · keys in [keymaps.md](keymaps.md)
+
+</div>
+
+## 🧰 The stack
+
+| | |
+|---|---|
+| **Nix** | [nix-darwin](https://github.com/nix-darwin/nix-darwin) + [Home Manager](https://github.com/nix-community/home-manager) install the tools and link every config |
+| **Terminal** | [Ghostty](https://ghostty.org), frameless; [tmux](https://github.com/tmux/tmux) draws the tabs, driven by `cmd` keys |
+| **Shell** | zsh with autosuggestions, highlighting and a collapsing [Starship](https://starship.rs) prompt; [zoxide](https://github.com/ajeetdsouza/zoxide), [fzf](https://github.com/junegunn/fzf), [sesh](https://github.com/joshmedeski/sesh) |
+| **Editor** | [LazyVim](https://lazyvim.org) for Java and web, with debugger, tests and a DB UI |
+| **Runtimes** | [mise](https://mise.jdx.dev): Java 21 / 17 / 25, Node 24, pnpm, Python |
+| **Apps** | Homebrew casks on the Mac (via nix-darwin); dnf on Fedora |
+
+## 📁 Layout
+
+```
+flake.nix       Mac + Fedora setups, Mac apps
+home.nix        tools and config links
+zsh/  ghostty/  tmux/  nvim/  git/  mise/  starship.toml
+```
+
+Configs link straight to this folder, so edits are live. Secrets stay out: `~/.config/zsh/.env` (see `zsh/.env.example`) and `~/.config/git/local.gitconfig` for the email.
+
+## 🍎 New Mac
 
 ```sh
 xcode-select --install
@@ -12,11 +39,7 @@ git clone git@github.com:lewisblackburn/dotfiles.git ~/dotfiles
 sudo nix run nix-darwin -- switch --flake ~/dotfiles#mac
 ```
 
-The username is set in `flake.nix` (`lewis.blackburn`). Change it first if this Mac's user is different.
-
-Chrome isn't in the list because work IT manages it; on a personal Mac, download it from google.com/chrome.
-
-## New Fedora
+## 🎩 New Fedora
 
 ```sh
 sudo dnf install zsh gcc moby-engine docker-compose
@@ -29,30 +52,22 @@ git clone git@github.com:lewisblackburn/dotfiles.git ~/dotfiles
 nix run home-manager -- switch --flake ~/dotfiles#fedora
 ```
 
-The username is set in `flake.nix` (`lewis`). Change it first if yours is different.
+> Usernames live in `flake.nix` (`lewis.blackburn` on Mac, `lewis` on Fedora). Change them first if yours differ.
 
-## Then, on both
+## ✅ Then, on both
 
 ```sh
 curl -fsSL https://claude.ai/install.sh | bash   # Claude Code
-mise install                                     # Java, Node, Python
+mise install                                     # runtimes
 ```
 
-Copy `zsh/.env.example` to `~/.config/zsh/.env` and fill it in, and put your git email in `~/.config/git/local.gitconfig`:
+Fill in `~/.config/zsh/.env` and `~/.config/git/local.gitconfig`. Neovim installs its plugins on first start.
 
-```ini
-[user]
-	email = you@example.com
-```
+## 🔁 Day to day
 
-Neovim installs its plugins on first start.
-
-## Day to day
-
-- Config files link straight into this folder, so edits apply at once. Reload: Ghostty `cmd+shift+,`, tmux `ctrl+space r`, zsh new tab, nvim restart.
-- After editing `mise/config.toml`, run `mise install`.
-- After changing `flake.nix` or `home.nix` (adding a package or app), rebuild:
-  - Mac: `sudo darwin-rebuild switch --flake ~/dotfiles#mac`
-  - Fedora: `home-manager switch --flake ~/dotfiles#fedora`
-- Update everything: `nix flake update --flake ~/dotfiles`, then rebuild.
-- Save changes: `git add -A && git commit -m "..." && git push`.
+| Changed | Run |
+|---|---|
+| `flake.nix` / `home.nix` | `sudo darwin-rebuild switch --flake ~/dotfiles#mac` (Fedora: `home-manager switch --flake ~/dotfiles#fedora`) |
+| `mise/config.toml` | `mise install` |
+| Update everything | `nix flake update --flake ~/dotfiles`, then rebuild |
+| Anything | `git add -A && git commit -m "..." && git push` |
