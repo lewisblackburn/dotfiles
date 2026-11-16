@@ -14,6 +14,8 @@ in
     neovim tree-sitter ripgrep fd lazygit
     # Git, runtimes, database client for nvim's DB UI
     git delta mise mysql84
+    # Work: builds, infra, GitHub, JSON/YAML, Redis
+    maven gradle kubectl terraform gh jq yq-go redis
   ];
 
   # Home Manager writes ~/.zshrc with the plugins, then hands over to our file.

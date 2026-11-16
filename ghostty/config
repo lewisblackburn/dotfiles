@@ -16,6 +16,9 @@ background-blur = true
 window-save-state = never
 confirm-close-surface = false
 
+# Shell: always zsh, rather than whatever $SHELL was when Ghostty launched
+command = /bin/zsh
+
 # Cursor (no-cursor stops the shell switching it to a bar)
 cursor-style = block
 cursor-style-blink = false

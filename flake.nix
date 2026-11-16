@@ -13,7 +13,12 @@
     };
   };
 
-  outputs = { nixpkgs, nix-darwin, home-manager, ... }: {
+  outputs = { nixpkgs, nix-darwin, home-manager, ... }:
+  let
+    # Terraform's licence counts as "unfree" in Nix, so allow just that one.
+    unfree = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "terraform" ];
+  in
+  {
     # Mac: apps through Homebrew casks, everything else through home.nix.
     darwinConfigurations.mac = nix-darwin.lib.darwinSystem {
       modules = [
@@ -21,6 +26,7 @@
         {
           nix.enable = false; # the Determinate installer manages Nix itself
           nixpkgs.hostPlatform = "aarch64-darwin";
+          nixpkgs.config.allowUnfreePredicate = unfree;
           system.stateVersion = 6;
           system.primaryUser = "lewis.blackburn";
           users.users."lewis.blackburn".home = "/Users/lewis.blackburn";
@@ -53,7 +59,10 @@
 
     # Fedora: home.nix only; desktop apps come from dnf (see README).
     homeConfigurations.fedora = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        config.allowUnfreePredicate = unfree;
+      };
       modules = [
         ./home.nix
         {
