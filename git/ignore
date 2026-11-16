@@ -1,0 +1,27 @@
+# Never worth committing in any repo.
+
+# OS
+.DS_Store
+._*
+*~
+.directory
+.Trash-*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+Session.vim
+tags
+
+# Tool caches
+.direnv/
+.mise.local.toml
+node_modules/
+__pycache__/
+*.py[cod]
+
+# Local env and secrets
+.env.local
+*.pem
+**/.claude/settings.local.json

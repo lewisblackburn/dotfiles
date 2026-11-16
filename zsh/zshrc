@@ -1,0 +1,55 @@
+# zsh config, sourced from the ~/.zshrc Home Manager writes (home.nix).
+# Tools and zsh plugins come from Nix; runtimes from mise.
+
+# tmux: every Ghostty window opens in it, so the cmd keys make tmux tabs.
+# `exit` in the last tab drops back to a plain shell.
+[[ -z $TMUX && $TERM_PROGRAM == ghostty ]] && tmux new -A -s main
+
+# Environment
+export EDITOR=nvim
+export PATH="$HOME/.local/bin:$PATH"
+# brew stays reachable on the Mac, behind Nix's tools
+[ -x /opt/homebrew/bin/brew ] && export PATH="$PATH:/opt/homebrew/bin"
+
+# History (zsh keeps none unless told where)
+HISTFILE=~/.zsh_history
+HISTSIZE=50000
+SAVEHIST=50000
+setopt share_history hist_ignore_all_dups
+
+# Completion menu (Home Manager loads completion and the plugins)
+zstyle ':completion:*' menu select
+
+# Prompt: Starship, with old prompts collapsed to ❯ once a command runs
+eval "$(starship init zsh)"
+zle-line-init() {
+  emulate -L zsh
+  [[ $CONTEXT == start ]] || return 0
+  while true; do
+    zle .recursive-edit
+    local -i ret=$?
+    [[ $ret == 0 && $KEYS == $'\4' ]] || break
+    [[ -o ignore_eof ]] || exit 0
+  done
+  local saved=$PROMPT
+  PROMPT='%F{green}❯%f '
+  zle .reset-prompt
+  PROMPT=$saved
+  if (( ret )); then zle .send-break; else zle .accept-line; fi
+  return ret
+}
+zle -N zle-line-init
+
+# Tools: z/zi jump to folders, ctrl+r history, ctrl+t files, alt+c folders
+eval "$(zoxide init zsh)"
+source <(fzf --zsh)
+
+# Work Mac: Rancher Desktop's Docker
+[[ -S "$HOME/.rd/docker.sock" ]] && export DOCKER_HOST="unix://$HOME/.rd/docker.sock"
+[[ -d "$HOME/.rd/bin" ]] && export PATH="$HOME/.rd/bin:$PATH"
+
+# Secrets, kept out of the repo
+[ -f "$HOME/.config/zsh/.env" ] && source "$HOME/.config/zsh/.env"
+
+# Runtimes: mise goes last so its Java and Node win over anything above
+eval "$(mise activate zsh)"
