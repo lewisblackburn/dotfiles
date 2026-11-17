@@ -26,7 +26,7 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        tsc = {
+        vtsls = {
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
@@ -35,6 +35,9 @@ return {
       },
     },
   },
+
+  -- Several servers answer K (Angular, TypeScript, Tailwind); stay quiet when only some have docs.
+  { "folke/noice.nvim", opts = { lsp = { hover = { silent = true } } } },
 
   -- ctrl+h/j/k/l moves between nvim splits and tmux panes alike.
   {
