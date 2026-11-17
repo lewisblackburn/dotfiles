@@ -6,6 +6,18 @@ return {
   { "ellisonleao/gruvbox.nvim" },
   { "LazyVim/LazyVim", opts = { colorscheme = "gruvbox" } },
 
+  -- File explorer opens on the right.
+  {
+    "folke/snacks.nvim",
+    opts = {
+      picker = {
+        sources = {
+          explorer = { layout = { layout = { position = "right" } } },
+        },
+      },
+    },
+  },
+
   -- Indent with tabs or spaces to match whatever the file already uses.
   { "NMAC427/guess-indent.nvim", opts = {} },
 
