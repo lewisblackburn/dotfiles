@@ -16,6 +16,8 @@
 
 ## Tabs and splits (Ghostty keys, tmux underneath)
 
+Ghostty always starts inside tmux, and its own `ctrl+shift+t` / `ctrl+shift+n` are unbound.
+
 | Keys                          | Does                                 |
 | ----------------------------- | ------------------------------------ |
 | `cmd+t`                       | New tab                              |
@@ -59,6 +61,7 @@
 | Keys                                 | Does                                                         |
 | ------------------------------------ | ------------------------------------------------------------ |
 | `jk`                                 | Leave insert mode                                            |
+| `ctrl+j` (insert mode)               | Open completion menu (`ctrl+space` is the tmux prefix)       |
 | `ctrl+h` `j` `k` `l`                 | Move between splits and tmux panes                           |
 | `space space` / `space /`            | Find file / search text in project                           |
 | `gd` / `gr` / `K`                    | Go to definition / references / hover docs                   |
