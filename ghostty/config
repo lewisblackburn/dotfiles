@@ -17,8 +17,9 @@ background-blur = true
 window-save-state = never
 confirm-close-surface = false
 
-# Shell: always zsh, rather than whatever $SHELL was when Ghostty launched
-command = /bin/zsh
+# Always start inside tmux, so the cmd+t style shortcuts below always have a prefix to catch.
+# tmux itself runs zsh (default-shell in tmux.conf).
+command = tmux new -A -s main
 
 # Cursor (no-cursor stops the shell switching it to a bar)
 cursor-style = block
@@ -34,6 +35,10 @@ macos-option-as-alt = left
 
 # Drop-down terminal from any app (macOS asks for accessibility permission)
 keybind = global:cmd+grave_accent=toggle_quick_terminal
+
+# Ghostty's own tabs and windows are hidden behind tmux, so drop its default shortcuts
+keybind = ctrl+shift+t=unbind
+keybind = ctrl+shift+n=unbind
 
 # Mac shortcuts for tmux tabs: each sends ctrl+space (\x00, the prefix) and a key
 keybind = cmd+t=text:\x00c
