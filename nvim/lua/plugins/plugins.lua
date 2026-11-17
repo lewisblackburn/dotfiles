@@ -47,6 +47,12 @@ return {
     },
   },
 
+  -- Ctrl+Space never reaches nvim here, so ctrl+j opens completion in insert mode.
+  {
+    "saghen/blink.cmp",
+    opts = { keymap = { ["<C-j>"] = { "show", "show_documentation", "hide_documentation" } } },
+  },
+
   -- Java: jdtls itself needs Java 25 to start, while the projects build on 17 and 21.
   {
     "mfussenegger/nvim-jdtls",
