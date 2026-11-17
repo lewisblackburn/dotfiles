@@ -8,6 +8,7 @@ font-size = 14
 
 # Window: frameless for square corners; tmux draws the tabs
 window-decoration = none
+window-show-tab-bar = never
 window-padding-x = 10
 window-padding-y = 8
 window-padding-balance = true
