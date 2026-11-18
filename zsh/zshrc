@@ -17,6 +17,9 @@ HISTSIZE=50000
 SAVEHIST=50000
 setopt share_history hist_ignore_all_dups
 
+# Typing a folder on its own (.., ~, ~/dotfiles) cds into it
+setopt auto_cd
+
 # Completion menu (Home Manager loads completion and the plugins)
 zstyle ':completion:*' menu select
 
