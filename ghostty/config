@@ -18,8 +18,9 @@ window-save-state = never
 confirm-close-surface = false
 
 # Always start inside tmux, so the cmd+t style shortcuts below always have a prefix to catch.
+# Launched through a login zsh because Ghostty starts with the bare macOS PATH, which has no Nix tools.
 # tmux itself runs zsh (default-shell in tmux.conf).
-command = tmux new -A -s main
+command = /bin/zsh -lc "exec tmux new -A -s main"
 
 # Cursor (no-cursor stops the shell switching it to a bar)
 cursor-style = block
